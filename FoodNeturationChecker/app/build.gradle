@@ -1,0 +1,89 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
+    defaultConfig {
+        applicationId "com.kumar.prince.foodneturationchecker"
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-D'
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+   // implementation 'com.android.support:appcompat-v7:26.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.0'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.0'
+   // implementation 'com.android.support:design:26.0.2'
+    // Lib definitions
+    def supportLib = rootProject.ext.supportDependencies
+    def otherSupportingLibs = rootProject.ext.otherSupportingDependencies
+    def googlePlayLibs = rootProject.ext.googlePlayServiceDependancies
+    def butterKnifeLib = rootProject.ext.butterKnifeDependancies
+    def retrofit = rootProject.ext.retroFitDependancies
+
+    implementation supportLib.supportV4
+    implementation supportLib.supportV13
+    implementation supportLib.appCompat
+    implementation supportLib.palette
+    implementation supportLib.recyclerView
+    implementation supportLib.cardView
+    implementation supportLib.design
+    implementation supportLib.gridlayout
+    implementation supportLib.annotations
+
+
+
+    // Google Play Services
+    implementation googlePlayLibs.vision
+    implementation googlePlayLibs.ads
+
+    //implementation 'com.google.android.gms:play-services-vision:11.2.2'
+    //implementation 'com.google.android.gms:play-services-ads:11.2.2'
+
+    // Picasso - A powerful image downloading and caching library
+    //implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    // Retrofit - A type-safe REST client
+    implementation retrofit.retrofit
+    implementation retrofit.retrofit2Convertor
+
+    //implementation 'com.google.code.gson:gson:2.8.1'
+   // implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    //implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+    // ButterKnife - Using Java annotations, makes Android development better by simplifying common tasks
+    implementation butterKnifeLib.butterknife
+    annotationProcessor butterKnifeLib.butterknifeApt
+    //compile 'com.jakewharton:butterknife:8.8.1'
+   // annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+   // compile 'com.google.guava:guava:21.0'
+    //other supporting libs
+    implementation otherSupportingLibs.okhttp
+    implementation otherSupportingLibs.gsonDependancy
+   implementation otherSupportingLibs.timberDependancy
+    implementation otherSupportingLibs.picassoDependancy
+    implementation otherSupportingLibs.guavaDependancy
+}
