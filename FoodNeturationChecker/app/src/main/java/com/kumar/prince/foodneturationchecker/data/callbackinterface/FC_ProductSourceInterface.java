@@ -1,0 +1,51 @@
+/*
+ *     Food Inspector - Choose well to eat better
+ *     Copyright (C) 2016  Frédéric Letellier
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.kumar.prince.foodneturationchecker.data.callbackinterface;
+
+import android.support.annotation.NonNull;
+import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+
+import java.util.List;
+
+/**
+ * Main entry point for accessing product data.
+ */
+public interface FC_ProductSourceInterface {
+
+    interface GetProductCallback {
+
+        void onProductLoaded(FC_Product FCProduct);
+
+        void onError(Throwable throwable);
+
+    }
+
+    interface GetProductsCallback {
+
+        void onProductsLoaded(List<FC_Product> FCProducts);
+
+        void onError(Throwable throwable);
+
+    }
+
+    void getProduct(@NonNull String barcode, @NonNull GetProductCallback getProductCallback);
+
+    void getProducts(@NonNull String categoryKey, @NonNull String nutritionGradeValue, @NonNull GetProductsCallback getProductsCallback);
+
+}
