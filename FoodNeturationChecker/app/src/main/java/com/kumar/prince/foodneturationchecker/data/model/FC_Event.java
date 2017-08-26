@@ -1,12 +1,23 @@
 package com.kumar.prince.foodneturationchecker.data.model;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
+
+import com.kumar.prince.foodneturationchecker.data.local.FC_EventContract;
+
+import java.util.Random;
 
 /**
  *  Created by prince on 25/8/17.
  * */
 
 public class FC_Event {
+    public static final String STATUS_OK = "OK";
+    public static final String STATUS_NOT_A_PRODUCT = "BARCODE_NOT_DESCRIBE_A_PRODUCT";
+    public static final String STATUS_NOT_IN_OFF_DATABASE = "PRODUCT_IS_NOT_IN_OPENFOODFACTS_DATABASE";
+    public static final String STATUS_NO_NETWORK = "NO_NETWORK";
+
 
     @NonNull
     private long mId;
@@ -15,35 +26,39 @@ public class FC_Event {
     private String mStatus;
 
     @NonNull
-    public long getmId() {
+    public long getId() {
         return mId;
     }
 
-    public void setmId(@NonNull long mId) {
+    public void setId(@NonNull long mId) {
         this.mId = mId;
     }
+    @NonNull
+    public String getAsStringId() {
+        return String.valueOf(mId);
+    }
 
-    public long getmTimestamp() {
+    public long getTimestamp() {
         return mTimestamp;
     }
 
-    public void setmTimestamp(long mTimestamp) {
+    public void setTimestamp(long mTimestamp) {
         this.mTimestamp = mTimestamp;
     }
 
-    public String getmBarcode() {
+    public String getBarcode() {
         return mBarcode;
     }
 
-    public void setmBarcode(String mBarcode) {
+    public void setBarcode(String mBarcode) {
         this.mBarcode = mBarcode;
     }
 
-    public String getmStatus() {
+    public String getStatus() {
         return mStatus;
     }
 
-    public void setmStatus(String mStatus) {
+    public void setStatus(String mStatus) {
         this.mStatus = mStatus;
     }
 
@@ -53,6 +68,44 @@ public class FC_Event {
         this.mBarcode = mBarcode;
         this.mStatus = mStatus;
     }
+
+    public FC_Event(String barcode, String status) {
+        Long x = 1234567L;
+        Long y = 23456789L;
+        Random r = new Random();
+        this.mId = x + ((long)(r.nextDouble()*(y-x)));
+        this.mTimestamp = System.currentTimeMillis()/1000;
+        this.mBarcode = barcode;
+        this.mStatus = status;
+    }
+
+    /**
+     * Use this constructor to return a FC_Event from a Cursor
+     *
+     * @return
+     */
+    public static FC_Event from(Cursor cursor) {
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(
+                FC_EventContract.EventEntry._ID));
+        long timestamp = cursor.getLong(cursor.getColumnIndexOrThrow(
+                FC_EventContract.EventEntry.COLUMN_NAME_TIMESTAMP));
+        String barcode = cursor.getString(cursor.getColumnIndexOrThrow(
+                FC_EventContract.EventEntry.COLUMN_NAME_BARCODE));
+        String status = cursor.getString(cursor.getColumnIndexOrThrow(
+                FC_EventContract.EventEntry.COLUMN_NAME_STATUS));
+        return new FC_Event(id, timestamp, barcode, status);
+    }
+
+
+    public static FC_Event from(ContentValues values) {
+        long id = values.getAsLong(FC_EventContract.EventEntry._ID);
+        long timestamp = values.getAsLong(FC_EventContract.EventEntry.COLUMN_NAME_TIMESTAMP);
+        String barcode = values.getAsString(FC_EventContract.EventEntry.COLUMN_NAME_BARCODE);
+        String status = values.getAsString(FC_EventContract.EventEntry.COLUMN_NAME_STATUS);
+        return new FC_Event(id, timestamp, barcode, status);
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
