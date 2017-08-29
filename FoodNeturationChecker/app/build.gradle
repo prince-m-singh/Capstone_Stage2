@@ -83,7 +83,8 @@ dependencies {
     //other supporting libs
     implementation otherSupportingLibs.okhttp
     implementation otherSupportingLibs.gsonDependancy
-   implementation otherSupportingLibs.timberDependancy
+    implementation otherSupportingLibs.timberDependancy
     implementation otherSupportingLibs.picassoDependancy
     implementation otherSupportingLibs.guavaDependancy
+    implementation otherSupportingLibs.okhttpLogging
 }

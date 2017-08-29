@@ -66,6 +66,7 @@ ext {
 
     otherSupportingDependencies = [
             okhttp: "com.squareup.okhttp3:okhttp:${okhttpVersion}",
+            okhttpLogging: "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}",
             gsonDependancy: "com.google.code.gson:gson:${gsonVersion}",
             timberDependancy: "com.jakewharton.timber:timber:${timberVersion}",
             picassoDependancy: "com.squareup.picasso:picasso:${picassoVersion}",
