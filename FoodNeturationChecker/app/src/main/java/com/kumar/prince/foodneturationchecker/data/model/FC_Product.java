@@ -15,6 +15,9 @@ public class FC_Product {
         this.mBookmarked = mBookmarked;
     }
 
+    public FC_Product() {
+    }
+
     public long getmId() {
         return mId;
     }

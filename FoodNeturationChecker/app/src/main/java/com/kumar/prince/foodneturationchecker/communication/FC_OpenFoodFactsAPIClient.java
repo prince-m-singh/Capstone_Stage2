@@ -11,7 +11,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -54,7 +53,18 @@ public class FC_OpenFoodFactsAPIClient {
     }
 
 
+    public Call<FC_ProductBarcode> getProduct(@NonNull final String barcode) {
+        return this.mOpenFoodFactsAPI.getProduct(barcode);
+    }
+
+
     interface OpenFoodFactsApi {
+
+        //Example : http://world.openfoodfacts.org/api/v0/product/3046920029759.json
+        @GET("{barcode}.json")
+        Call<FC_ProductBarcode> getProduct(
+                @Path("barcode") String barcode
+        );
 
     }
 }
