@@ -9,7 +9,15 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
 import com.kumar.prince.foodneturationchecker.R;
+import com.kumar.prince.foodneturationchecker.communication.FC_OpenFoodFactsAPIClient;
+import com.kumar.prince.foodneturationchecker.communication.FC_ProductBarcode;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 import static com.kumar.prince.foodneturationchecker.activity.ScanBarcodeActivity.AUTOFOCUS_ENABLE;
 import static com.kumar.prince.foodneturationchecker.activity.ScanBarcodeActivity.GETRESULT;
@@ -54,6 +62,7 @@ public class BarcodeActivity extends AppCompatActivity {
                 if(data!=null){
                     Barcode barcode = data.getParcelableExtra(GETRESULT);
                     tvResult.setText(barcode.displayValue);
+                    barcodeRequest(barcode.displayValue);
                 }
             }
         }
@@ -61,5 +70,29 @@ public class BarcodeActivity extends AppCompatActivity {
 
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void barcodeRequest(String barcode){
+        FC_OpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FC_OpenFoodFactsAPIClient(FC_OpenFoodFactsAPIClient.ENDPOINT_BARCODE);
+        Call<FC_ProductBarcode> call = FCOpenFoodFactsAPIClient.getProduct(barcode);
+
+        call.enqueue(new Callback<FC_ProductBarcode>() {
+            @Override
+            public void onResponse(Call<FC_ProductBarcode> call, Response<FC_ProductBarcode> response) {
+
+                FC_ProductBarcode fc_productBarcodegoit  = response.body();
+
+                Timber.d(response.message()+" "+fc_productBarcode.toString());
+
+            }
+
+            @Override
+            public void onFailure(Call<FC_ProductBarcode> call, Throwable t) {
+                FC_ServerUnreachableException e = new FC_ServerUnreachableException();
+                Timber.d(e.getMessage());
+
+            }
+        });
+
     }
 }

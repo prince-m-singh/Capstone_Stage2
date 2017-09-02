@@ -70,4 +70,13 @@ public class FC_ProductBarcode {
         return code;
     }
 
+    @Override
+    public String toString() {
+        return "FC_ProductBarcode{" +
+                "status_verbose='" + status_verbose + '\'' +
+                ", FCProduct=" + FCProduct +
+                ", status=" + status +
+                ", code='" + code + '\'' +
+                '}';
+    }
 }

@@ -50,7 +50,7 @@ public class ScanBarcodeActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scanbarcode);
+        setContentView(R.layout.activity_scanbarcode);
         contextScanBarcode = getApplicationContext();
         /*Note : Getting from User whether to use AutoFocus in Camera*/
         boolean blnAutoFocusEnable = this.getIntent().getBooleanExtra(AUTOFOCUS_ENABLE,false);
