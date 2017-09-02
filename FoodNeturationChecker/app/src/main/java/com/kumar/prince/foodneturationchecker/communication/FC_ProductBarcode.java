@@ -15,7 +15,7 @@ public class FC_ProductBarcode {
     @SerializedName("status_verbose")
     @Expose
     private String status_verbose;
-    @SerializedName("FCProduct")
+    @SerializedName("product")
     @Expose
     private FC_Product FCProduct = new FC_Product();
     @SerializedName("status")

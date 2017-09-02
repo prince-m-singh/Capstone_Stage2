@@ -65,7 +65,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
                 if(data!=null){
                     Barcode barcode = data.getParcelableExtra(GETRESULT);
                     tvResult.setText(barcode.displayValue);
-                    getProduct(barcode.displayValue, new GetProductCallback() {
+                    getProduct("0016000264601", new GetProductCallback() {
                         @Override
                         public void onProductLoaded(FC_Product FCProduct) {
                             tvResult.append(FCProduct.toString());
@@ -96,6 +96,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
             public void onResponse(Call<FC_ProductBarcode> call, Response<FC_ProductBarcode> response) {
 
                 FC_ProductBarcode fc_productBarcode = response.body();
+                Timber.d(response.message()+" "+fc_productBarcode.toString());
                 FC_Product fc_product=fc_productBarcode.getFCProduct();
 
                 Timber.d(response.message()+" "+fc_product.toString());
@@ -115,6 +116,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
 
     @Override
     public void getProducts(@NonNull String categoryKey, @NonNull String nutritionGradeValue, @NonNull GetProductsCallback getProductsCallback) {
+
 
 
     }
