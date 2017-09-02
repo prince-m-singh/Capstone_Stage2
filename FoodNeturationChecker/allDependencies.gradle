@@ -24,7 +24,7 @@ ext {
     retrofitVersion = "2.3.0"
     okhttpVersion = "3.8.0"
     butterknifeVersion = "8.8.1"
-    guavaVersion = "21.0"
+    guavaVersion = "22.0-android"
     timberVersion = "4.5.1"
 
 
