@@ -4,7 +4,12 @@ import android.support.annotation.NonNull;
 
 import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
 
+import java.util.Collections;
+
+import okhttp3.CipherSuite;
+import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
+import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -12,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -22,8 +28,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class FC_OpenFoodFactsAPIClient {
 
 
-    public static final String ENDPOINT_BARCODE = "http://world.openfoodfacts.org/api/v0/product/";
-    public static final String ENDPOINT_SEARCH = "http://world.openfoodfacts.org/cgi/";
+    public static final String ENDPOINT_BARCODE = "https://world.openfoodfacts.org/api/v0/product/";
+    public static final String ENDPOINT_SEARCH = "https://world.openfoodfacts.org/cgi/";
 
     private final OpenFoodFactsApi mOpenFoodFactsAPI;
 
@@ -38,6 +44,14 @@ public class FC_OpenFoodFactsAPIClient {
                 .create(OpenFoodFactsApi.class);
     }
 
+    ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+            .tlsVersions(TlsVersion.TLS_1_2)
+            .cipherSuites(
+                    CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+                    CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+                    CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256)
+            .build();
+
     private OkHttpClient getOkHttpClient() {
         try {
 
@@ -46,7 +60,7 @@ public class FC_OpenFoodFactsAPIClient {
             final HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addInterceptor(httpLoggingInterceptor);
-
+            builder.connectionSpecs(Collections.singletonList(spec));
             return builder.build();
         } catch (Exception e) {
             throw new FC_ServerUnreachableException();
@@ -77,6 +91,7 @@ public class FC_OpenFoodFactsAPIClient {
                 @Path("barcode") String barcode
         );
 
+        //Example : http://world.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=cheese&tagtype_1=countries&tag_contains_1=contains&tag_1=france&tagtype_2=nutrition_grades&tag_contains_2=contains&tag_2=a&sort_by=unique_scans_n&page_size=20&page=1&json=1
         @GET("search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tagtype_1=nutrition_grades&tag_contains_1=contains&sort_by=unique_scans_n&page_size=20&page=1&json=1")
         Call<FC_Search> getProducts(
                 @Query("tag_0") String categoryKey,

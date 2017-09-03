@@ -31,6 +31,12 @@
         <activity android:name=".activity.ScanBarcodeActivity">
 
         </activity>
+
+        <provider
+            android:authorities="com.kumar.prince.foodneturationchecker"
+            android:name="com.kumar.prince.foodneturationchecker.data.local.FC_ContentProvider"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

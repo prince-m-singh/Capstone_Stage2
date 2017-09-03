@@ -74,4 +74,14 @@ public class FC_Search {
         return skip;
     }
 
+    @Override
+    public String toString() {
+        return "FC_Search{" +
+                "page_size='" + page_size + '\'' +
+                ", FCProducts=" + FCProducts +
+                ", page='" + page + '\'' +
+                ", count=" + count +
+                ", skip=" + skip +
+                '}';
+    }
 }

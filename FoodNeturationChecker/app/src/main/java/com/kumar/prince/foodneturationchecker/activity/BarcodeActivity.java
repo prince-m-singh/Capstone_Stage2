@@ -14,8 +14,14 @@ import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableExceptio
 import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.communication.FC_OpenFoodFactsAPIClient;
 import com.kumar.prince.foodneturationchecker.communication.FC_ProductBarcode;
+import com.kumar.prince.foodneturationchecker.communication.FC_Search;
+import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_EventSourceInterface;
 import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_ProductSourceInterface;
+import com.kumar.prince.foodneturationchecker.data.local.FC_EventDataSource;
+import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
 import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,9 +36,9 @@ import static com.kumar.prince.foodneturationchecker.activity.ScanBarcodeActivit
  */
 
 public class BarcodeActivity extends AppCompatActivity implements FC_ProductSourceInterface{
-
+    FC_Event fc_event;
     TextView tvResult;
-    Button btnScanner;
+    Button btnScanner,btn2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +47,36 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
 
         tvResult = (TextView) findViewById(R.id.tvResult);
         btnScanner = (Button) findViewById(R.id.btnScanner);
+        btn2=(Button) findViewById(R.id.button2);
 
         btnScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 scanBarcode();
+            }
+        });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                checkEvents();
+            }
+        });
+    }
+
+    private void checkEvents(){
+        FC_EventDataSource fc_eventDataSource=FC_EventDataSource.getInstance(getContentResolver());
+        fc_eventDataSource.saveEvent(fc_event, new FC_EventSourceInterface.Local.SaveEventCallback() {
+            @Override
+            public void onEventSaved() {
+                Timber.d("DataSaved");
+            }
+
+            @Override
+            public void onError() {
+                Timber.d("Error");
             }
         });
     }
@@ -100,15 +130,29 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
                 FC_Product fc_product=fc_productBarcode.getFCProduct();
 
                 Timber.d(response.message()+" "+fc_product.toString());
-                getProductCallback.onProductLoaded(fc_product);
+                /*Get ProductS*/
+                getProducts( fc_product.getmParsableCategories().get(0),fc_product.getmNutritionGrades(), new GetProductsCallback() {
+                    @Override
+                    public void onProductsLoaded(List<FC_Product> FCProducts) {
+                        Timber.d(FCProducts.toString());
+                    }
 
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+                });
+                getProductCallback.onProductLoaded(fc_product);
+                fc_event=new FC_Event(barcode,"Found");
             }
 
             @Override
             public void onFailure(Call<FC_ProductBarcode> call, Throwable t) {
                 FC_ServerUnreachableException e = new FC_ServerUnreachableException();
                 Timber.d(e.getMessage());
+                fc_event=new FC_Event(barcode,"NotFound");
                 getProductCallback.onError(e);
+
 
             }
         });
@@ -116,8 +160,27 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
 
     @Override
     public void getProducts(@NonNull String categoryKey, @NonNull String nutritionGradeValue, @NonNull GetProductsCallback getProductsCallback) {
+        Timber.d(categoryKey+" "+ nutritionGradeValue);
+        FC_OpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FC_OpenFoodFactsAPIClient(FC_OpenFoodFactsAPIClient.ENDPOINT_SEARCH);
+        Call<FC_Search> call = FCOpenFoodFactsAPIClient.getProducts(categoryKey,nutritionGradeValue);
 
+        call.enqueue(new Callback<FC_Search>() {
+            @Override
+            public void onResponse(Call<FC_Search> call, Response<FC_Search> response) {
+                FC_Search fc_search=response.body();
+                Timber.d(fc_search.getCount().toString()+fc_search.getFCProducts());
+                getProductsCallback.onProductsLoaded(fc_search.getFCProducts());
+            }
 
+            @Override
+            public void onFailure(Call<FC_Search> call, Throwable t) {
+                FC_ServerUnreachableException e = new FC_ServerUnreachableException();
+                Timber.d(e.getMessage());
+                //fc_event=new FC_Event(barcode,"NotFound");
+                getProductsCallback.onError(e);
+
+            }
+        });
 
     }
 }

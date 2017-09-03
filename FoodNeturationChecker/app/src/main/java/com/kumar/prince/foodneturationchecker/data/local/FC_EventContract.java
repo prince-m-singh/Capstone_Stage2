@@ -13,7 +13,7 @@ import com.kumar.prince.foodneturationchecker.BuildConfig;
  */
 public final class FC_EventContract {
 
-    public static final String CONTENT_AUTHORITY = BuildConfig.APPLICATION_ID;
+    public static final String CONTENT_AUTHORITY = "com.kumar.prince.foodneturationchecker";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // To prevent someone from accidentally instantiating the contract class,
