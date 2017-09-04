@@ -16,7 +16,7 @@ public class FC_Search {
     @SerializedName("page_size")
     @Expose
     private String page_size;
-    @SerializedName("FCProducts")
+    @SerializedName("products")
     @Expose
     private List<FC_Product> FCProducts = new ArrayList<FC_Product>();
     @SerializedName("page")

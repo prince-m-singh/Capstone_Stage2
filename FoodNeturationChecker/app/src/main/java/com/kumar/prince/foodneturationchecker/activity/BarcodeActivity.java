@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity;
 import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
 import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.communication.FC_OpenFoodFactsAPIClient;
@@ -28,8 +29,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-import static com.kumar.prince.foodneturationchecker.activity.ScanBarcodeActivity.AUTOFOCUS_ENABLE;
-import static com.kumar.prince.foodneturationchecker.activity.ScanBarcodeActivity.GETRESULT;
+import static com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity.AUTOFOCUS_ENABLE;
+import static com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity.GETRESULT;
 
 /**
  * Created by prince on 2/9/17.
@@ -66,20 +67,6 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
         });
     }
 
-    private void checkEvents(){
-        FC_EventDataSource fc_eventDataSource=FC_EventDataSource.getInstance(getContentResolver());
-        fc_eventDataSource.saveEvent(fc_event, new FC_EventSourceInterface.Local.SaveEventCallback() {
-            @Override
-            public void onEventSaved() {
-                Timber.d("DataSaved");
-            }
-
-            @Override
-            public void onError() {
-                Timber.d("Error");
-            }
-        });
-    }
 
     private void scanBarcode(){
         int barCodeRequestCode = 1000;
@@ -95,7 +82,8 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
                 if(data!=null){
                     Barcode barcode = data.getParcelableExtra(GETRESULT);
                     tvResult.setText(barcode.displayValue);
-                    getProduct("0016000264601", new GetProductCallback() {
+                    //getProduct("0016000264601", new GetProductCallback()
+                     getProduct(barcode.displayValue, new GetProductCallback(){
                         @Override
                         public void onProductLoaded(FC_Product FCProduct) {
                             tvResult.append(FCProduct.toString());
@@ -130,7 +118,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
                 FC_Product fc_product=fc_productBarcode.getFCProduct();
 
                 Timber.d(response.message()+" "+fc_product.toString());
-                /*Get ProductS*/
+               /* *//*Get ProductS*//*
                 getProducts( fc_product.getmParsableCategories().get(0),fc_product.getmNutritionGrades(), new GetProductsCallback() {
                     @Override
                     public void onProductsLoaded(List<FC_Product> FCProducts) {
@@ -142,8 +130,11 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
 
                     }
                 });
-                getProductCallback.onProductLoaded(fc_product);
+               */
                 fc_event=new FC_Event(barcode,"Found");
+                addEvenInDb(fc_event);
+                getProductCallback.onProductLoaded(fc_product);
+
             }
 
             @Override
@@ -168,7 +159,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
             @Override
             public void onResponse(Call<FC_Search> call, Response<FC_Search> response) {
                 FC_Search fc_search=response.body();
-                Timber.d(fc_search.getCount().toString()+fc_search.getFCProducts());
+                Timber.d(fc_search.toString()+fc_search.getFCProducts());
                 getProductsCallback.onProductsLoaded(fc_search.getFCProducts());
             }
 
@@ -182,5 +173,49 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
             }
         });
 
+    }
+
+    private void testData(){
+        getProduct("0016000264601", new GetProductCallback() {
+            @Override
+            public void onProductLoaded(FC_Product FCProduct) {
+                tvResult.append(FCProduct.toString());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                tvResult.append(throwable.getMessage());
+            }
+        });
+    }
+
+    private void addEvenInDb(FC_Event fc_event){
+        FC_EventDataSource fc_eventDataSource=FC_EventDataSource.getInstance(getContentResolver());
+        fc_eventDataSource.saveEvent(fc_event, new FC_EventSourceInterface.Local.SaveEventCallback() {
+            @Override
+            public void onEventSaved() {
+                Timber.d("DataSaved");
+            }
+
+            @Override
+            public void onError() {
+                Timber.d("Error");
+            }
+        });
+
+    }
+    private void checkEvents(){
+        FC_EventDataSource fc_eventDataSource=FC_EventDataSource.getInstance(getContentResolver());
+        fc_eventDataSource.saveEvent(fc_event, new FC_EventSourceInterface.Local.SaveEventCallback() {
+            @Override
+            public void onEventSaved() {
+                Timber.d("DataSaved");
+            }
+
+            @Override
+            public void onError() {
+                Timber.d("Error");
+            }
+        });
     }
 }

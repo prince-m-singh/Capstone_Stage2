@@ -21,9 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class FC_EventDataSource implements FC_EventSourceInterface.Local {
 
-    private static final String TAG = FC_EventDataSource.class.getName();
-
-
     private static FC_EventDataSource INSTANCE;
 
     private ContentResolver mContentResolver;

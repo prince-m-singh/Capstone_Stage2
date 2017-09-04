@@ -1,4 +1,4 @@
-package com.kumar.prince.foodneturationchecker.activity;
+package com.kumar.prince.foodneturationchecker.Barcode;
 
 import android.Manifest;
 import android.annotation.TargetApi;
