@@ -64,6 +64,12 @@ public class FC_Event {
         this.mStatus = mStatus;
     }
 
+    public FC_Event(long mTimestamp, String mBarcode, String mStatus) {
+        this.mTimestamp = mTimestamp;
+        this.mBarcode = mBarcode;
+        this.mStatus = mStatus;
+    }
+
     public FC_Event(String barcode, String status) {
         Long x = 1234567L;
         Long y = 23456789L;

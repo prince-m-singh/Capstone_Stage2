@@ -1,7 +1,9 @@
 package com.kumar.prince.foodneturationchecker.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,10 +20,14 @@ import com.kumar.prince.foodneturationchecker.communication.FC_ProductBarcode;
 import com.kumar.prince.foodneturationchecker.communication.FC_Search;
 import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_EventSourceInterface;
 import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_ProductSourceInterface;
+import com.kumar.prince.foodneturationchecker.data.local.FC_EventContract;
 import com.kumar.prince.foodneturationchecker.data.local.FC_EventDataSource;
 import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
 import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -205,17 +211,39 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
 
     }
     private void checkEvents(){
-        FC_EventDataSource fc_eventDataSource=FC_EventDataSource.getInstance(getContentResolver());
-        fc_eventDataSource.saveEvent(fc_event, new FC_EventSourceInterface.Local.SaveEventCallback() {
-            @Override
-            public void onEventSaved() {
-                Timber.d("DataSaved");
-            }
+        Cursor cursor=getContentResolver().query(FC_EventContract.EventEntry.buildEventUri(),FC_EventContract.EventEntry.EVENT_COLUMNS,null,null,null);
+        getDataTestEvent(cursor);
+    }
+    private List<FC_Event> getDataTestEvent(Cursor cursor){
+        Timber.d("Data in DB "+cursor.getCount() + " "+cursor.getColumnNames().length);
+        List <FC_Event> list=new ArrayList<>();
+        for (int i=0;i<cursor.getColumnNames().length;i++)
+            Timber.d(cursor.getColumnNames()[i]);
+        if (cursor==null){
+            return null;
+        }
+        int totalData=cursor.getCount();
+        int colCount=cursor.getColumnCount();
 
-            @Override
-            public void onError() {
-                Timber.d("Error");
-            }
-        });
+        int indexmTimestamp=cursor.getColumnIndex("timestamp");
+        int indexmBarcode=cursor.getColumnIndex("barcode");
+        int indexmStatus=cursor.getColumnIndex("status");
+        if (cursor.moveToFirst()){
+            do {
+                FC_Event fc_event=new FC_Event(cursor.getLong(indexmTimestamp),
+                        cursor.getString(indexmBarcode),cursor.getString(indexmStatus));
+                Timber.d(fc_event.toString());
+                list.add(fc_event);
+                longToDate(fc_event.getTimestamp());
+            }while (cursor.moveToNext());
+
+        }
+        return list;
+    }
+    private void longToDate(Long data){
+        Date date=new Date(data*1000);
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mmZ");
+        String dateText = df2.format(date);
+        Timber.d(dateText);
     }
 }
