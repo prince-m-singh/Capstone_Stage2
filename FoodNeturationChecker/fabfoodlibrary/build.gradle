@@ -1,0 +1,67 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    /*implementation 'com.android.support:appcompat-v7:26.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'*/
+    def supportLib = rootProject.ext.supportDependencies
+    def otherSupportingLibs = rootProject.ext.otherSupportingDependencies
+    def googlePlayLibs = rootProject.ext.googlePlayServiceDependancies
+    def butterKnifeLib = rootProject.ext.butterKnifeDependancies
+    def retrofit = rootProject.ext.retroFitDependancies
+
+    implementation supportLib.supportV4
+    implementation supportLib.supportV13
+    implementation supportLib.appCompat
+    implementation supportLib.palette
+    implementation supportLib.recyclerView
+    implementation supportLib.cardView
+    implementation supportLib.design
+    implementation supportLib.gridlayout
+    implementation supportLib.annotations
+
+    // Google Play Services
+    implementation googlePlayLibs.vision
+    implementation googlePlayLibs.ads
+
+    // Retrofit - A type-safe REST client
+    implementation retrofit.retrofit
+    implementation retrofit.retrofit2Convertor
+  // ButterKnife - Using Java annotations, makes Android development better by simplifying common tasks
+    implementation butterKnifeLib.butterknife
+    annotationProcessor butterKnifeLib.butterknifeApt
+    //other supporting libs
+    implementation otherSupportingLibs.okhttp
+    implementation otherSupportingLibs.gsonDependancy
+    implementation otherSupportingLibs.timberDependancy
+    implementation otherSupportingLibs.picassoDependancy
+    implementation otherSupportingLibs.guavaDependancy
+    implementation otherSupportingLibs.okhttpLogging
+    implementation otherSupportingLibs.roomRunTime
+    annotationProcessor otherSupportingLibs.roomCompiler
+}

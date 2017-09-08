@@ -26,6 +26,7 @@ ext {
     butterknifeVersion = "8.8.1"
     guavaVersion = "22.0-android"
     timberVersion = "4.5.1"
+    roomLibVersion = "1.0.0-alpha1"
 
 
     // Libraries
@@ -71,6 +72,8 @@ ext {
             timberDependancy: "com.jakewharton.timber:timber:${timberVersion}",
             picassoDependancy: "com.squareup.picasso:picasso:${picassoVersion}",
             guavaDependancy: "com.google.guava:guava:${guavaVersion}",
+            roomRunTime: "android.arch.persistence.room:runtime:${roomLibVersion}",
+            roomCompiler: "android.arch.persistence.room:compiler:${roomLibVersion}",
     ]
 
 

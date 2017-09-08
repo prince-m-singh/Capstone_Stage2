@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FoodNeturationChecker.iml" filepath="$PROJECT_DIR$/FoodNeturationChecker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fabfoodlibrary/fabfoodlibrary.iml" filepath="$PROJECT_DIR$/fabfoodlibrary/fabfoodlibrary.iml" />
     </modules>
   </component>
 </project>

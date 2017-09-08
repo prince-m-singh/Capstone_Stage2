@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.kumar.prince.fabfoodlibrary.FabFoodEntity;
+import com.kumar.prince.fabfoodlibrary.FabFoodIntermediateLib;
 import com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity;
 import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
 import com.kumar.prince.foodneturationchecker.R;
@@ -46,15 +48,20 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
     FC_Event fc_event;
     TextView tvResult;
     Button btnScanner,btn2;
+    FabFoodIntermediateLib fabFoodIntermediateLib;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
 
+        fabFoodIntermediateLib=new FabFoodIntermediateLib(this);
+        fabFoodIntermediateLib.dbInitialize();
         tvResult = (TextView) findViewById(R.id.tvResult);
         btnScanner = (Button) findViewById(R.id.btnScanner);
         btn2=(Button) findViewById(R.id.button2);
+
+
 
         btnScanner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +95,8 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
                 if(data!=null){
                     Barcode barcode = data.getParcelableExtra(GETRESULT);
                     tvResult.setText(barcode.displayValue);
-                    //getProduct("0016000264601", new GetProductCallback()
-                     getProduct(barcode.displayValue, new GetProductCallback(){
+                    getProduct("0016000264601", new GetProductCallback(){
+                     //getProduct(barcode.displayValue, new GetProductCallback(){
                         @Override
                         public void onProductLoaded(FC_Product FCProduct) {
                             tvResult.append(FCProduct.toString());
@@ -123,6 +130,10 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
                 Timber.d(response.message()+" "+fc_productBarcode.toString());
                 FC_Product fc_product=fc_productBarcode.getFCProduct();
 
+                FabFoodEntity fabFoodEntity=new FabFoodEntity();
+                fabFoodEntity.setMBarcode(fc_product.getmBarcode());
+                fabFoodEntity.setMParsableCategories(fc_product.getmParsableCategories());
+                fabFoodIntermediateLib.insertData(fabFoodEntity);
                 Timber.d(response.message()+" "+fc_product.toString());
                /* *//*Get ProductS*//*
                 getProducts( fc_product.getmParsableCategories().get(0),fc_product.getmNutritionGrades(), new GetProductsCallback() {
@@ -211,8 +222,9 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
 
     }
     private void checkEvents(){
-        Cursor cursor=getContentResolver().query(FC_EventContract.EventEntry.buildEventUri(),FC_EventContract.EventEntry.EVENT_COLUMNS,null,null,null);
-        getDataTestEvent(cursor);
+        /*Cursor cursor=getContentResolver().query(FC_EventContract.EventEntry.buildEventUri(),FC_EventContract.EventEntry.EVENT_COLUMNS,null,null,null);
+        getDataTestEvent(cursor);*/
+        Timber.d(fabFoodIntermediateLib.getAllData().get(0).getMParsableCategories().toString());
     }
     private List<FC_Event> getDataTestEvent(Cursor cursor){
         Timber.d("Data in DB "+cursor.getCount() + " "+cursor.getColumnNames().length);

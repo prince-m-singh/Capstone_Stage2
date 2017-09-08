@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kumar.prince.foodneturationchecker">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:name=".FC_Application"
@@ -15,11 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-           <!-- <intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity android:name=".activity.BarcodeActivity">
             <intent-filter>
@@ -28,15 +32,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Barcode.ScanBarcodeActivity">
-
-        </activity>
+        <activity android:name=".Barcode.ScanBarcodeActivity"></activity>
 
         <provider
+            android:name=".data.local.FC_ContentProvider"
             android:authorities="com.kumar.prince.foodneturationchecker"
-            android:name="com.kumar.prince.foodneturationchecker.data.local.FC_ContentProvider"
-            android:exported="false"
-            />
+            android:exported="false" />
+
+        <activity
+            android:name=".activity.MainEventActivity"
+            android:label="@string/title_activity_main_event"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
