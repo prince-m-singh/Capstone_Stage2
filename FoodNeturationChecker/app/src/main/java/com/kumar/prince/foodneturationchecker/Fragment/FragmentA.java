@@ -3,6 +3,7 @@ package com.kumar.prince.foodneturationchecker.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -42,6 +43,7 @@ public class FragmentA extends Fragment  implements
     RecyclerView.LayoutManager mLayoutManager;
     EventRecylerViewAdapter eventRecylerViewAdapter;
     private static final int TASK_LOADER_ID=0;
+    //private static final String image="R.dra"
     public FragmentA() {
     }
 
@@ -76,6 +78,8 @@ public class FragmentA extends Fragment  implements
 
     @Override
     public void onClick(FC_Event fc_event) {
+        Snackbar.make(this.getView(), fc_event.getBarcode()+":- "+ fc_event.getStatus(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
        Timber.d(fc_event.getBarcode());
     }
 

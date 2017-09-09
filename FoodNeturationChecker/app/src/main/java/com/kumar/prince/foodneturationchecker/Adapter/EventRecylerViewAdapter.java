@@ -1,6 +1,7 @@
 package com.kumar.prince.foodneturationchecker.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
@@ -43,7 +46,11 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
         FC_Event fc_event = fc_events.get(position);
 
       //  holder.imageView.setImageDrawable(android.R.drawable.common_google_signin_btn_icon_dark);
-        holder.textView.setText(fc_event.getBarcode());
+        holder.textView.setText("BarCode:-"+fc_event.getBarcode());
+        holder.textView1.setText("Status:-"+fc_event.getStatus());
+        holder.textView1.setTextColor(Color.RED);
+        holder.textView2.setText("Date:-  "+longToDate(fc_event.getTimestamp()));
+        holder.imageView.setImageResource(R.drawable.ic_cloud_off_black_24dp);
         holder.fc_event = fc_event;
 
     }
@@ -66,13 +73,16 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
     public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final ImageView imageView;
         public final TextView textView;
+        public final TextView textView1;
+        public final TextView textView2;
         public  FC_Event fc_event;
 
         public EventViewHolder(View itemView) {
             super(itemView);
             imageView=(ImageView) itemView.findViewById(R.id.iconId);
             textView=(TextView) itemView.findViewById(R.id.tvVersionName);
-
+            textView1=(TextView) itemView.findViewById(R.id.tvVersionName2);
+            textView2=(TextView) itemView.findViewById(R.id.tvVersionName3);
 
             itemView.setOnClickListener(this);
         }
@@ -83,5 +93,13 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
             eventAdapterOnClickHandler.onClick(fc_events.get(getAdapterPosition()));
 
         }
+    }
+
+    private String longToDate(Long data){
+        Date date=new Date(data*1000);
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mmZ");
+        String dateText = df2.format(date);
+        Timber.d(dateText);
+        return dateText;
     }
 }
