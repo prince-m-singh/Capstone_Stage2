@@ -14,7 +14,7 @@ public interface FC_ProductSourceInterface {
 
         void onProductLoaded(FC_Product FCProduct);
 
-        void onError(Throwable throwable);
+        void onError(Throwable throwable,String barCode);
 
     }
 

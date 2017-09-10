@@ -103,7 +103,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
                         }
 
                         @Override
-                        public void onError(Throwable throwable) {
+                        public void onError(Throwable throwable,String data) {
                             tvResult.append(throwable.getMessage());
                         }
                     });
@@ -159,7 +159,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
                 FC_ServerUnreachableException e = new FC_ServerUnreachableException();
                 Timber.d(e.getMessage());
                 fc_event=new FC_Event(barcode,"NotFound");
-                getProductCallback.onError(e);
+                getProductCallback.onError(e,barcode);
 
 
             }
@@ -200,7 +200,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
             }
 
             @Override
-            public void onError(Throwable throwable) {
+            public void onError(Throwable throwable,String barcode) {
                 tvResult.append(throwable.getMessage());
             }
         });
