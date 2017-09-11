@@ -23,6 +23,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         if (position == 0)
         {
             fragment = new FragmentA();
+
+
         }
         else if (position == 1)
         {

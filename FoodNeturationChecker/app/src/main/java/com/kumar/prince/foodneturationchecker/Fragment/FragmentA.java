@@ -1,7 +1,10 @@
 package com.kumar.prince.foodneturationchecker.Fragment;
 
+import android.annotation.SuppressLint;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,7 +23,10 @@ import android.widget.ListView;
 import com.kumar.prince.foodneturationchecker.Adapter.CustomAdapter;
 import com.kumar.prince.foodneturationchecker.Adapter.EventRecylerViewAdapter;
 import com.kumar.prince.foodneturationchecker.R;
+import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_EventSourceInterface;
+import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_ProductSourceInterface;
 import com.kumar.prince.foodneturationchecker.data.local.FC_EventContract;
+import com.kumar.prince.foodneturationchecker.data.local.FC_EventDataSource;
 import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +41,8 @@ import timber.log.Timber;
  */
 
 public class FragmentA extends Fragment  implements
-        EventRecylerViewAdapter.EventAdapterOnClickHandler,LoaderManager.LoaderCallbacks<Cursor> {
+        EventRecylerViewAdapter.EventAdapterOnClickHandler,
+    LoaderManager.LoaderCallbacks<Cursor>,FC_ProductSourceInterface.SaveEventCallback  {
 
     private RecyclerView recyclerView;
     private CardView cardView;
@@ -53,7 +60,7 @@ public class FragmentA extends Fragment  implements
         eventRecylerViewAdapter = new EventRecylerViewAdapter(this);
         this.getActivity().getSupportLoaderManager().initLoader(TASK_LOADER_ID,null,this);
 
-
+        getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
     }
 
     @Override
@@ -77,12 +84,21 @@ public class FragmentA extends Fragment  implements
     }
 
     @Override
+    public void onResume() {
+        getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+        super.onResume();
+
+       // getLoaderManager().getLoader(TASK_LOADER_ID).forceLoad();
+    }
+
+    @Override
     public void onClick(FC_Event fc_event) {
         Snackbar.make(this.getView(), fc_event.getBarcode()+":- "+ fc_event.getStatus(), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
        Timber.d(fc_event.getBarcode());
     }
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new AsyncTaskLoader<Cursor>(this.getActivity()) {
@@ -101,7 +117,10 @@ public class FragmentA extends Fragment  implements
             @Override
             public Cursor loadInBackground() {
                 try {
-                    return this.getContext().getContentResolver().query(FC_EventContract.EventEntry.buildEventUri(), FC_EventContract.EventEntry.EVENT_COLUMNS,null,null,null);
+                    Cursor cursor=this.getContext().getContentResolver().query(FC_EventContract.EventEntry.buildEventUri(), FC_EventContract.EventEntry.EVENT_COLUMNS,
+                            null,null, FC_EventContract.EventEntry.COLUMN_NAME_TIMESTAMP+" DESC");
+                    //cursor.setNotificationUri(this.getContext().getContentResolver(), FC_EventContract.EventEntry.buildEventUri());
+                    return cursor;
 
                 }catch (Exception ex){
                     ex.printStackTrace();
@@ -163,6 +182,16 @@ public class FragmentA extends Fragment  implements
         SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mmZ");
         String dateText = df2.format(date);
         Timber.d(dateText);
+    }
+
+    public void restartLoader(){
+        getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+    }
+
+
+    @Override
+    public void save() {
+        restartLoader();
     }
 }
 

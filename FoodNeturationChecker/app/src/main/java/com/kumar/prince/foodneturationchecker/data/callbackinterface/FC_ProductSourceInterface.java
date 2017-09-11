@@ -26,6 +26,11 @@ public interface FC_ProductSourceInterface {
 
     }
 
+    interface SaveEventCallback {
+        void save();
+
+    }
+
     void getProduct(@NonNull String barcode, @NonNull GetProductCallback getProductCallback);
 
     void getProducts(@NonNull String categoryKey, @NonNull String nutritionGradeValue, @NonNull GetProductsCallback getProductsCallback);

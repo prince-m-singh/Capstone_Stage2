@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,9 +21,11 @@ import com.kumar.prince.foodneturationchecker.Adapter.ViewPagerAdapter;
 import com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity;
 import com.kumar.prince.foodneturationchecker.Error.FC_ProductNotExistException;
 import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
+import com.kumar.prince.foodneturationchecker.Fragment.FragmentA;
 import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.communication.FC_OpenFoodFactsAPIClient;
 import com.kumar.prince.foodneturationchecker.communication.FC_ProductBarcode;
+import com.kumar.prince.foodneturationchecker.communication.NetworkConnectivity;
 import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_EventSourceInterface;
 import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_ProductSourceInterface;
 import com.kumar.prince.foodneturationchecker.data.local.FC_EventDataSource;
@@ -36,6 +39,7 @@ import timber.log.Timber;
 
 import static com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity.AUTOFOCUS_ENABLE;
 import static com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity.GETRESULT;
+import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_NO_NETWORK;
 import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_OK;
 
 public class MainEventActivity extends AppCompatActivity implements FC_ProductSourceInterface,FC_ProductSourceInterface.GetProductCallback {
@@ -60,7 +64,6 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
         setSupportActionBar(toolbar);
         fabFoodIntermediateLib=new FabFoodIntermediateLib(this);
         fabFoodIntermediateLib.dbInitialize();
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,11 +85,24 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+
+    }
+
     private void scanBarcode(){
-        int barCodeRequestCode = 1000;
-        Intent intent = new Intent(this, ScanBarcodeActivity.class);
-        intent.putExtra(AUTOFOCUS_ENABLE,true);
-        startActivityForResult(intent,barCodeRequestCode);
+        NetworkConnectivity networkConnectivity=new NetworkConnectivity();
+        if (networkConnectivity.isConnected(this)){
+            int barCodeRequestCode = 1000;
+            Intent intent = new Intent(this, ScanBarcodeActivity.class);
+            intent.putExtra(AUTOFOCUS_ENABLE,true);
+            startActivityForResult(intent,barCodeRequestCode);
+        }else {
+            displayMessage(getCurrentFocus(),STATUS_NO_NETWORK);
+        }
+
     }
 
     @Override
@@ -97,21 +113,8 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
                 if(data!=null){
                     Barcode barcode = data.getParcelableExtra(GETRESULT);
                     Timber.d(barcode.displayValue);
-                    message=barcode.displayValue;
-                    getProduct(barcode.displayValue,this);
-                    /*tvResult.setText(barcode.displayValue);*/
-                  /*  getProduct("0016000264601", new FC_ProductSourceInterface.GetProductCallback(){
-                        //getProduct(barcode.displayValue, new GetProductCallback(){
-                        @Override
-                        public void onProductLoaded(FC_Product FCProduct) {
-                            tvResult.append(FCProduct.toString());
-                        }
-
-                        @Override
-                        public void onError(Throwable throwable) {
-                            tvResult.append(throwable.getMessage());
-                        }
-                    });*/
+                    message="0016000264601"/*barcode.displayValue*/;
+                    getProduct(message,this);
                 }
             }
         }
@@ -147,19 +150,6 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
                 }
                 FC_Product fc_product=fc_productBarcode.getFCProduct();
                 Timber.w(response.message()+" "+fc_product.toString());
-               /* *//*Get ProductS*//*
-                getProducts( fc_product.getmParsableCategories().get(0),fc_product.getmNutritionGrades(), new GetProductsCallback() {
-                    @Override
-                    public void onProductsLoaded(List<FC_Product> FCProducts) {
-                        Timber.d(FCProducts.toString());
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
-                });
-               */
                 fc_event=new FC_Event(barcode,"Found");
                 //addEvenInDb(fc_event);
                 getProductCallback.onProductLoaded(fc_product);
@@ -177,6 +167,8 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
             }
         });
     }
+
+
 
     @Override
     public void getProducts(@NonNull String categoryKey, @NonNull String nutritionGradeValue, @NonNull GetProductsCallback getProductsCallback) {
@@ -202,9 +194,15 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
 
     }
 
+
     private void displayMessage(View view,String message){
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+        Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.getCurrentItem());
+        if (viewPager.getCurrentItem() == 0 && page != null) {
+            ((FragmentA)page).restartLoader();
+        }
+
     }
 
     @Override

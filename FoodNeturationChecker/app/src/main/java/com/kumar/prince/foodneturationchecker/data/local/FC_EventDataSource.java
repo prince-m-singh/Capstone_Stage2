@@ -70,6 +70,7 @@ public class FC_EventDataSource implements FC_EventSourceInterface.Local {
         Uri uri = mContentResolver.insert(FC_EventContract.EventEntry.buildEventUri(), values);
 
         if (uri != null) {
+            mContentResolver.notifyChange(uri, null, false);
             addEventCallback.onEventAdded();
         } else {
             addEventCallback.onError();
@@ -89,6 +90,7 @@ public class FC_EventDataSource implements FC_EventSourceInterface.Local {
         int rows = mContentResolver.update(FC_EventContract.EventEntry.buildEventUri(), values, selection, selectionArgs);
 
         if (rows != 0) {
+            mContentResolver.notifyChange(FC_EventContract.EventEntry.buildEventUri(),null);
             updateEventCallback.onEventUpdated();
         } else {
             updateEventCallback.onError();

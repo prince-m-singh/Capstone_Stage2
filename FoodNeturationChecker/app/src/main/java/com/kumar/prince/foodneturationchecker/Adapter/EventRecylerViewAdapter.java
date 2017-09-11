@@ -19,6 +19,10 @@ import java.util.List;
 
 import timber.log.Timber;
 
+import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_NOT_IN_OFF_DATABASE;
+import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_OK;
+import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_SERVER_UNREACHABLE;
+
 /**
  * Created by prince on 9/9/17.
  */
@@ -48,10 +52,18 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
       //  holder.imageView.setImageDrawable(android.R.drawable.common_google_signin_btn_icon_dark);
         holder.textView.setText("BarCode:-"+fc_event.getBarcode());
         holder.textView1.setText("Status:-"+fc_event.getStatus());
-        holder.textView1.setTextColor(Color.RED);
+       ;
         holder.textView2.setText("Date:-  "+longToDate(fc_event.getTimestamp()));
-        holder.imageView.setImageResource(R.drawable.ic_cloud_off_black_24dp);
-        holder.fc_event = fc_event;
+        if (fc_event.getStatus().equals(STATUS_NOT_IN_OFF_DATABASE)){
+            holder.imageView.setImageResource(R.drawable.ic_cloud_off_black_24dp);
+            holder.textView1.setTextColor(Color.parseColor("#FF0000"));
+        }else if (fc_event.getStatus().equals(STATUS_SERVER_UNREACHABLE)){
+            holder.imageView.setImageResource(R.drawable.ic_network_problem_orange_24dp);
+            holder.textView1.setTextColor(Color.parseColor("#FB8C00"));
+        } else if (fc_event.getStatus().equals(STATUS_OK)){
+            holder.textView1.setTextColor(Color.parseColor("#4CAF50"));
+            holder.imageView.setImageResource(R.drawable.ic_food_found_green_24dp);
+        }holder.fc_event = fc_event;
 
     }
 

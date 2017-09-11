@@ -1,5 +1,7 @@
 package com.kumar.prince.foodneturationchecker.Error;
 
+import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_NOT_IN_OFF_DATABASE;
+
 /**
  *  Created by prince on 29/8/17.
  * */
@@ -7,7 +9,7 @@ package com.kumar.prince.foodneturationchecker.Error;
 public class FC_ProductNotExistException extends Exception {
 
     public FC_ProductNotExistException(){
-        super("This product cannot be find in OpenFoodFacts database");
+        super(STATUS_NOT_IN_OFF_DATABASE);
     }
 
 }

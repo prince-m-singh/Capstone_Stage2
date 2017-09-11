@@ -6,7 +6,8 @@ package com.kumar.prince.foodneturationchecker.utils;
 
 public class ErrorMessage {
     public static final String STATUS_OK = "Bar Code Found";
-    public static final String STATUS_NOT_IN_OFF_DATABASE = "Product Is Not In OpenFoodFacts DB";
+    public static final String STATUS_NOT_IN_OFF_DATABASE = "This product cannot be find in OpenFoodFacts database";
     public static final String STATUS_NO_NETWORK = "Network Problem";
+    public static final String STATUS_SERVER_UNREACHABLE="OpenFoodFacts database is unreachable";
 
 }
