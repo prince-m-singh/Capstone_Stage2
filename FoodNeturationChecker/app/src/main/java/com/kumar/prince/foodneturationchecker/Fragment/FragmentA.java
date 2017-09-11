@@ -1,6 +1,7 @@
 package com.kumar.prince.foodneturationchecker.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -22,19 +23,31 @@ import android.widget.ListView;
 
 import com.kumar.prince.foodneturationchecker.Adapter.CustomAdapter;
 import com.kumar.prince.foodneturationchecker.Adapter.EventRecylerViewAdapter;
+import com.kumar.prince.foodneturationchecker.Error.FC_ProductNotExistException;
+import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
 import com.kumar.prince.foodneturationchecker.R;
+import com.kumar.prince.foodneturationchecker.activity.FoodDetailsActivity;
+import com.kumar.prince.foodneturationchecker.communication.FC_OpenFoodFactsAPIClient;
+import com.kumar.prince.foodneturationchecker.communication.FC_ProductBarcode;
 import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_EventSourceInterface;
 import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_ProductSourceInterface;
 import com.kumar.prince.foodneturationchecker.data.local.FC_EventContract;
 import com.kumar.prince.foodneturationchecker.data.local.FC_EventDataSource;
 import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
+import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
+
+import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_OK;
+import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_SERVER_UNREACHABLE;
 
 /**
  * Created by prince on 14/9/17.
@@ -42,7 +55,7 @@ import timber.log.Timber;
 
 public class FragmentA extends Fragment  implements
         EventRecylerViewAdapter.EventAdapterOnClickHandler,
-    LoaderManager.LoaderCallbacks<Cursor>,FC_ProductSourceInterface.SaveEventCallback  {
+    LoaderManager.LoaderCallbacks<Cursor> {
 
     private RecyclerView recyclerView;
     private CardView cardView;
@@ -96,6 +109,13 @@ public class FragmentA extends Fragment  implements
         Snackbar.make(this.getView(), fc_event.getBarcode()+":- "+ fc_event.getStatus(), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
        Timber.d(fc_event.getBarcode());
+       if (dataFoundStatus(fc_event)){
+           getAllDataOfBarCode(fc_event.getBarcode());
+       }else {
+           Snackbar.make(this.getView(), fc_event.getBarcode()+":- "+ fc_event.getStatus(), Snackbar.LENGTH_LONG)
+                   .setAction("Action", null).show();
+       }
+
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -189,9 +209,63 @@ public class FragmentA extends Fragment  implements
     }
 
 
-    @Override
-    public void save() {
-        restartLoader();
+    private void getAllDataOfBarCode(String barcode){
+        FC_OpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FC_OpenFoodFactsAPIClient(FC_OpenFoodFactsAPIClient.ENDPOINT_BARCODE);
+        Call<FC_ProductBarcode> call = FCOpenFoodFactsAPIClient.getProduct(barcode);
+
+        call.enqueue(new Callback<FC_ProductBarcode>() {
+            @Override
+            public void onResponse(Call<FC_ProductBarcode> call, Response<FC_ProductBarcode> response) {
+
+                if (!response.isSuccessful() || response.body() == null) {
+                    FC_ServerUnreachableException e = new FC_ServerUnreachableException();
+                    Timber.w(e);
+                   // getProductCallback.onError(e,barcode);
+                    return;
+                }
+                FC_ProductBarcode fc_productBarcode = response.body();
+                Timber.d(response.message()+" "+fc_productBarcode.toString());
+                if (fc_productBarcode.getStatus() != 1) {
+                    FC_ProductNotExistException e = new FC_ProductNotExistException();
+                    Timber.w(e);
+                    //getProductCallback.onError(e,barcode);
+                    return;
+                }
+                FC_Product fc_product=fc_productBarcode.getFCProduct();
+                Timber.w(response.message()+" "+fc_product.toString());
+                newActivityStart(fc_product);
+                /*fc_event=new FC_Event(barcode,"Found");
+                //addEvenInDb(fc_event);
+                getProductCallback.onProductLoaded(fc_product);*/
+
+            }
+
+            @Override
+            public void onFailure(Call<FC_ProductBarcode> call, Throwable t) {
+                FC_ServerUnreachableException e = new FC_ServerUnreachableException();
+                Timber.d(e.getMessage());
+                /*fc_event=new FC_Event(barcode,"NotFound");
+                getProductCallback.onError(e,barcode);*/
+
+
+            }
+        });
+
+
+    }
+
+    private boolean dataFoundStatus(FC_Event fc_event){
+        if (fc_event.getStatus().equals(STATUS_OK))
+            return true;
+        else if (fc_event.getStatus().equals(STATUS_SERVER_UNREACHABLE))
+            return true;
+        return false;
+    }
+
+    private void newActivityStart(FC_Product fc_product){
+        Intent i = new Intent(getActivity(), FoodDetailsActivity.class);
+        i.putExtra("sampleObject", fc_product);
+        startActivity(i);
     }
 }
 

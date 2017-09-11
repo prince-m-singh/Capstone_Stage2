@@ -27,13 +27,16 @@
             -->
         </activity>
         <activity android:name=".activity.BarcodeActivity">
-           <!-- <intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
-        <activity android:name=".Barcode.ScanBarcodeActivity"></activity>
+        <activity android:name=".Barcode.ScanBarcodeActivity" />
 
         <provider
             android:name=".data.local.FC_ContentProvider"
@@ -49,6 +52,21 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.FoodDetailsActivity"
+            android:label="@string/title_activity_food_details"
+            android:parentActivityName=".activity.MainEventActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kumar.prince.foodneturationchecker.activity.MainEventActivity" />
+        >
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
         </activity>
     </application>
 

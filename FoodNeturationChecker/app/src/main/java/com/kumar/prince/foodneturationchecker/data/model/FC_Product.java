@@ -3,12 +3,13 @@ package com.kumar.prince.foodneturationchecker.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *  Created by prince on 25/8/17.
  * */
-public class FC_Product {
+public class FC_Product implements Serializable{
 
     private long mId;
     private boolean mParsed;
