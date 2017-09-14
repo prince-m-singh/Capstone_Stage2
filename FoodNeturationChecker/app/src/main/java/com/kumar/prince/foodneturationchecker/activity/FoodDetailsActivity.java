@@ -11,23 +11,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kumar.prince.foodneturationchecker.MVP.AllMVPInterface;
+import com.kumar.prince.foodneturationchecker.MVP.Presenter.AllProductsPresenter;
 import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
 import com.squareup.picasso.Picasso;
 
 import timber.log.Timber;
 
-public class FoodDetailsActivity extends AppCompatActivity {
+public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInterface.IAllProductsView {
     ImageView imageView;
     Context context;
     TextView titleText;
-
+    AllProductsPresenter productsPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        productsPresenter = new AllProductsPresenter(this);
 
         imageView=(ImageView) findViewById(R.id.expandedImage);
 
@@ -51,5 +54,18 @@ public class FoodDetailsActivity extends AppCompatActivity {
         Timber.d(fc_product.getmImageFrontUrl());
         getSupportActionBar().setTitle(fc_product.getmProductName());
         Picasso.with(getApplicationContext()).load(fc_product.getmImageFrontSmallUrl()).into(imageView);
+        productsPresenter.requestGetAllProducts(fc_product.getmParsableCategories().get(0),fc_product.getmNutritionGrades());
+    }
+
+
+    @Override
+    public void getListOfProducts(String category, String level) {
+        Timber.d(category+" "+level);
+
+    }
+
+    @Override
+    public void getError() {
+    Timber.d("Error");
     }
 }
