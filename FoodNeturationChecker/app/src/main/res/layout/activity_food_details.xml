@@ -38,12 +38,17 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+
     <include layout="@layout/content_food_details" />
+    <android.support.v7.widget.RecyclerView android:id="@+id/product_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+
+        xmlns:android="http://schemas.android.com/apk/res/android" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

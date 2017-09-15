@@ -1,6 +1,23 @@
 <resources>
     <string name="app_name">Food Neturation Checker</string>
     <string name="action_settings">Settings</string>
+    
+    <!--Food Details Screen-->
+    <string name="product_name_lebel">Name:</string>
+    <string name="product_name_value"></string>
+    <string name="barcode_name_label">BarCode:</string>
+    <string name="barcode_value"></string>
+    <string name="grade_label">Grade:</string>
+    <string name="grade_value"></string>
+    <string name="quantity_label">Quantity:</string>
+    <string name="quantity_value"></string>
+    <string name="categories_label">Categories:</string>
+    <string name="categories_value"></string>
+    <string name="brand_label">Brand:</string>
+    <string name="brand_value"></string>
+    
+    
+    
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_main_event">FoodNeturationChecker</string>
     <string name="title_activity_food_details">FoodDetailsActivity</string>
