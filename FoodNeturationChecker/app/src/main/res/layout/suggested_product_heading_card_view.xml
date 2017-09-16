@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="@color/cardview_shadow_end_color"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardUseCompatPadding="true" >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title_lebel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.498"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+        <!--<TextView
+            android:id="@+id/tv_categories_title_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="76dp"
+            android:text="Categories:"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textStyle="bold"
+            card_view:layout_constraintEnd_toStartOf="@+id/title_lebel"
+            card_view:layout_constraintTop_toBottomOf="@+id/title_lebel"
+            card_view:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginRight="76dp"
+            android:layout_marginLeft="8dp" />
+
+        <TextView
+            android:id="@+id/tv_categories_value_title_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="TextView"
+            card_view:layout_constraintEnd_toStartOf="@+id/title_lebel"
+            card_view:layout_constraintTop_toBottomOf="@+id/title_lebel"
+            card_view:layout_constraintStart_toEndOf="@+id/tv_categories_title_label"
+            android:layout_marginStart="8dp" />
+
+        <TextView
+            android:id="@+id/tv_grade_title_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:text="Grade:"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textStyle="bold"
+            card_view:layout_constraintStart_toEndOf="@+id/title_lebel"
+            card_view:layout_constraintTop_toBottomOf="@+id/title_lebel"
+            android:layout_marginLeft="48dp" />
+
+        <TextView
+            android:id="@+id/tv_grade_title_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            card_view:layout_constraintStart_toEndOf="@+id/tv_grade_title_label"
+            card_view:layout_constraintTop_toBottomOf="@+id/title_lebel" />-->
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

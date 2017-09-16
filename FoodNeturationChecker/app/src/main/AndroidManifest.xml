@@ -46,6 +46,7 @@
         <activity
             android:name=".activity.MainEventActivity"
             android:label="@string/title_activity_main_event"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,7 +58,8 @@
             android:name=".activity.FoodDetailsActivity"
             android:label="@string/title_activity_food_details"
             android:parentActivityName=".activity.MainEventActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kumar.prince.foodneturationchecker.activity.MainEventActivity" />

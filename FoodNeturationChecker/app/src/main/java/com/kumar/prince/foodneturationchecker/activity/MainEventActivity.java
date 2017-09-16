@@ -15,7 +15,6 @@ import android.view.View;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
-import com.kumar.prince.fabfoodlibrary.FabFoodEntity;
 import com.kumar.prince.fabfoodlibrary.FabFoodIntermediateLib;
 import com.kumar.prince.foodneturationchecker.Adapter.ViewPagerAdapter;
 import com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity;

@@ -3,16 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.kumar.prince.foodneturationchecker.activity.FoodDetailsActivity"
     tools:showIn="@layout/activity_food_details">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <include layout="@layout/product_details_card_view"/>
-   <!-- <TextView
-        android:layout_width="wrap_content"
+        <include layout="@layout/suggested_product_heading_card_view"/>
+    <android.support.v7.widget.RecyclerView android:id="@+id/product_recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />-->
+        android:layout_margin="5dp"
+
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+    </LinearLayout>
+    <!-- <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_margin="@dimen/text_margin"
+         android:text="@string/large_text" />-->
 
 </android.support.v4.widget.NestedScrollView>
