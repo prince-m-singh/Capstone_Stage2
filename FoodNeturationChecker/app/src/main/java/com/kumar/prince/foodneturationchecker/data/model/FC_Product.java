@@ -56,6 +56,42 @@ public class FC_Product implements Serializable{
         this.mBookmarked = mBookmarked;
     }
 
+    public void setmBarcode(String mBarcode) {
+        this.mBarcode = mBarcode;
+    }
+
+    public void setmGenericName(String mGenericName) {
+        this.mGenericName = mGenericName;
+    }
+
+    public void setmProductName(String mProductName) {
+        this.mProductName = mProductName;
+    }
+
+    public void setmQuantity(String mQuantity) {
+        this.mQuantity = mQuantity;
+    }
+
+    public void setmNutritionGrades(String mNutritionGrades) {
+        this.mNutritionGrades = mNutritionGrades;
+    }
+
+    public void setmParsableCategories(List<String> mParsableCategories) {
+        this.mParsableCategories = mParsableCategories;
+    }
+
+    public void setmBrands(String mBrands) {
+        this.mBrands = mBrands;
+    }
+
+    public void setmImageFrontSmallUrl(String mImageFrontSmallUrl) {
+        this.mImageFrontSmallUrl = mImageFrontSmallUrl;
+    }
+
+    public void setmImageFrontUrl(String mImageFrontUrl) {
+        this.mImageFrontUrl = mImageFrontUrl;
+    }
+
     public String getmBarcode() {
         return mBarcode;
     }
