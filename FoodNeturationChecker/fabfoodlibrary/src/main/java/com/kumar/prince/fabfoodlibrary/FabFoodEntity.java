@@ -97,4 +97,19 @@ public class FabFoodEntity {
     public void setMImageFrontUrl(String mImageFrontUrl) {
         this.mImageFrontUrl = mImageFrontUrl;
     }
+
+    @Override
+    public String toString() {
+        return "FabFoodEntity{" +
+                "mBarcode='" + mBarcode + '\'' +
+                ", mGenericName='" + mGenericName + '\'' +
+                ", mProductName='" + mProductName + '\'' +
+                ", mQuantity='" + mQuantity + '\'' +
+                ", mNutritionGrades='" + mNutritionGrades + '\'' +
+                ", mParsableCategories=" + mParsableCategories +
+                ", mBrands='" + mBrands + '\'' +
+                ", mImageFrontSmallUrl='" + mImageFrontSmallUrl + '\'' +
+                ", mImageFrontUrl='" + mImageFrontUrl + '\'' +
+                '}';
+    }
 }

@@ -93,6 +93,7 @@ public class FragmentA extends Fragment  implements
         recyclerView.setAdapter(eventRecylerViewAdapter);
         Timber.d( "Adapter");
 
+
         return view;
     }
 
@@ -109,12 +110,15 @@ public class FragmentA extends Fragment  implements
         Snackbar.make(this.getView(), fc_event.getBarcode()+":- "+ fc_event.getStatus(), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
        Timber.d(fc_event.getBarcode());
+//       addEvenInDb(fc_event);
        if (dataFoundStatus(fc_event)){
            getAllDataOfBarCode(fc_event.getBarcode());
        }else {
            Snackbar.make(this.getView(), fc_event.getBarcode()+":- "+ fc_event.getStatus(), Snackbar.LENGTH_LONG)
                    .setAction("Action", null).show();
        }
+  //      getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+
 
     }
 
@@ -233,6 +237,7 @@ public class FragmentA extends Fragment  implements
                 }
                 FC_Product fc_product=fc_productBarcode.getFCProduct();
                 Timber.w(response.message()+" "+fc_product.toString());
+                //addEvenInDb(fc_event);
                 newActivityStart(fc_product);
                 /*fc_event=new FC_Event(barcode,"Found");
                 //addEvenInDb(fc_event);
@@ -267,5 +272,25 @@ public class FragmentA extends Fragment  implements
         i.putExtra("sampleObject", fc_product);
         startActivity(i);
     }
+
+   /* private void addEvenInDb(FC_Event fc_event){
+        FC_EventDataSource fc_eventDataSource=FC_EventDataSource.getInstance(getActivity().getContentResolver());
+        fc_eventDataSource.saveEvent(fc_event, new FC_EventSourceInterface.Local.SaveEventCallback() {
+            @Override
+            public void onEventSaved() {
+                Timber.d("DataSaved");
+              //  displayMessage(getCurrentFocus(),"Event Saved");
+
+            }
+
+            @Override
+            public void onError() {
+                Timber.d("Error");
+               // displayMessage(getCurrentFocus(),"Event Not Saved");
+            }
+        });
+
+    }*/
+
 }
 

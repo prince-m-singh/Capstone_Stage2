@@ -26,4 +26,6 @@ public interface FabFoodDbDao {
 
     @Delete
     void delete(FabFoodEntity fabFoodEntity);
+    @Query("DELETE FROM FabFood where mBarcode LIKE  :mBarcode")
+    int deleteFabData(String mBarcode);
 }

@@ -44,4 +44,8 @@ public class FabFoodIntermediateLib {
     public List<FabFoodEntity> getAllData(){
         return appDataBase.fabFoodDbDao().getAllData();
     }
+
+    public int deleteData(String barcode){
+        return appDataBase.fabFoodDbDao().deleteFabData(barcode);
+    }
 }
