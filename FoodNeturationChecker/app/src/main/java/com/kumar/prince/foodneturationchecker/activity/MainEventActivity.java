@@ -21,6 +21,7 @@ import com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity;
 import com.kumar.prince.foodneturationchecker.Error.FC_ProductNotExistException;
 import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
 import com.kumar.prince.foodneturationchecker.Fragment.FragmentA;
+import com.kumar.prince.foodneturationchecker.Fragment.FragmentB;
 import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.communication.FC_OpenFoodFactsAPIClient;
 import com.kumar.prince.foodneturationchecker.communication.FC_ProductBarcode;
@@ -200,6 +201,8 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
         Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.getCurrentItem());
         if (viewPager.getCurrentItem() == 0 && page != null) {
             ((FragmentA)page).restartLoader();
+        }else if (viewPager.getCurrentItem() == 1 && page != null){
+            ((FragmentB)page).restartLoader();
         }
 
     }

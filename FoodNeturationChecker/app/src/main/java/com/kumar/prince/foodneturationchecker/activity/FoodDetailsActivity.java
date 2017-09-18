@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.kumar.prince.fabfoodlibrary.FabFoodEntity;
 import com.kumar.prince.fabfoodlibrary.FabFoodIntermediateLib;
 import com.kumar.prince.foodneturationchecker.Adapter.FC_FoodListAdapter;
@@ -89,6 +92,10 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
         fc_foodListAdapter=new FC_FoodListAdapter(this);
         recyclerView.setAdapter(fc_foodListAdapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544/1033173712");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
 
