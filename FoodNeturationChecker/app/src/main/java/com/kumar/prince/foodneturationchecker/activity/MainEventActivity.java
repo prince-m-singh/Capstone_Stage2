@@ -113,8 +113,8 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
                 if(data!=null){
                     Barcode barcode = data.getParcelableExtra(GETRESULT);
                     Timber.d(barcode.displayValue);
-                    message="0016000264601"/*barcode.displayValue*/;
-                    getProduct(message,this);
+                    //message="0016000264601"/*barcode.displayValue*/;
+                    getProduct(barcode.displayValue,this);
                 }
             }
         }
@@ -175,6 +175,9 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
 
     }
 
+    /**
+     * @param fc_event
+     */
     private void addEvenInDb(FC_Event fc_event){
         FC_EventDataSource fc_eventDataSource=FC_EventDataSource.getInstance(getContentResolver());
         fc_eventDataSource.saveEvent(fc_event, new FC_EventSourceInterface.Local.SaveEventCallback() {
@@ -207,6 +210,9 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
 
     }
 
+    /**
+     * @param fc_Product
+     */
     @Override
     public void onProductLoaded(FC_Product fc_Product) {
         Timber.d(fc_Product.toString());
@@ -215,6 +221,10 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
 
     }
 
+    /**
+     * @param throwable
+     * @param barcode
+     */
     @Override
     public void onError(Throwable throwable,String barcode) {
         Timber.e(throwable.getMessage());
