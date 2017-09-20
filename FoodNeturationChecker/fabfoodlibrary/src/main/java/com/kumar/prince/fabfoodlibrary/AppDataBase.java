@@ -10,7 +10,7 @@ import android.content.Context;
  * Created by prince on 6/9/17.
  */
 
-@Database(entities = {FabFoodEntity.class}, version = 1,exportSchema = false)
+@Database(entities = {FabFoodEntity.class}, version = 1,exportSchema = true)
 @TypeConverters({Convertor.class})
 public abstract class AppDataBase extends RoomDatabase {
 

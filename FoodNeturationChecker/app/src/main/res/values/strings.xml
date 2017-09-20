@@ -24,5 +24,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_main_event">FoodNeturationChecker</string>
     <string name="title_activity_food_details">FoodDetailsActivity</string>
+    <string name="empty_widget_list_data" />
 
 </resources>

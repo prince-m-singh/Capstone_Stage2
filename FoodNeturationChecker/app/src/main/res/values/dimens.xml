@@ -10,4 +10,13 @@
     <dimen name="custom_tab_layout_height">72dp</dimen>
     <dimen name="app_bar_height">220dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="widget_events_default_width">250dp</dimen>
+    <dimen name="widget_events_default_height">180dp</dimen>
+    <dimen name="widget_events_min_resize_width">220dp</dimen>
+    <dimen name="widget_events_min_resize_height">180dp</dimen>
+
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="list_icon">40dp</dimen>
+    <dimen name="text_size_title" />
 </resources>
