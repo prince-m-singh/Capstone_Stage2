@@ -183,7 +183,7 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
         startActivity(i);
     }
 
-    private void favouriteButtoFunction(FC_Product fc_product){
+    private void favouriteButtoFunction(final FC_Product fc_product){
         if (dataStatus(fc_product))
             fab.setImageResource(R.drawable.ic_favorite_red_24dp);
         else

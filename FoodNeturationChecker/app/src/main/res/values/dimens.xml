@@ -18,5 +18,5 @@
 
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="list_icon">40dp</dimen>
-    <dimen name="text_size_title" />
+    <dimen name="text_size_title" >10dp</dimen>
 </resources>

@@ -118,7 +118,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
 
 
     @Override
-    public void getProduct(@NonNull String barcode, @NonNull GetProductCallback getProductCallback) {
+    public void getProduct(@NonNull final String barcode, @NonNull final GetProductCallback getProductCallback) {
         FC_OpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FC_OpenFoodFactsAPIClient(FC_OpenFoodFactsAPIClient.ENDPOINT_BARCODE);
         Call<FC_ProductBarcode> call = FCOpenFoodFactsAPIClient.getProduct(barcode);
 
@@ -167,7 +167,7 @@ public class BarcodeActivity extends AppCompatActivity implements FC_ProductSour
     }
 
     @Override
-    public void getProducts(@NonNull String categoryKey, @NonNull String nutritionGradeValue, @NonNull GetProductsCallback getProductsCallback) {
+    public void getProducts(@NonNull String categoryKey, @NonNull String nutritionGradeValue, @NonNull final GetProductsCallback getProductsCallback) {
         Timber.d(categoryKey+" "+ nutritionGradeValue);
         FC_OpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FC_OpenFoodFactsAPIClient(FC_OpenFoodFactsAPIClient.ENDPOINT_SEARCH);
         Call<FC_Search> call = FCOpenFoodFactsAPIClient.getProducts(categoryKey,nutritionGradeValue);

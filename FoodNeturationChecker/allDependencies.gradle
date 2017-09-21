@@ -1,6 +1,6 @@
 allprojects {
     repositories {
-        google()
+      //  google()
         jcenter()
         maven {
             url "https://maven.google.com"
@@ -11,13 +11,13 @@ allprojects {
 
 ext {
     // Android
-    androidBuildToolsVersion = "26.0.1"
+    androidBuildToolsVersion = "25.0.2"
     androidMinSdkVersion = 15
-    androidTargetSdkVersion = 26
-    androidCompileSdkVersion = 26
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
 
     // Library versions
-    supportLibVersion = "26.0.2"
+    supportLibVersion = "25.2.0"
     googlePlayService = "11.2.2"
     picassoVersion = "2.5.2"
     gsonVersion = "2.8.1"
