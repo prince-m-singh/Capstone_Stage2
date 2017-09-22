@@ -112,8 +112,9 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
                 if(data!=null){
                     Barcode barcode = data.getParcelableExtra(GETRESULT);
                     Timber.d(barcode.displayValue);
-                    //message="0016000264601"/*barcode.displayValue*/;
-                    getProduct(barcode.displayValue,this);
+                    //message="20199876"/*barcode.displayValue*/;
+                    message=barcode.displayValue;
+                    getProduct(message,this);
                 }
             }
         }
@@ -191,7 +192,7 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
             @Override
             public void onError() {
                 Timber.d("Error");
-                displayMessage(getCurrentFocus(),"Event Not Saved");
+                displayMessage(getCurrentFocus(),getResources().getString(R.string.event_not_Saved));
             }
         });
 

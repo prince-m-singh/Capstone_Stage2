@@ -8,8 +8,6 @@
     <string name="date_time">Date and Time</string>
     <string name="product_name">ProductName</string>
     <string name="name">Name:</string>
-
-
     <!--Food Details Screen-->
     <string name="product_name_lebel">Name:</string>
     <string name="product_name_value">Product value</string>
@@ -24,28 +22,21 @@
     <string name="brand_label">Brand:</string>
     <string name="brand_value">Not Present</string>
     <string name="title_message">Other Suggested Foods</string>
-
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    
-    
-    
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_main_event">FoodNeturationChecker</string>
     <string name="title_activity_food_details">FoodDetailsActivity</string>
     <string name="empty_widget_list_data" />
-
-
     <string name="expanded_content">Food Image</string>
     <string name="icon_content">Event Image</string>
     <string name="fab">Fab</string>
-    <string name="not_found">Not FounD</string>
+    <string name="not_found">Not Found</string>
     <string name="found">Found</string>
     <string name="add_in_fab">Item Added Into Favroite</string>
     <string name="remove_from_fab">Remove From Favorite</string>
     <string name="event_Saved">Event Saved</string>
     <string name="permission_title">Permission necessary</string>
     <string name="permission_message">CAMERA is Necessary for BarCode</string>
-
-
+    <string name="event_not_Saved">Event Not Saved</string>
     <item name="add_in_fab" type="id">Food Added In Favorite</item>
 </resources>

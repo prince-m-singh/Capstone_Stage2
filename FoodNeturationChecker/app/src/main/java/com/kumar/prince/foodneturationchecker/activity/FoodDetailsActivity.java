@@ -104,7 +104,8 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
         Timber.d(foodChecker_product.getmImageFrontUrl());
         getSupportActionBar().setTitle(foodChecker_product.getmGenericName());
         Picasso.with(getApplicationContext()).load(foodChecker_product.getmImageFrontSmallUrl()).into(imageView);
-        productsPresenter.requestGetAllProducts(foodChecker_product.getmParsableCategories().get(0), foodChecker_product.getmNutritionGrades());
+        if (foodChecker_product.getmParsableCategories().size()>0)
+            productsPresenter.requestGetAllProducts(foodChecker_product.getmParsableCategories().get(0), foodChecker_product.getmNutritionGrades());
         setValueInView(foodChecker_product);
         favouriteButtoFunction(foodChecker_product);
         //recylerViewOperation();

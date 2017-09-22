@@ -147,7 +147,7 @@ public class BarcodeActivity extends AppCompatActivity implements FoodCheckerPro
                 });
                */
                 String found=getResources().getResourceName(R.string.found);
-                foodChecker_event =new FoodCheckerEvent(barcode,found);
+                foodChecker_event =new FoodCheckerEvent(barcode,"Found");
                 addEvenInDb(foodChecker_event);
                 getProductCallback.onProductLoaded(foodChecker_product);
 
