@@ -48,12 +48,15 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
         FoodCheckerEvent foodChecker_event = foodChecker_events.get(position);
+        String value="";
 
       //  holder.imageView.setImageDrawable(android.R.drawable.common_google_signin_btn_icon_dark);
-        holder.textView.setText("BarCode:-"+ foodChecker_event.getBarcode());
-        holder.textView1.setText("Status:-"+ foodChecker_event.getStatus());
-       ;
-        holder.textView2.setText("Date:-  "+longToDate(foodChecker_event.getTimestamp()));
+        value="BarCode:-"+ foodChecker_event.getBarcode();
+        holder.textView.setText(value);
+        value="Status:-"+ foodChecker_event.getStatus();
+        holder.textView1.setText(value);
+       value="Date:-  "+longToDate(foodChecker_event.getTimestamp());
+        holder.textView2.setText(value);
         if (foodChecker_event.getStatus().equals(STATUS_NOT_IN_OFF_DATABASE)){
             holder.imageView.setImageResource(R.drawable.ic_cloud_off_black_24dp);
             holder.textView1.setTextColor(Color.parseColor("#FF0000"));

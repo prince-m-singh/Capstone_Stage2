@@ -23,7 +23,7 @@ import timber.log.Timber;
  * Created by prince on 17/9/17.
  */
 
-public class FoodCheckerFavouriteFoodAdapter extends RecyclerView.Adapter<FoodCheckerFavouriteFoodAdapter.FavouriteFoodViewHolder>implements Serializable {
+public class FoodCheckerFavouriteFoodAdapter extends RecyclerView.Adapter<FoodCheckerFavouriteFoodAdapter.FavouriteFoodViewHolder> implements Serializable {
 
     List<FabFoodEntity> favouriteFoodData;
     final private FoodCheckerFavouriteFoodAdapter.FavouriteFoodOnClickHandler favouriteFoodOnClickHandler;
@@ -36,25 +36,30 @@ public class FoodCheckerFavouriteFoodAdapter extends RecyclerView.Adapter<FoodCh
 
     @Override
     public FavouriteFoodViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context=parent.getContext();
-        View view =LayoutInflater.from(context).inflate(R.layout.card_view,parent,false);
+        context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.card_view, parent, false);
 
-        return new FoodCheckerFavouriteFoodAdapter.FavouriteFoodViewHolder(view) ;
+        return new FoodCheckerFavouriteFoodAdapter.FavouriteFoodViewHolder(view);
 
     }
 
     @Override
     public void onBindViewHolder(FavouriteFoodViewHolder holder, int position) {
-        FabFoodEntity fabFoodEntity=favouriteFoodData.get(position);
-        if (fabFoodEntity.getMGenericName().length()>30)
-            holder.textView.setText("Name:-"+fabFoodEntity.getMGenericName().substring(0,30));
-        else
-            holder.textView.setText("Name:-"+fabFoodEntity.getMGenericName());
-        holder.textView1.setText("BarCode:-"+fabFoodEntity.getMBarcode());
-        holder.textView2.setText("Grade:-  "+fabFoodEntity.getMNutritionGrades().toUpperCase());
-        Picasso.with(context).load(fabFoodEntity.getMImageFrontSmallUrl()).into(holder.imageView);
-        holder.fabFoodEntity=fabFoodEntity;
-
+        String value = "";
+        FabFoodEntity fabFoodEntity = favouriteFoodData.get(position);
+        if (fabFoodEntity.getMGenericName().length() > 30) {
+            value = "Name:-" + fabFoodEntity.getMGenericName().substring(0, 30);
+            holder.textView.setText(value);
+        } else {
+            value="Name:-" + fabFoodEntity.getMGenericName();
+            holder.textView.setText(value);
+            value="BarCode:-" + fabFoodEntity.getMBarcode();
+            holder.textView1.setText(value);
+            value="Grade:-  " + fabFoodEntity.getMNutritionGrades().toUpperCase();
+            holder.textView2.setText(value);
+            Picasso.with(context).load(fabFoodEntity.getMImageFrontSmallUrl()).into(holder.imageView);
+            holder.fabFoodEntity = fabFoodEntity;
+        }
     }
 
     @Override
