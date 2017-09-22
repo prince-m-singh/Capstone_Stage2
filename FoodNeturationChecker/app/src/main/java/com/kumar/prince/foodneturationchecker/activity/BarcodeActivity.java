@@ -146,7 +146,8 @@ public class BarcodeActivity extends AppCompatActivity implements FoodCheckerPro
                     }
                 });
                */
-                foodChecker_event =new FoodCheckerEvent(barcode,"Found");
+                String found=getResources().getResourceName(R.string.found);
+                foodChecker_event =new FoodCheckerEvent(barcode,found);
                 addEvenInDb(foodChecker_event);
                 getProductCallback.onProductLoaded(foodChecker_product);
 
@@ -156,7 +157,8 @@ public class BarcodeActivity extends AppCompatActivity implements FoodCheckerPro
             public void onFailure(Call<FoodCheckerProductBarcode> call, Throwable t) {
                 FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                 Timber.d(e.getMessage());
-                foodChecker_event =new FoodCheckerEvent(barcode,"NotFound");
+                String notFound=getResources().getResourceName(R.string.not_found);
+                foodChecker_event =new FoodCheckerEvent(barcode,notFound);
                 getProductCallback.onError(e,barcode);
 
 

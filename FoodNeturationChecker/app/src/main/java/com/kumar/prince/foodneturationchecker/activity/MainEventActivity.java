@@ -159,7 +159,8 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
             public void onFailure(Call<FoodCheckerProductBarcode> call, Throwable t) {
                 FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                 Timber.d(e.getMessage());
-                foodChecker_event =new FoodCheckerEvent(barcode,"NotFound");
+                String value=getResources().getString(R.string.not_found);
+                foodChecker_event =new FoodCheckerEvent(barcode,value);
                 getProductCallback.onError(e,barcode);
 
 
@@ -183,7 +184,7 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
             @Override
             public void onEventSaved() {
                 Timber.d("DataSaved");
-                displayMessage(getCurrentFocus(),"Event Saved");
+                displayMessage(getCurrentFocus(),getResources().getString(R.string.event_Saved));
 
             }
 

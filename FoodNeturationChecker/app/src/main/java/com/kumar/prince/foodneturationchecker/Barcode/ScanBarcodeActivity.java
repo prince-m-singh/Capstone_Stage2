@@ -166,8 +166,8 @@ public class ScanBarcodeActivity extends AppCompatActivity {
             {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(contextScanBarcode);
                 alertBuilder.setCancelable(true);
-                alertBuilder.setTitle("Permission necessary");
-                alertBuilder.setMessage("CAMERA is necessary");
+                alertBuilder.setTitle(getResources().getString(R.string.permission_title));
+                alertBuilder.setMessage(getResources().getString(R.string.permission_message));
                 alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                     public void onClick(DialogInterface dialog, int which) {

@@ -48,18 +48,19 @@ public class FoodCheckerFavouriteFoodAdapter extends RecyclerView.Adapter<FoodCh
         String value = "";
         FabFoodEntity fabFoodEntity = favouriteFoodData.get(position);
         if (fabFoodEntity.getMGenericName().length() > 30) {
-            value = "Name:-" + fabFoodEntity.getMGenericName().substring(0, 30);
+            value = context.getResources().getString(R.string.product_name_lebel) + fabFoodEntity.getMGenericName().substring(0, 30);
             holder.textView.setText(value);
         } else {
-            value="Name:-" + fabFoodEntity.getMGenericName();
+            value=context.getResources().getString(R.string.product_name_lebel) + fabFoodEntity.getMGenericName().substring(0, 30);
             holder.textView.setText(value);
-            value="BarCode:-" + fabFoodEntity.getMBarcode();
+        }
+            value=context.getResources().getString(R.string.barcode_name_label) + fabFoodEntity.getMBarcode();
             holder.textView1.setText(value);
-            value="Grade:-  " + fabFoodEntity.getMNutritionGrades().toUpperCase();
+            value=context.getResources().getString(R.string.grade_label) + fabFoodEntity.getMNutritionGrades().toUpperCase();
             holder.textView2.setText(value);
             Picasso.with(context).load(fabFoodEntity.getMImageFrontSmallUrl()).into(holder.imageView);
             holder.fabFoodEntity = fabFoodEntity;
-        }
+
     }
 
     @Override

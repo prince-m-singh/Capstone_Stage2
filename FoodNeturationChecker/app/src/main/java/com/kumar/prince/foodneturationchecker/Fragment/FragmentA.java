@@ -265,24 +265,6 @@ public class FragmentA extends Fragment  implements
         startActivity(i);
     }
 
-   /* private void addEvenInDb(FoodCheckerEvent foodChecker_event){
-        EventDataSource fc_eventDataSource=EventDataSource.getInstance(getActivity().getContentResolver());
-        fc_eventDataSource.saveEvent(foodChecker_event, new FoodCheckerEventSourceInterface.Local.SaveEventCallback() {
-            @Override
-            public void onEventSaved() {
-                Timber.d("DataSaved");
-              //  displayMessage(getCurrentFocus(),"Event Saved");
-
-            }
-
-            @Override
-            public void onError() {
-                Timber.d("Error");
-               // displayMessage(getCurrentFocus(),"Event Not Saved");
-            }
-        });
-
-    }*/
 
 }
 

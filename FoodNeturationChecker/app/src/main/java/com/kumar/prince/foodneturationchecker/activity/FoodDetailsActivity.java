@@ -192,12 +192,15 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
                 if (dataStatus(foodChecker_product)){
                     removeDataFromDB(foodChecker_product);
                     fab.setImageResource(R.drawable.ic_favorite_border_red_24dp);
+                    Snackbar.make(view, getResources().getString(R.string.add_in_fab), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }else {
                     insertDataInDB(foodChecker_product);
                     fab.setImageResource(R.drawable.ic_favorite_red_24dp);
+                    Snackbar.make(view, getResources().getString(R.string.remove_from_fab), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
             }
         });
     }
