@@ -2,7 +2,7 @@ package com.kumar.prince.foodneturationchecker.communication;
 
 import android.support.annotation.NonNull;
 
-import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
+import com.kumar.prince.foodneturationchecker.Error.FoodCheckServerUnreachableException;
 
 import java.util.Collections;
 
@@ -17,7 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -63,7 +62,7 @@ public class FC_OpenFoodFactsAPIClient {
             builder.connectionSpecs(Collections.singletonList(spec));
             return builder.build();
         } catch (Exception e) {
-            throw new FC_ServerUnreachableException();
+            throw new FoodCheckServerUnreachableException();
         }
     }
 

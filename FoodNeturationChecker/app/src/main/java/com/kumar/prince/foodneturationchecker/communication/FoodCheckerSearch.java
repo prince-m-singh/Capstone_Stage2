@@ -2,7 +2,7 @@ package com.kumar.prince.foodneturationchecker.communication;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class FC_Search {
     private String page_size;
     @SerializedName("products")
     @Expose
-    private List<FC_Product> FCProducts = new ArrayList<FC_Product>();
+    private List<FoodCheckerProduct> FCProducts = new ArrayList<FoodCheckerProduct>();
     @SerializedName("page")
     @Expose
     private String page;
@@ -43,7 +43,7 @@ public class FC_Search {
      * @return
      *     The FCProducts
      */
-    public List<FC_Product> getFCProducts() {
+    public List<FoodCheckerProduct> getFCProducts() {
         return FCProducts;
     }
 

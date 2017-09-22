@@ -1,7 +1,6 @@
 package com.kumar.prince.foodneturationchecker.Adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.kumar.prince.fabfoodlibrary.FabFoodEntity;
 import com.kumar.prince.foodneturationchecker.R;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -20,10 +18,6 @@ import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
-
-import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_NOT_IN_OFF_DATABASE;
-import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_OK;
-import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_SERVER_UNREACHABLE;
 
 /**
  * Created by prince on 17/9/17.

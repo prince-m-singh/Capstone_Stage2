@@ -2,7 +2,7 @@ package com.kumar.prince.foodneturationchecker.data.callbackinterface;
 
 import android.support.annotation.NonNull;
 
-import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerEvent;
 
 
 /**
@@ -20,7 +20,7 @@ public interface FC_EventSourceInterface {
 
         }
 
-        void saveEvent(@NonNull FC_Event FCEvent, @NonNull SaveEventCallback saveEventCallback);
+        void saveEvent(@NonNull FoodCheckerEvent FCEvent, @NonNull SaveEventCallback saveEventCallback);
     }
 
 

@@ -2,7 +2,7 @@ package com.kumar.prince.foodneturationchecker.communication;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 
 
 /**
@@ -17,7 +17,7 @@ public class FC_ProductBarcode {
     private String status_verbose;
     @SerializedName("product")
     @Expose
-    private FC_Product FCProduct = new FC_Product();
+    private FoodCheckerProduct FCProduct = new FoodCheckerProduct();
     @SerializedName("status")
     @Expose
     private Integer status;
@@ -39,7 +39,7 @@ public class FC_ProductBarcode {
      * @return
      *     The FCProduct
      */
-    public FC_Product getFCProduct() {
+    public FoodCheckerProduct getFCProduct() {
         return FCProduct;
     }
 
@@ -48,7 +48,7 @@ public class FC_ProductBarcode {
      * @return
      *     The products
      */
-    public FC_Product getProducts() {
+    public FoodCheckerProduct getProducts() {
         return FCProduct;
     }
 

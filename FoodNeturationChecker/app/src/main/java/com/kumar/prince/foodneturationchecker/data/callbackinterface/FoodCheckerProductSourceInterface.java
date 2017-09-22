@@ -1,7 +1,8 @@
 package com.kumar.prince.foodneturationchecker.data.callbackinterface;
 
 import android.support.annotation.NonNull;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface FC_ProductSourceInterface {
 
     interface GetProductCallback {
 
-        void onProductLoaded(FC_Product FCProduct);
+        void onProductLoaded(FoodCheckerProduct FCProduct);
 
         void onError(Throwable throwable,String barCode);
 
@@ -20,7 +21,7 @@ public interface FC_ProductSourceInterface {
 
     interface GetProductsCallback {
 
-        void onProductsLoaded(List<FC_Product> FCProducts);
+        void onProductsLoaded(List<FoodCheckerProduct> FCProducts);
 
         void onError(Throwable throwable);
 

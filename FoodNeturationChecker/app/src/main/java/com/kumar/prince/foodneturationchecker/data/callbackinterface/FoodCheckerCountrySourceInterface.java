@@ -2,7 +2,7 @@ package com.kumar.prince.foodneturationchecker.data.callbackinterface;
 
 import android.support.annotation.NonNull;
 
-import com.kumar.prince.foodneturationchecker.data.model.FC_CountryCategory;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerCountryCategory;
 
 
 /**
@@ -12,7 +12,7 @@ public interface FC_CountrySourceInterface {
 
     interface GetCountryCategoryCallback {
 
-        void onCountryCategoryLoaded(FC_CountryCategory FCCountryCategory);
+        void onCountryCategoryLoaded(FoodCheckerCountryCategory FCCountryCategory);
 
         void onError(Throwable throwable);
 

@@ -10,17 +10,12 @@ import android.widget.TextView;
 
 import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.communication.FC_Search;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -29,8 +24,8 @@ import timber.log.Timber;
 
 public class FC_FoodListAdapter extends RecyclerView.Adapter<FC_FoodListAdapter.FC_FoodListViewHolder> implements Serializable{
     FC_Search fc_search;
-    List<FC_Product> fc_productList;
-    FC_Product fc_product;
+    List<FoodCheckerProduct> foodChecker_productList;
+    FoodCheckerProduct foodChecker_product;
     final private FC_FoodOnClickHandler fc_foodOnClickHandler;
 
     Context context;
@@ -50,27 +45,27 @@ public class FC_FoodListAdapter extends RecyclerView.Adapter<FC_FoodListAdapter.
     @Override
     public void onBindViewHolder(FC_FoodListViewHolder holder, int position) {
 
-        FC_Product fc_product = fc_productList.get(position);
-        holder.tv_food_product_name.setText(fc_product.getmGenericName());
-        Picasso.with(context).load(fc_product.getmImageFrontUrl()).into(holder.foodImageView);
-        holder.fc_productdata=fc_product;
+        FoodCheckerProduct foodChecker_product = foodChecker_productList.get(position);
+        holder.tv_food_product_name.setText(foodChecker_product.getmGenericName());
+        Picasso.with(context).load(foodChecker_product.getmImageFrontUrl()).into(holder.foodImageView);
+        holder.foodChecker_productdata = foodChecker_product;
     }
 
     @Override
     public int getItemCount() {
-        if (fc_productList==null)
+        if (foodChecker_productList ==null)
             return 0;
-        return fc_productList.size();
+        return foodChecker_productList.size();
     }
 
 
-    public void setEventData(List<FC_Product> fc_productList){
-        this.fc_productList=fc_productList;
+    public void setEventData(List<FoodCheckerProduct> foodChecker_productList){
+        this.foodChecker_productList = foodChecker_productList;
         notifyDataSetChanged();
     }
 
     public interface  FC_FoodOnClickHandler{
-        void onClick( FC_Product fc_product);
+        void onClick( FoodCheckerProduct foodChecker_product);
     }
 
 
@@ -80,7 +75,7 @@ public class FC_FoodListAdapter extends RecyclerView.Adapter<FC_FoodListAdapter.
                 ImageView foodImageView;
        // @BindView(R.id.tv_food_product_name)
                 TextView tv_food_product_name;
-        FC_Product fc_productdata;
+        FoodCheckerProduct foodChecker_productdata;
 
         public FC_FoodListViewHolder(View itemView) {
             super(itemView);
@@ -91,8 +86,8 @@ public class FC_FoodListAdapter extends RecyclerView.Adapter<FC_FoodListAdapter.
 
         @Override
         public void onClick(View view) {
-            Timber.d("Click Button"+fc_productdata.getmBarcode());
-            fc_foodOnClickHandler.onClick(fc_productdata);
+            Timber.d("Click Button"+ foodChecker_productdata.getmBarcode());
+            fc_foodOnClickHandler.onClick(foodChecker_productdata);
 
         }
     }

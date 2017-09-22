@@ -2,7 +2,7 @@ package com.kumar.prince.foodneturationchecker.data.callbackinterface;
 
 import android.support.annotation.NonNull;
 
-import com.kumar.prince.foodneturationchecker.data.model.FC_Category;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerCategory;
 
 
 /**
@@ -12,7 +12,7 @@ public interface FC_CategorySourceInterface {
 
     interface GetCategoryCallback {
 
-        void onCategoryLoaded(FC_Category FCCategory);
+        void onCategoryLoaded(FoodCheckerCategory FCCategory);
 
         void onError(Throwable throwable);
 
