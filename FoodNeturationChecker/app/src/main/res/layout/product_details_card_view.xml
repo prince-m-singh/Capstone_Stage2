@@ -93,7 +93,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            tools:text="@string/quantity_label "
+            tools:text="@string/quantity_label"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textStyle="bold"
             card_view:layout_constraintStart_toEndOf="@+id/tv_barcode_value"

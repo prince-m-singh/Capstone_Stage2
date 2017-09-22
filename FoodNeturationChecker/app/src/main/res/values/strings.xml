@@ -18,7 +18,7 @@
     <string name="quantity_label">Quantity:</string>
     <string name="quantity_value">1Kg</string>
     <string name="categories_label">Categories:</string>
-    <string name="categories_value">Not Avilable</string>
+    <string name="categories_value">Not Available</string>
     <string name="brand_label">Brand:</string>
     <string name="brand_value">Not Present</string>
     <string name="title_message">Other Suggested Foods</string>
