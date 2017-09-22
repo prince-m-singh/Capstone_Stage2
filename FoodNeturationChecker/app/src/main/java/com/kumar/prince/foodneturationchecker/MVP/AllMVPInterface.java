@@ -1,7 +1,7 @@
 package com.kumar.prince.foodneturationchecker.MVP;
 
-import com.kumar.prince.foodneturationchecker.communication.FC_Search;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+import com.kumar.prince.foodneturationchecker.communication.FoodCheckerSearch;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 
 /**
  * Created by prince on 13/9/17.
@@ -16,8 +16,8 @@ public  interface AllMVPInterface {
     }
 
     interface IAllProductsView{
-        void getListOfProducts(String category, FC_Search fc_search);
-        void getProductDetails(FC_Product fc_product);
+        void getListOfProducts(String category, FoodCheckerSearch foodChecker_search);
+        void getProductDetails(FoodCheckerProduct foodChecker_product);
         void getError();
     }
 

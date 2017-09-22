@@ -2,10 +2,8 @@ package com.kumar.prince.foodneturationchecker.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -15,26 +13,20 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import com.kumar.prince.foodneturationchecker.Adapter.CustomAdapter;
 import com.kumar.prince.foodneturationchecker.Adapter.EventRecylerViewAdapter;
-import com.kumar.prince.foodneturationchecker.Error.FC_ProductNotExistException;
-import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
+import com.kumar.prince.foodneturationchecker.Error.FoodCheckerProductnotexistexception;
+import com.kumar.prince.foodneturationchecker.Error.FoodCheckServerUnreachableException;
 import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.activity.FoodDetailsActivity;
-import com.kumar.prince.foodneturationchecker.communication.FC_OpenFoodFactsAPIClient;
-import com.kumar.prince.foodneturationchecker.communication.FC_ProductBarcode;
-import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_EventSourceInterface;
-import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_ProductSourceInterface;
-import com.kumar.prince.foodneturationchecker.data.local.FC_EventContract;
-import com.kumar.prince.foodneturationchecker.data.local.FC_EventDataSource;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+import com.kumar.prince.foodneturationchecker.communication.FoodCheckerOpenFoodFactsAPIClient;
+import com.kumar.prince.foodneturationchecker.communication.FoodCheckerProductBarcode;
+import com.kumar.prince.foodneturationchecker.data.local.FoodCheckerEventContract;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerEvent;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,7 +51,7 @@ public class FragmentA extends Fragment  implements
 
     private RecyclerView recyclerView;
     private CardView cardView;
-    private List<FC_Event> fc_eventList;
+    private List<FoodCheckerEvent> foodChecker_eventList;
     RecyclerView.LayoutManager mLayoutManager;
     EventRecylerViewAdapter eventRecylerViewAdapter;
     private static final int TASK_LOADER_ID=0;
@@ -106,15 +98,15 @@ public class FragmentA extends Fragment  implements
     }
 
     @Override
-    public void onClick(FC_Event fc_event) {
-        Snackbar.make(this.getView(), fc_event.getBarcode()+":- "+ fc_event.getStatus(), Snackbar.LENGTH_LONG)
+    public void onClick(FoodCheckerEvent foodChecker_event) {
+        Snackbar.make(this.getView(), foodChecker_event.getBarcode()+":- "+ foodChecker_event.getStatus(), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-       Timber.d(fc_event.getBarcode());
-//       addEvenInDb(fc_event);
-       if (dataFoundStatus(fc_event)){
-           getAllDataOfBarCode(fc_event.getBarcode());
+       Timber.d(foodChecker_event.getBarcode());
+//       addEvenInDb(foodChecker_event);
+       if (dataFoundStatus(foodChecker_event)){
+           getAllDataOfBarCode(foodChecker_event.getBarcode());
        }else {
-           Snackbar.make(this.getView(), fc_event.getBarcode()+":- "+ fc_event.getStatus(), Snackbar.LENGTH_LONG)
+           Snackbar.make(this.getView(), foodChecker_event.getBarcode()+":- "+ foodChecker_event.getStatus(), Snackbar.LENGTH_LONG)
                    .setAction("Action", null).show();
        }
   //      getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
@@ -141,9 +133,9 @@ public class FragmentA extends Fragment  implements
             @Override
             public Cursor loadInBackground() {
                 try {
-                    Cursor cursor=this.getContext().getContentResolver().query(FC_EventContract.EventEntry.buildEventUri(), FC_EventContract.EventEntry.EVENT_COLUMNS,
-                            null,null, FC_EventContract.EventEntry.COLUMN_NAME_TIMESTAMP+" DESC");
-                    //cursor.setNotificationUri(this.getContext().getContentResolver(), FC_EventContract.EventEntry.buildEventUri());
+                    Cursor cursor=this.getContext().getContentResolver().query(FoodCheckerEventContract.EventEntry.buildEventUri(), FoodCheckerEventContract.EventEntry.EVENT_COLUMNS,
+                            null,null, FoodCheckerEventContract.EventEntry.COLUMN_NAME_TIMESTAMP+" DESC");
+                    //cursor.setNotificationUri(this.getContext().getContentResolver(), FoodCheckerEventContract.EventEntry.buildEventUri());
                     return cursor;
 
                 }catch (Exception ex){
@@ -166,7 +158,7 @@ public class FragmentA extends Fragment  implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        fc_eventList=getDataTestEvent(data);
+        foodChecker_eventList =getDataTestEvent(data);
     }
 
     @Override
@@ -174,9 +166,9 @@ public class FragmentA extends Fragment  implements
 
     }
 
-    private List<FC_Event> getDataTestEvent(Cursor cursor){
+    private List<FoodCheckerEvent> getDataTestEvent(Cursor cursor){
         Timber.d("Data in DB "+cursor.getCount() + " "+cursor.getColumnNames().length);
-        List <FC_Event> list=new ArrayList<>();
+        List <FoodCheckerEvent> list=new ArrayList<>();
         for (int i=0;i<cursor.getColumnNames().length;i++)
             Timber.d(cursor.getColumnNames()[i]);
         if (cursor==null){
@@ -190,11 +182,11 @@ public class FragmentA extends Fragment  implements
         int indexmStatus=cursor.getColumnIndex("status");
         if (cursor.moveToFirst()){
             do {
-                FC_Event fc_event=new FC_Event(cursor.getLong(indexmTimestamp),
+                FoodCheckerEvent foodChecker_event =new FoodCheckerEvent(cursor.getLong(indexmTimestamp),
                         cursor.getString(indexmBarcode),cursor.getString(indexmStatus));
-                Timber.d(fc_event.toString());
-                list.add(fc_event);
-                longToDate(fc_event.getTimestamp());
+                Timber.d(foodChecker_event.toString());
+                list.add(foodChecker_event);
+                longToDate(foodChecker_event.getTimestamp());
             }while (cursor.moveToNext());
 
         }
@@ -214,42 +206,42 @@ public class FragmentA extends Fragment  implements
 
 
     private void getAllDataOfBarCode(String barcode){
-        FC_OpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FC_OpenFoodFactsAPIClient(FC_OpenFoodFactsAPIClient.ENDPOINT_BARCODE);
-        Call<FC_ProductBarcode> call = FCOpenFoodFactsAPIClient.getProduct(barcode);
+        FoodCheckerOpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FoodCheckerOpenFoodFactsAPIClient(FoodCheckerOpenFoodFactsAPIClient.ENDPOINT_BARCODE);
+        Call<FoodCheckerProductBarcode> call = FCOpenFoodFactsAPIClient.getProduct(barcode);
 
-        call.enqueue(new Callback<FC_ProductBarcode>() {
+        call.enqueue(new Callback<FoodCheckerProductBarcode>() {
             @Override
-            public void onResponse(Call<FC_ProductBarcode> call, Response<FC_ProductBarcode> response) {
+            public void onResponse(Call<FoodCheckerProductBarcode> call, Response<FoodCheckerProductBarcode> response) {
 
                 if (!response.isSuccessful() || response.body() == null) {
-                    FC_ServerUnreachableException e = new FC_ServerUnreachableException();
+                    FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                     Timber.w(e);
                    // getProductCallback.onError(e,barcode);
                     return;
                 }
-                FC_ProductBarcode fc_productBarcode = response.body();
-                Timber.d(response.message()+" "+fc_productBarcode.toString());
-                if (fc_productBarcode.getStatus() != 1) {
-                    FC_ProductNotExistException e = new FC_ProductNotExistException();
+                FoodCheckerProductBarcode foodChecker_productBarcode = response.body();
+                Timber.d(response.message()+" "+ foodChecker_productBarcode.toString());
+                if (foodChecker_productBarcode.getStatus() != 1) {
+                    FoodCheckerProductnotexistexception e = new FoodCheckerProductnotexistexception();
                     Timber.w(e);
                     //getProductCallback.onError(e,barcode);
                     return;
                 }
-                FC_Product fc_product=fc_productBarcode.getFCProduct();
-                Timber.w(response.message()+" "+fc_product.toString());
-                //addEvenInDb(fc_event);
-                newActivityStart(fc_product);
-                /*fc_event=new FC_Event(barcode,"Found");
-                //addEvenInDb(fc_event);
-                getProductCallback.onProductLoaded(fc_product);*/
+                FoodCheckerProduct foodChecker_product = foodChecker_productBarcode.getFCProduct();
+                Timber.w(response.message()+" "+ foodChecker_product.toString());
+                //addEvenInDb(foodChecker_event);
+                newActivityStart(foodChecker_product);
+                /*foodChecker_event=new FoodCheckerEvent(barcode,"Found");
+                //addEvenInDb(foodChecker_event);
+                getProductCallback.onProductLoaded(foodChecker_product);*/
 
             }
 
             @Override
-            public void onFailure(Call<FC_ProductBarcode> call, Throwable t) {
-                FC_ServerUnreachableException e = new FC_ServerUnreachableException();
+            public void onFailure(Call<FoodCheckerProductBarcode> call, Throwable t) {
+                FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                 Timber.d(e.getMessage());
-                /*fc_event=new FC_Event(barcode,"NotFound");
+                /*foodChecker_event=new FoodCheckerEvent(barcode,"NotFound");
                 getProductCallback.onError(e,barcode);*/
 
 
@@ -259,23 +251,23 @@ public class FragmentA extends Fragment  implements
 
     }
 
-    private boolean dataFoundStatus(FC_Event fc_event){
-        if (fc_event.getStatus().equals(STATUS_OK))
+    private boolean dataFoundStatus(FoodCheckerEvent foodChecker_event){
+        if (foodChecker_event.getStatus().equals(STATUS_OK))
             return true;
-        else if (fc_event.getStatus().equals(STATUS_SERVER_UNREACHABLE))
+        else if (foodChecker_event.getStatus().equals(STATUS_SERVER_UNREACHABLE))
             return true;
         return false;
     }
 
-    private void newActivityStart(FC_Product fc_product){
+    private void newActivityStart(FoodCheckerProduct foodChecker_product){
         Intent i = new Intent(getActivity(), FoodDetailsActivity.class);
-        i.putExtra("sampleObject", fc_product);
+        i.putExtra("sampleObject", foodChecker_product);
         startActivity(i);
     }
 
-   /* private void addEvenInDb(FC_Event fc_event){
-        FC_EventDataSource fc_eventDataSource=FC_EventDataSource.getInstance(getActivity().getContentResolver());
-        fc_eventDataSource.saveEvent(fc_event, new FC_EventSourceInterface.Local.SaveEventCallback() {
+   /* private void addEvenInDb(FoodCheckerEvent foodChecker_event){
+        EventDataSource fc_eventDataSource=EventDataSource.getInstance(getActivity().getContentResolver());
+        fc_eventDataSource.saveEvent(foodChecker_event, new FoodCheckerEventSourceInterface.Local.SaveEventCallback() {
             @Override
             public void onEventSaved() {
                 Timber.d("DataSaved");

@@ -6,9 +6,9 @@ import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_N
  *  Created by prince on 29/8/17.
  * */
 
-public class FC_ProductNotExistException extends Exception {
+public class FoodCheckerProductnotexistexception extends Exception {
 
-    public FC_ProductNotExistException(){
+    public FoodCheckerProductnotexistexception(){
         super(STATUS_NOT_IN_OFF_DATABASE);
     }
 

@@ -6,9 +6,9 @@ import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_S
  *  Created by prince on 29/8/17.
  * */
 
-public class FC_ServerUnreachableException extends RuntimeException {
+public class FoodCheckServerUnreachableException extends RuntimeException {
 
-    public FC_ServerUnreachableException(){
+    public FoodCheckServerUnreachableException(){
         super(STATUS_SERVER_UNREACHABLE);
 
     }

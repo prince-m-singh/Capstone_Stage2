@@ -11,27 +11,27 @@ import android.support.annotation.Nullable;
 * Created by prince on 25/8/17.
 * */
 
-public class FC_ContentProvider extends android.content.ContentProvider {
+public class FoodCheckerContentProvider extends android.content.ContentProvider {
 
     private static final int EVENT = 200;
     private static final int EVENT_ITEM = 201;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
-    private FC_DbHelper mLocalFCDbHelper;
+    private FoodCheckerDbHelper mLocalFCDbHelper;
 
     private static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        final String authority = FC_EventContract.CONTENT_AUTHORITY;
+        final String authority = FoodCheckerEventContract.CONTENT_AUTHORITY;
 
-        matcher.addURI(authority, FC_EventContract.EventEntry.TABLE_NAME, EVENT);
-        matcher.addURI(authority, FC_EventContract.EventEntry.TABLE_NAME + "/*", EVENT_ITEM);
+        matcher.addURI(authority, FoodCheckerEventContract.EventEntry.TABLE_NAME, EVENT);
+        matcher.addURI(authority, FoodCheckerEventContract.EventEntry.TABLE_NAME + "/*", EVENT_ITEM);
 
         return matcher;
     }
 
     @Override
     public boolean onCreate() {
-        mLocalFCDbHelper = new FC_DbHelper(getContext());
+        mLocalFCDbHelper = new FoodCheckerDbHelper(getContext());
         return true;
     }
 
@@ -41,9 +41,9 @@ public class FC_ContentProvider extends android.content.ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case EVENT:
-                return FC_EventContract.CONTENT_TYPE;
+                return FoodCheckerEventContract.CONTENT_TYPE;
             case EVENT_ITEM:
-                return FC_EventContract.CONTENT_ITEM_TYPE;
+                return FoodCheckerEventContract.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -56,7 +56,7 @@ public class FC_ContentProvider extends android.content.ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case EVENT:
                 retCursor = mLocalFCDbHelper.getReadableDatabase().query(
-                        FC_EventContract.EventEntry.TABLE_NAME,
+                        FoodCheckerEventContract.EventEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -68,9 +68,9 @@ public class FC_ContentProvider extends android.content.ContentProvider {
             case EVENT_ITEM:
                 String[] where_event = {uri.getLastPathSegment()};
                 retCursor = mLocalFCDbHelper.getReadableDatabase().query(
-                        FC_EventContract.EventEntry.TABLE_NAME,
+                        FoodCheckerEventContract.EventEntry.TABLE_NAME,
                         projection,
-                        FC_EventContract.EventEntry._ID + " = ?",
+                        FoodCheckerEventContract.EventEntry._ID + " = ?",
                         where_event,
                         null,
                         null,
@@ -95,29 +95,29 @@ public class FC_ContentProvider extends android.content.ContentProvider {
         switch (match) {
             case EVENT:
                 exists = db.query(
-                        FC_EventContract.EventEntry.TABLE_NAME,
-                        new String[]{FC_EventContract.EventEntry._ID},
-                        FC_EventContract.EventEntry._ID + " = ?",
-                        new String[]{values.getAsString(FC_EventContract.EventEntry._ID)},
+                        FoodCheckerEventContract.EventEntry.TABLE_NAME,
+                        new String[]{FoodCheckerEventContract.EventEntry._ID},
+                        FoodCheckerEventContract.EventEntry._ID + " = ?",
+                        new String[]{values.getAsString(FoodCheckerEventContract.EventEntry._ID)},
                         null,
                         null,
                         null
                 );
                 if (exists.moveToLast()) {
                     long _id = db.update(
-                            FC_EventContract.EventEntry.TABLE_NAME, values,
-                            FC_EventContract.EventEntry._ID + " = ?",
-                            new String[]{values.getAsString(FC_EventContract.EventEntry._ID)}
+                            FoodCheckerEventContract.EventEntry.TABLE_NAME, values,
+                            FoodCheckerEventContract.EventEntry._ID + " = ?",
+                            new String[]{values.getAsString(FoodCheckerEventContract.EventEntry._ID)}
                     );
                     if (_id > 0) {
-                        returnUri = FC_EventContract.EventEntry.buildEventUriWith(_id);
+                        returnUri = FoodCheckerEventContract.EventEntry.buildEventUriWith(_id);
                     } else {
                         throw new android.database.SQLException("Failed to insert row into " + uri);
                     }
                 } else {
-                    long _id = db.insert(FC_EventContract.EventEntry.TABLE_NAME, null, values);
+                    long _id = db.insert(FoodCheckerEventContract.EventEntry.TABLE_NAME, null, values);
                     if (_id > 0) {
-                        returnUri = FC_EventContract.EventEntry.buildEventUriWith(_id);
+                        returnUri = FoodCheckerEventContract.EventEntry.buildEventUriWith(_id);
                     } else {
                         throw new android.database.SQLException("Failed to insert row into " + uri + "   " + values.toString());
                     }
@@ -141,7 +141,7 @@ public class FC_ContentProvider extends android.content.ContentProvider {
         switch (match) {
             case EVENT:
                 rowsDeleted = db.delete(
-                        FC_EventContract.EventEntry.TABLE_NAME, selection, selectionArgs);
+                        FoodCheckerEventContract.EventEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -160,7 +160,7 @@ public class FC_ContentProvider extends android.content.ContentProvider {
 
         switch (match) {
             case EVENT:
-                rowsUpdated = db.update(FC_EventContract.EventEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(FoodCheckerEventContract.EventEntry.TABLE_NAME, values, selection,
                         selectionArgs
                 );
                 break;

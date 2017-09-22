@@ -8,7 +8,7 @@ import timber.log.Timber;
  * Created by prince on 26/8/17.
  */
 
-public class FC_Application  extends Application{
+public class FoodCheckApplication extends Application{
 
     @Override
     public void onCreate() {

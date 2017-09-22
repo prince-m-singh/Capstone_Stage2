@@ -8,7 +8,7 @@ import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerEvent;
 /**
  * Main entry point for accessing event data.
  */
-public interface FC_EventSourceInterface {
+public interface FoodCheckerEventSourceInterface {
 
     interface Local {
 

@@ -4,14 +4,14 @@ package com.kumar.prince.foodneturationchecker.data.model;
  *  Created by prince on 25/8/17.
  * */
 
-public class FC_Category {
+public class FoodCheckerCategory {
 
 
     private long mId;
     private String mCategoryKey;
     private String mCategoryName;
 
-    public FC_Category(long mId, String mCategoryKey, String mCategoryName) {
+    public FoodCheckerCategory(long mId, String mCategoryKey, String mCategoryName) {
         this.mId = mId;
         this.mCategoryKey = mCategoryKey;
         this.mCategoryName = mCategoryName;
@@ -44,9 +44,9 @@ public class FC_Category {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof FC_Category)) return false;
+        if (!(o instanceof FoodCheckerCategory)) return false;
 
-        FC_Category that = (FC_Category) o;
+        FoodCheckerCategory that = (FoodCheckerCategory) o;
 
         if (getmId() != that.getmId()) return false;
         if (!getmCategoryKey().equals(that.getmCategoryKey())) return false;

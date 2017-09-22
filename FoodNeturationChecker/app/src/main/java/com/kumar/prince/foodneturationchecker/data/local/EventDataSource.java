@@ -7,9 +7,9 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 
-import com.kumar.prince.foodneturationchecker.data.FC_EventValues;
-import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_EventSourceInterface;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
+import com.kumar.prince.foodneturationchecker.data.FoodCheckerEventValues;
+import com.kumar.prince.foodneturationchecker.data.callbackinterface.FoodCheckerEventSourceInterface;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerEvent;
 
 import timber.log.Timber;
 
@@ -19,21 +19,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by prince on 26/8/17.
  * Concrete implementation of a data source as a db.
  */
-public class FC_EventDataSource implements FC_EventSourceInterface.Local {
+public class EventDataSource implements FoodCheckerEventSourceInterface.Local {
 
-    private static FC_EventDataSource INSTANCE;
+    private static EventDataSource INSTANCE;
 
     private ContentResolver mContentResolver;
 
     // Prevent direct instantiation.
-    private FC_EventDataSource(@NonNull ContentResolver contentResolver) {
+    private EventDataSource(@NonNull ContentResolver contentResolver) {
         checkNotNull(contentResolver);
         mContentResolver = contentResolver;
     }
 
-    public static FC_EventDataSource getInstance(@NonNull ContentResolver contentResolver) {
+    public static EventDataSource getInstance(@NonNull ContentResolver contentResolver) {
         if (INSTANCE == null) {
-            INSTANCE = new FC_EventDataSource(contentResolver);
+            INSTANCE = new EventDataSource(contentResolver);
         }
         return INSTANCE;
     }
@@ -42,15 +42,15 @@ public class FC_EventDataSource implements FC_EventSourceInterface.Local {
        Timber.d( "checkExistEvent");
 
         Cursor cursor = mContentResolver.query(
-                FC_EventContract.EventEntry.buildEventUri(),
+                FoodCheckerEventContract.EventEntry.buildEventUri(),
                 null,
-                FC_EventContract.EventEntry.COLUMN_NAME_BARCODE + " = ?",
+                FoodCheckerEventContract.EventEntry.COLUMN_NAME_BARCODE + " = ?",
                 new String[]{barcode},
                 null);
 
         if (cursor != null){
             if (cursor.moveToLast()) {
-                long _id = cursor.getLong(cursor.getColumnIndex(FC_EventContract.EventEntry._ID));
+                long _id = cursor.getLong(cursor.getColumnIndex(FoodCheckerEventContract.EventEntry._ID));
                 checkExistEventCallback.onEventExisted(_id);
             } else {
                 checkExistEventCallback.onEventNotExisted();
@@ -61,13 +61,13 @@ public class FC_EventDataSource implements FC_EventSourceInterface.Local {
         }
     }
 
-    private void addEvent(@NonNull FC_Event FC_Event, @NonNull AddEventCallback addEventCallback) {
+    private void addEvent(@NonNull FoodCheckerEvent FoodCheckerEvent, @NonNull AddEventCallback addEventCallback) {
        Timber.d( "addEvent");
 
-        checkNotNull(FC_Event);
+        checkNotNull(FoodCheckerEvent);
 
-        ContentValues values = FC_EventValues.from(FC_Event);
-        Uri uri = mContentResolver.insert(FC_EventContract.EventEntry.buildEventUri(), values);
+        ContentValues values = FoodCheckerEventValues.from(FoodCheckerEvent);
+        Uri uri = mContentResolver.insert(FoodCheckerEventContract.EventEntry.buildEventUri(), values);
 
         if (uri != null) {
             mContentResolver.notifyChange(uri, null, false);
@@ -77,20 +77,20 @@ public class FC_EventDataSource implements FC_EventSourceInterface.Local {
         }
     }
 
-    private void updateEvent(@NonNull FC_Event FC_Event, @NonNull UpdateEventCallback updateEventCallback) {
+    private void updateEvent(@NonNull FoodCheckerEvent FoodCheckerEvent, @NonNull UpdateEventCallback updateEventCallback) {
        Timber.d( "updateEvent");
 
-        checkNotNull(FC_Event);
+        checkNotNull(FoodCheckerEvent);
 
-        ContentValues values = FC_EventValues.from(FC_Event);
+        ContentValues values = FoodCheckerEventValues.from(FoodCheckerEvent);
 
-        String selection = FC_EventContract.EventEntry._ID + " LIKE ?";
-        String[] selectionArgs = {FC_Event.getAsStringId()};
+        String selection = FoodCheckerEventContract.EventEntry._ID + " LIKE ?";
+        String[] selectionArgs = {FoodCheckerEvent.getAsStringId()};
 
-        int rows = mContentResolver.update(FC_EventContract.EventEntry.buildEventUri(), values, selection, selectionArgs);
+        int rows = mContentResolver.update(FoodCheckerEventContract.EventEntry.buildEventUri(), values, selection, selectionArgs);
 
         if (rows != 0) {
-            mContentResolver.notifyChange(FC_EventContract.EventEntry.buildEventUri(),null);
+            mContentResolver.notifyChange(FoodCheckerEventContract.EventEntry.buildEventUri(),null);
             updateEventCallback.onEventUpdated();
         } else {
             updateEventCallback.onError();
@@ -98,19 +98,19 @@ public class FC_EventDataSource implements FC_EventSourceInterface.Local {
     }
 
     @Override
-    public void saveEvent(@NonNull final FC_Event FC_Event, @NonNull final SaveEventCallback saveEventCallback) {
+    public void saveEvent(@NonNull final FoodCheckerEvent FoodCheckerEvent, @NonNull final SaveEventCallback saveEventCallback) {
        Timber.d( "saveEvent");
 
-        checkNotNull(FC_Event);
+        checkNotNull(FoodCheckerEvent);
 
-        String barcode = FC_Event.getBarcode();
+        String barcode = FoodCheckerEvent.getBarcode();
 
         checkExistEvent(barcode, new CheckExistEventCallback() {
 
             @Override
             public void onEventExisted(long id) {
-                FC_Event.setId(id);
-                updateEvent(FC_Event, new UpdateEventCallback() {
+                FoodCheckerEvent.setId(id);
+                updateEvent(FoodCheckerEvent, new UpdateEventCallback() {
                     @Override
                     public void onEventUpdated() {
                        Timber.d( "onEventExisted - onEventUpdated");
@@ -127,7 +127,7 @@ public class FC_EventDataSource implements FC_EventSourceInterface.Local {
 
             @Override
             public void onEventNotExisted() {
-                addEvent(FC_Event, new AddEventCallback() {
+                addEvent(FoodCheckerEvent, new AddEventCallback() {
                     @Override
                     public void onEventAdded() {
                        Timber.d( "onEventNotExisted - onEventAdded");

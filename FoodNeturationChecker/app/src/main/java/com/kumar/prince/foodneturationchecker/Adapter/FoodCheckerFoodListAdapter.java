@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kumar.prince.foodneturationchecker.R;
-import com.kumar.prince.foodneturationchecker.communication.FC_Search;
+import com.kumar.prince.foodneturationchecker.communication.FoodCheckerSearch;
 import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 import com.squareup.picasso.Picasso;
 
@@ -22,15 +22,15 @@ import timber.log.Timber;
  * Created by prince on 15/9/17.
  */
 
-public class FC_FoodListAdapter extends RecyclerView.Adapter<FC_FoodListAdapter.FC_FoodListViewHolder> implements Serializable{
-    FC_Search fc_search;
+public class FoodCheckerFoodListAdapter extends RecyclerView.Adapter<FoodCheckerFoodListAdapter.FC_FoodListViewHolder> implements Serializable{
+    FoodCheckerSearch foodChecker_search;
     List<FoodCheckerProduct> foodChecker_productList;
     FoodCheckerProduct foodChecker_product;
     final private FC_FoodOnClickHandler fc_foodOnClickHandler;
 
     Context context;
 
-    public FC_FoodListAdapter(FC_FoodOnClickHandler fc_foodOnClickHandler){
+    public FoodCheckerFoodListAdapter(FC_FoodOnClickHandler fc_foodOnClickHandler){
         this.fc_foodOnClickHandler=fc_foodOnClickHandler;
     }
 

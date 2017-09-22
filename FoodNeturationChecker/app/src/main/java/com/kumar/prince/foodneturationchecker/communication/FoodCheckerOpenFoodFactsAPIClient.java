@@ -24,7 +24,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *  Created by prince on 29/8/17.
  * */
 
-public class FC_OpenFoodFactsAPIClient {
+public class FoodCheckerOpenFoodFactsAPIClient {
 
 
     public static final String ENDPOINT_BARCODE = "https://world.openfoodfacts.org/api/v0/product/";
@@ -32,7 +32,7 @@ public class FC_OpenFoodFactsAPIClient {
 
     private final OpenFoodFactsApi mOpenFoodFactsAPI;
 
-    public FC_OpenFoodFactsAPIClient(@NonNull String endpoint) {
+    public FoodCheckerOpenFoodFactsAPIClient(@NonNull String endpoint) {
         checkNotNull(endpoint);
 
         this.mOpenFoodFactsAPI = new Retrofit.Builder()
@@ -67,16 +67,16 @@ public class FC_OpenFoodFactsAPIClient {
     }
 
 
-    public Call<FC_ProductBarcode> getProduct(@NonNull final String barcode) {
+    public Call<FoodCheckerProductBarcode> getProduct(@NonNull final String barcode) {
         return this.mOpenFoodFactsAPI.getProduct(barcode);
     }
 
-    public Call<FC_Search> getProducts(@NonNull String categoryKey,
-                                       @NonNull String nutritionGradeValue) {
+    public Call<FoodCheckerSearch> getProducts(@NonNull String categoryKey,
+                                               @NonNull String nutritionGradeValue) {
         return this.mOpenFoodFactsAPI.getProducts(categoryKey, nutritionGradeValue);
     }
 
-    public Call<FC_Search> getCountryCategory(@NonNull final String categoryKey, @NonNull final String countryKey) {
+    public Call<FoodCheckerSearch> getCountryCategory(@NonNull final String categoryKey, @NonNull final String countryKey) {
         return this.mOpenFoodFactsAPI.getCountryCategory(categoryKey, countryKey);
     }
 
@@ -86,13 +86,13 @@ public class FC_OpenFoodFactsAPIClient {
 
         //Example : http://world.openfoodfacts.org/api/v0/product/3046920029759.json
         @GET("{barcode}.json")
-        Call<FC_ProductBarcode> getProduct(
+        Call<FoodCheckerProductBarcode> getProduct(
                 @Path("barcode") String barcode
         );
 
         //Example : http://world.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=cheese&tagtype_1=countries&tag_contains_1=contains&tag_1=france&tagtype_2=nutrition_grades&tag_contains_2=contains&tag_2=a&sort_by=unique_scans_n&page_size=20&page=1&json=1
         @GET("search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tagtype_1=nutrition_grades&tag_contains_1=contains&sort_by=unique_scans_n&page_size=20&page=1&json=1")
-        Call<FC_Search> getProducts(
+        Call<FoodCheckerSearch> getProducts(
                 @Query("tag_0") String categoryKey,
                 @Query("tag_1") String nutritionGrade
         );
@@ -100,7 +100,7 @@ public class FC_OpenFoodFactsAPIClient {
 
         //Example : http://world.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=cheese&tagtype_1=countries&tag_contains_1=contains&tag_1=france&tagtype_2=nutrition_grades&tag_contains_2=does_not_contain&tag_2=unknown&sort_by=unique_scans_n&page_size=5&page=1&json=1
         @GET("search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tagtype_1=countries&tag_contains_1=contains&tagtype_2=nutrition_grades&tag_contains_2=does_not_contain&tag_2=unknown&sort_by=unique_scans_n&page_size=5&page=1&json=1")
-        Call<FC_Search> getCountryCategory(
+        Call<FoodCheckerSearch> getCountryCategory(
                 @Query("tag_0") String categoryKey,
                 @Query("tag_1") String countryKey
         );

@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.kumar.prince.foodneturationchecker.data.local.FC_EventContract;
+import com.kumar.prince.foodneturationchecker.data.local.FoodCheckerEventContract;
 
 import java.util.Random;
 
@@ -12,7 +12,7 @@ import java.util.Random;
  *  Created by prince on 25/8/17.
  * */
 
-public class FC_Event {
+public class FoodCheckerEvent {
 
     @NonNull
     private long mId;
@@ -57,20 +57,20 @@ public class FC_Event {
         this.mStatus = mStatus;
     }
 
-    public FC_Event(@NonNull long mId, long mTimestamp, String mBarcode, String mStatus) {
+    public FoodCheckerEvent(@NonNull long mId, long mTimestamp, String mBarcode, String mStatus) {
         this.mId = mId;
         this.mTimestamp = mTimestamp;
         this.mBarcode = mBarcode;
         this.mStatus = mStatus;
     }
 
-    public FC_Event(long mTimestamp, String mBarcode, String mStatus) {
+    public FoodCheckerEvent(long mTimestamp, String mBarcode, String mStatus) {
         this.mTimestamp = mTimestamp;
         this.mBarcode = mBarcode;
         this.mStatus = mStatus;
     }
 
-    public FC_Event(String barcode, String status) {
+    public FoodCheckerEvent(String barcode, String status) {
         Long x = 1234567L;
         Long y = 23456789L;
         Random r = new Random();
@@ -81,29 +81,29 @@ public class FC_Event {
     }
 
     /**
-     * Use this constructor to return a FC_Event from a Cursor
+     * Use this constructor to return a FoodCheckerEvent from a Cursor
      *
      * @return
      */
-    public static FC_Event from(Cursor cursor) {
+    public static FoodCheckerEvent from(Cursor cursor) {
         long id = cursor.getLong(cursor.getColumnIndexOrThrow(
-                FC_EventContract.EventEntry._ID));
+                FoodCheckerEventContract.EventEntry._ID));
         long timestamp = cursor.getLong(cursor.getColumnIndexOrThrow(
-                FC_EventContract.EventEntry.COLUMN_NAME_TIMESTAMP));
+                FoodCheckerEventContract.EventEntry.COLUMN_NAME_TIMESTAMP));
         String barcode = cursor.getString(cursor.getColumnIndexOrThrow(
-                FC_EventContract.EventEntry.COLUMN_NAME_BARCODE));
+                FoodCheckerEventContract.EventEntry.COLUMN_NAME_BARCODE));
         String status = cursor.getString(cursor.getColumnIndexOrThrow(
-                FC_EventContract.EventEntry.COLUMN_NAME_STATUS));
-        return new FC_Event(id, timestamp, barcode, status);
+                FoodCheckerEventContract.EventEntry.COLUMN_NAME_STATUS));
+        return new FoodCheckerEvent(id, timestamp, barcode, status);
     }
 
 
-    public static FC_Event from(ContentValues values) {
-        long id = values.getAsLong(FC_EventContract.EventEntry._ID);
-        long timestamp = values.getAsLong(FC_EventContract.EventEntry.COLUMN_NAME_TIMESTAMP);
-        String barcode = values.getAsString(FC_EventContract.EventEntry.COLUMN_NAME_BARCODE);
-        String status = values.getAsString(FC_EventContract.EventEntry.COLUMN_NAME_STATUS);
-        return new FC_Event(id, timestamp, barcode, status);
+    public static FoodCheckerEvent from(ContentValues values) {
+        long id = values.getAsLong(FoodCheckerEventContract.EventEntry._ID);
+        long timestamp = values.getAsLong(FoodCheckerEventContract.EventEntry.COLUMN_NAME_TIMESTAMP);
+        String barcode = values.getAsString(FoodCheckerEventContract.EventEntry.COLUMN_NAME_BARCODE);
+        String status = values.getAsString(FoodCheckerEventContract.EventEntry.COLUMN_NAME_STATUS);
+        return new FoodCheckerEvent(id, timestamp, barcode, status);
     }
 
 
@@ -113,13 +113,13 @@ public class FC_Event {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FC_Event fc_event = (FC_Event) o;
+        FoodCheckerEvent foodChecker_event = (FoodCheckerEvent) o;
 
-        if (mId != fc_event.mId) return false;
-        if (mTimestamp != fc_event.mTimestamp) return false;
-        if (mBarcode != null ? !mBarcode.equals(fc_event.mBarcode) : fc_event.mBarcode != null)
+        if (mId != foodChecker_event.mId) return false;
+        if (mTimestamp != foodChecker_event.mTimestamp) return false;
+        if (mBarcode != null ? !mBarcode.equals(foodChecker_event.mBarcode) : foodChecker_event.mBarcode != null)
             return false;
-        return mStatus != null ? mStatus.equals(fc_event.mStatus) : fc_event.mStatus == null;
+        return mStatus != null ? mStatus.equals(foodChecker_event.mStatus) : foodChecker_event.mStatus == null;
     }
 
     @Override
@@ -133,7 +133,7 @@ public class FC_Event {
 
     @Override
     public String toString() {
-        return "FC_Event{" +
+        return "FoodCheckerEvent{" +
                 "mId=" + mId +
                 ", mTimestamp=" + mTimestamp +
                 ", mBarcode='" + mBarcode + '\'' +

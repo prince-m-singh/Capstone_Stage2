@@ -11,7 +11,7 @@ import java.util.List;
  * Created by prince on 30/8/17.
  *
  */
-public class FC_Search {
+public class FoodCheckerSearch {
 
     @SerializedName("page_size")
     @Expose
@@ -76,7 +76,7 @@ public class FC_Search {
 
     @Override
     public String toString() {
-        return "FC_Search{" +
+        return "FoodCheckerSearch{" +
                 "page_size='" + page_size + '\'' +
                 ", FCProducts=" + FCProducts +
                 ", page='" + page + '\'' +

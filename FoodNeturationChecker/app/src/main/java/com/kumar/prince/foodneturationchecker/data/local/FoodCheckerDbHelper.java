@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by prince on 25/8/17.
  * */
 
-public class FC_DbHelper extends SQLiteOpenHelper {
+public class FoodCheckerDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private static final String DATABASE_NAME = "Local.db";
@@ -35,14 +35,14 @@ public class FC_DbHelper extends SQLiteOpenHelper {
     private static final String COMMA_SEP = ",";
 
     private static final String SQL_CREATE_EVENT =
-            CREATE_TABLE + FC_EventContract.EventEntry.TABLE_NAME + OPEN_PARENTHESIS +
-                    FC_EventContract.EventEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
-                    FC_EventContract.EventEntry.COLUMN_NAME_TIMESTAMP + TEXT_TYPE + COMMA_SEP +
-                    FC_EventContract.EventEntry.COLUMN_NAME_BARCODE + TEXT_TYPE + COMMA_SEP +
-                    FC_EventContract.EventEntry.COLUMN_NAME_STATUS + TEXT_TYPE +
+            CREATE_TABLE + FoodCheckerEventContract.EventEntry.TABLE_NAME + OPEN_PARENTHESIS +
+                    FoodCheckerEventContract.EventEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
+                    FoodCheckerEventContract.EventEntry.COLUMN_NAME_TIMESTAMP + TEXT_TYPE + COMMA_SEP +
+                    FoodCheckerEventContract.EventEntry.COLUMN_NAME_BARCODE + TEXT_TYPE + COMMA_SEP +
+                    FoodCheckerEventContract.EventEntry.COLUMN_NAME_STATUS + TEXT_TYPE +
                     CLOSE_PARENTHESIS;
 
-    public FC_DbHelper(Context context) {
+    public FoodCheckerDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

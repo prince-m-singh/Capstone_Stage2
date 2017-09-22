@@ -1,8 +1,6 @@
 package com.kumar.prince.foodneturationchecker.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,12 +17,12 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.kumar.prince.fabfoodlibrary.FabFoodEntity;
 import com.kumar.prince.fabfoodlibrary.FabFoodIntermediateLib;
-import com.kumar.prince.foodneturationchecker.Adapter.FC_FoodListAdapter;
+import com.kumar.prince.foodneturationchecker.Adapter.FoodCheckerFoodListAdapter;
 import com.kumar.prince.foodneturationchecker.MVP.AllMVPInterface;
 import com.kumar.prince.foodneturationchecker.MVP.Presenter.AllProductsPresenter;
 import com.kumar.prince.foodneturationchecker.R;
-import com.kumar.prince.foodneturationchecker.communication.FC_Search;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+import com.kumar.prince.foodneturationchecker.communication.FoodCheckerSearch;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -33,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInterface.IAllProductsView,FC_FoodListAdapter.FC_FoodOnClickHandler {
+public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInterface.IAllProductsView,FoodCheckerFoodListAdapter.FC_FoodOnClickHandler {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.expandedImage)
@@ -71,7 +69,7 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
 
 
     AllProductsPresenter productsPresenter;
-    FC_FoodListAdapter fc_foodListAdapter;
+    FoodCheckerFoodListAdapter foodChecker_foodListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +87,8 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
         setSupportActionBar(toolbar);
         productsPresenter = new AllProductsPresenter(this);
         getDataFromIntent();
-        fc_foodListAdapter=new FC_FoodListAdapter(this);
-        recyclerView.setAdapter(fc_foodListAdapter);
+        foodChecker_foodListAdapter =new FoodCheckerFoodListAdapter(this);
+        recyclerView.setAdapter(foodChecker_foodListAdapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544/1033173712");
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -101,68 +99,68 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
 
     private void getDataFromIntent(){
         Intent i = getIntent();
-        FC_Product fc_product = (FC_Product) i.getSerializableExtra("sampleObject");
-        Timber.d(fc_product.toString());
-        Timber.d(fc_product.getmImageFrontUrl());
-        getSupportActionBar().setTitle(fc_product.getmGenericName());
-        Picasso.with(getApplicationContext()).load(fc_product.getmImageFrontSmallUrl()).into(imageView);
-        productsPresenter.requestGetAllProducts(fc_product.getmParsableCategories().get(0),fc_product.getmNutritionGrades());
-        setValueInView(fc_product);
-        favouriteButtoFunction(fc_product);
+        FoodCheckerProduct foodChecker_product = (FoodCheckerProduct) i.getSerializableExtra("sampleObject");
+        Timber.d(foodChecker_product.toString());
+        Timber.d(foodChecker_product.getmImageFrontUrl());
+        getSupportActionBar().setTitle(foodChecker_product.getmGenericName());
+        Picasso.with(getApplicationContext()).load(foodChecker_product.getmImageFrontSmallUrl()).into(imageView);
+        productsPresenter.requestGetAllProducts(foodChecker_product.getmParsableCategories().get(0), foodChecker_product.getmNutritionGrades());
+        setValueInView(foodChecker_product);
+        favouriteButtoFunction(foodChecker_product);
         //recylerViewOperation();
     }
 
 
-    private void setValueInView(FC_Product fc_product){
+    private void setValueInView(FoodCheckerProduct foodChecker_product){
         tv_product_name_lebel.setText(getResources().getText(R.string.product_name_lebel));
-        if (fc_product.getmGenericName().length()>fc_product.getmProductName().length()){
-            if (fc_product.getmProductName().length()>30)
-                tv_product_name_value.setText(fc_product.getmProductName().substring(1,20));
+        if (foodChecker_product.getmGenericName().length()> foodChecker_product.getmProductName().length()){
+            if (foodChecker_product.getmProductName().length()>30)
+                tv_product_name_value.setText(foodChecker_product.getmProductName().substring(1,20));
             else
-                tv_product_name_value.setText(fc_product.getmProductName());
+                tv_product_name_value.setText(foodChecker_product.getmProductName());
         }else {
-            if (fc_product.getmGenericName().length()>30)
-                tv_product_name_value.setText(fc_product.getmGenericName().substring(1,20));
+            if (foodChecker_product.getmGenericName().length()>30)
+                tv_product_name_value.setText(foodChecker_product.getmGenericName().substring(1,20));
             else
-                tv_product_name_value.setText(fc_product.getmGenericName());
+                tv_product_name_value.setText(foodChecker_product.getmGenericName());
         }
 
         tv_barcode_name_label.setText(getResources().getText(R.string.barcode_name_label));
-        tv_barcode_value.setText(fc_product.getmBarcode());
+        tv_barcode_value.setText(foodChecker_product.getmBarcode());
         tv_grade_label.setText(getResources().getText(R.string.grade_label));
-        tv_grade_value.setText(fc_product.getmNutritionGrades().toUpperCase());
+        tv_grade_value.setText(foodChecker_product.getmNutritionGrades().toUpperCase());
         tv_quantity_label.setText(getResources().getText(R.string.quantity_label));
-        tv_quantity_value.setText(fc_product.getmQuantity());
+        tv_quantity_value.setText(foodChecker_product.getmQuantity());
         tv_categories_label.setText(getResources().getText(R.string.categories_label));
         tv_categories_value.setText("");
         int i=0;
-        for (String categories:fc_product.getmParsableCategories()){
-            if(i++ == fc_product.getmParsableCategories().size() - 1){
+        for (String categories: foodChecker_product.getmParsableCategories()){
+            if(i++ == foodChecker_product.getmParsableCategories().size() - 1){
                 tv_categories_value.append(categories);
             }else {
                 tv_categories_value.append(categories + "\n");
             }
         }
         tv_brand_label.setText(getResources().getText(R.string.brand_label));
-        tv_brand_value.setText(fc_product.getmBrands());
+        tv_brand_value.setText(foodChecker_product.getmBrands());
         title_lebel.setText(getResources().getText(R.string.title_message));
        /* tv_categories_title_label.setText(getResources().getText(R.string.categories_label));
-        tv_categories_value_title_label.setText(fc_product.getmParsableCategories().get(0));
+        tv_categories_value_title_label.setText(foodChecker_product.getmParsableCategories().get(0));
         tv_grade_title_label.setText(getResources().getText(R.string.grade_label));
-        tv_grade_title_value.setText(fc_product.getmNutritionGrades().toUpperCase());*/
+        tv_grade_title_value.setText(foodChecker_product.getmNutritionGrades().toUpperCase());*/
 
     }
     @Override
-    public void getListOfProducts(String category, FC_Search fc_search) {
-        Timber.d(category+" "+fc_search.toString());
-        fc_search.getFCProducts();
-        fc_foodListAdapter.setEventData(fc_search.getFCProducts());
+    public void getListOfProducts(String category, FoodCheckerSearch foodChecker_search) {
+        Timber.d(category+" "+ foodChecker_search.toString());
+        foodChecker_search.getFCProducts();
+        foodChecker_foodListAdapter.setEventData(foodChecker_search.getFCProducts());
 
     }
 
     @Override
-    public void getProductDetails(FC_Product fc_product) {
-        newActivityStart(fc_product);
+    public void getProductDetails(FoodCheckerProduct foodChecker_product) {
+        newActivityStart(foodChecker_product);
     }
 
     @Override
@@ -172,30 +170,30 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
 
 
     @Override
-    public void onClick(FC_Product fc_product) {
-        Timber.d(fc_product.toString());
-        productsPresenter.requestGetProductDetails(fc_product.getmBarcode());
+    public void onClick(FoodCheckerProduct foodChecker_product) {
+        Timber.d(foodChecker_product.toString());
+        productsPresenter.requestGetProductDetails(foodChecker_product.getmBarcode());
     }
 
-    private void newActivityStart(FC_Product fc_product){
+    private void newActivityStart(FoodCheckerProduct foodChecker_product){
         Intent i = new Intent(this, FoodDetailsActivity.class);
-        i.putExtra("sampleObject", fc_product);
+        i.putExtra("sampleObject", foodChecker_product);
         startActivity(i);
     }
 
-    private void favouriteButtoFunction(final FC_Product fc_product){
-        if (dataStatus(fc_product))
+    private void favouriteButtoFunction(final FoodCheckerProduct foodChecker_product){
+        if (dataStatus(foodChecker_product))
             fab.setImageResource(R.drawable.ic_favorite_red_24dp);
         else
             fab.setImageResource(R.drawable.ic_favorite_border_red_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (dataStatus(fc_product)){
-                    removeDataFromDB(fc_product);
+                if (dataStatus(foodChecker_product)){
+                    removeDataFromDB(foodChecker_product);
                     fab.setImageResource(R.drawable.ic_favorite_border_red_24dp);
                 }else {
-                    insertDataInDB(fc_product);
+                    insertDataInDB(foodChecker_product);
                     fab.setImageResource(R.drawable.ic_favorite_red_24dp);
                 }
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -204,28 +202,28 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
         });
     }
 
-    private boolean dataStatus(FC_Product fc_product){
+    private boolean dataStatus(FoodCheckerProduct foodChecker_product){
         List<FabFoodEntity> listData=fabFoodIntermediateLib.getAllData();
         for (FabFoodEntity fabFoodEntity:listData){
             Timber.d(fabFoodEntity.toString());
-            if (fabFoodEntity.getMBarcode().equals(fc_product.getmBarcode())){
+            if (fabFoodEntity.getMBarcode().equals(foodChecker_product.getmBarcode())){
                 return true;
             }
         }
         return false;
     }
 
-    private boolean insertDataInDB(FC_Product fc_product){
+    private boolean insertDataInDB(FoodCheckerProduct foodChecker_product){
         FabFoodEntity fabFoodEntity=new FabFoodEntity();
-        fabFoodEntity.setMBarcode(fc_product.getmBarcode());
-        fabFoodEntity.setMBrands(fc_product.getmBrands());
-        fabFoodEntity.setMGenericName(fc_product.getmGenericName());
-        fabFoodEntity.setMImageFrontSmallUrl(fc_product.getmImageFrontSmallUrl());
-        fabFoodEntity.setMImageFrontUrl(fc_product.getmImageFrontUrl());
-        fabFoodEntity.setMNutritionGrades(fc_product.getmNutritionGrades());
-        fabFoodEntity.setMQuantity(fc_product.getmQuantity());
-        fabFoodEntity.setMProductName(fc_product.getmProductName());
-        fabFoodEntity.setMParsableCategories(fc_product.getmParsableCategories());
+        fabFoodEntity.setMBarcode(foodChecker_product.getmBarcode());
+        fabFoodEntity.setMBrands(foodChecker_product.getmBrands());
+        fabFoodEntity.setMGenericName(foodChecker_product.getmGenericName());
+        fabFoodEntity.setMImageFrontSmallUrl(foodChecker_product.getmImageFrontSmallUrl());
+        fabFoodEntity.setMImageFrontUrl(foodChecker_product.getmImageFrontUrl());
+        fabFoodEntity.setMNutritionGrades(foodChecker_product.getmNutritionGrades());
+        fabFoodEntity.setMQuantity(foodChecker_product.getmQuantity());
+        fabFoodEntity.setMProductName(foodChecker_product.getmProductName());
+        fabFoodEntity.setMParsableCategories(foodChecker_product.getmParsableCategories());
         int responce=fabFoodIntermediateLib.insertData(fabFoodEntity);
         Timber.d("Data Insert" +responce);
         if (responce==0)
@@ -234,8 +232,8 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
             return false;
     }
 
-    private boolean removeDataFromDB(FC_Product fc_product){
-        Timber.d(""+fabFoodIntermediateLib.deleteData(fc_product.getmBarcode()));
+    private boolean removeDataFromDB(FoodCheckerProduct foodChecker_product){
+        Timber.d(""+fabFoodIntermediateLib.deleteData(foodChecker_product.getmBarcode()));
         return true;
     }
 }

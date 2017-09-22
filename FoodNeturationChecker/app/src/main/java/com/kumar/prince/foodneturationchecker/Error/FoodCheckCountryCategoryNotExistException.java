@@ -4,9 +4,9 @@ package com.kumar.prince.foodneturationchecker.Error;
  *  Created by prince on 29/8/17.
  * */
 
-public class FC_CountryCategoryNotExistException extends Exception {
+public class FoodCheckCountryCategoryNotExistException extends Exception {
 
-    public FC_CountryCategoryNotExistException(){
+    public FoodCheckCountryCategoryNotExistException(){
         super("This category(country) cannot be find in OpenFoodFacts database");
     }
 }

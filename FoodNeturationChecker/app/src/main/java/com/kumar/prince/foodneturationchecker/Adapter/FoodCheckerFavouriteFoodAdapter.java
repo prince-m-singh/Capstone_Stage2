@@ -23,13 +23,13 @@ import timber.log.Timber;
  * Created by prince on 17/9/17.
  */
 
-public class FC_FavouriteFoodAdapter extends RecyclerView.Adapter<FC_FavouriteFoodAdapter.FavouriteFoodViewHolder>implements Serializable {
+public class FoodCheckerFavouriteFoodAdapter extends RecyclerView.Adapter<FoodCheckerFavouriteFoodAdapter.FavouriteFoodViewHolder>implements Serializable {
 
     List<FabFoodEntity> favouriteFoodData;
-    final private FC_FavouriteFoodAdapter.FavouriteFoodOnClickHandler favouriteFoodOnClickHandler;
+    final private FoodCheckerFavouriteFoodAdapter.FavouriteFoodOnClickHandler favouriteFoodOnClickHandler;
     Context context;
 
-    public FC_FavouriteFoodAdapter(FC_FavouriteFoodAdapter.FavouriteFoodOnClickHandler favouriteFoodOnClickHandler) {
+    public FoodCheckerFavouriteFoodAdapter(FoodCheckerFavouriteFoodAdapter.FavouriteFoodOnClickHandler favouriteFoodOnClickHandler) {
         this.favouriteFoodOnClickHandler = favouriteFoodOnClickHandler;
     }
 
@@ -39,7 +39,7 @@ public class FC_FavouriteFoodAdapter extends RecyclerView.Adapter<FC_FavouriteFo
         context=parent.getContext();
         View view =LayoutInflater.from(context).inflate(R.layout.card_view,parent,false);
 
-        return new FC_FavouriteFoodAdapter.FavouriteFoodViewHolder(view) ;
+        return new FoodCheckerFavouriteFoodAdapter.FavouriteFoodViewHolder(view) ;
 
     }
 

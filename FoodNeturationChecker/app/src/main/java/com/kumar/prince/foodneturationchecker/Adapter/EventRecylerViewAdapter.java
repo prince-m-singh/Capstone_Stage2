@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kumar.prince.foodneturationchecker.R;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerEvent;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -29,7 +29,7 @@ import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_S
 
 public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerViewAdapter.EventViewHolder>implements Serializable{
 
-    List<FC_Event> fc_events;
+    List<FoodCheckerEvent> foodChecker_events;
     final private EventAdapterOnClickHandler eventAdapterOnClickHandler;
     Context context;
 
@@ -47,39 +47,39 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
 
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
-        FC_Event fc_event = fc_events.get(position);
+        FoodCheckerEvent foodChecker_event = foodChecker_events.get(position);
 
       //  holder.imageView.setImageDrawable(android.R.drawable.common_google_signin_btn_icon_dark);
-        holder.textView.setText("BarCode:-"+fc_event.getBarcode());
-        holder.textView1.setText("Status:-"+fc_event.getStatus());
+        holder.textView.setText("BarCode:-"+ foodChecker_event.getBarcode());
+        holder.textView1.setText("Status:-"+ foodChecker_event.getStatus());
        ;
-        holder.textView2.setText("Date:-  "+longToDate(fc_event.getTimestamp()));
-        if (fc_event.getStatus().equals(STATUS_NOT_IN_OFF_DATABASE)){
+        holder.textView2.setText("Date:-  "+longToDate(foodChecker_event.getTimestamp()));
+        if (foodChecker_event.getStatus().equals(STATUS_NOT_IN_OFF_DATABASE)){
             holder.imageView.setImageResource(R.drawable.ic_cloud_off_black_24dp);
             holder.textView1.setTextColor(Color.parseColor("#FF0000"));
-        }else if (fc_event.getStatus().equals(STATUS_SERVER_UNREACHABLE)){
+        }else if (foodChecker_event.getStatus().equals(STATUS_SERVER_UNREACHABLE)){
             holder.imageView.setImageResource(R.drawable.ic_network_problem_orange_24dp);
             holder.textView1.setTextColor(Color.parseColor("#FB8C00"));
-        } else if (fc_event.getStatus().equals(STATUS_OK)){
+        } else if (foodChecker_event.getStatus().equals(STATUS_OK)){
             holder.textView1.setTextColor(Color.parseColor("#4CAF50"));
             holder.imageView.setImageResource(R.drawable.ic_food_found_green_24dp);
-        }holder.fc_event = fc_event;
+        }holder.foodChecker_event = foodChecker_event;
 
     }
 
     @Override
     public int getItemCount() {
-        if (fc_events==null)
+        if (foodChecker_events ==null)
             return 0;
-        return fc_events.size();
+        return foodChecker_events.size();
     }
 
-    public void setEventData(List<FC_Event> fc_events){
-        this.fc_events=fc_events;
+    public void setEventData(List<FoodCheckerEvent> foodChecker_events){
+        this.foodChecker_events = foodChecker_events;
         notifyDataSetChanged();
     }
     public interface  EventAdapterOnClickHandler{
-        void onClick( FC_Event fc_event);
+        void onClick( FoodCheckerEvent foodChecker_event);
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -87,7 +87,7 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
         public final TextView textView;
         public final TextView textView1;
         public final TextView textView2;
-        public  FC_Event fc_event;
+        public FoodCheckerEvent foodChecker_event;
 
         public EventViewHolder(View itemView) {
             super(itemView);
@@ -101,8 +101,8 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
 
         @Override
         public void onClick(View view) {
-            Timber.d("Click Button"+fc_event.getBarcode());
-            eventAdapterOnClickHandler.onClick(fc_events.get(getAdapterPosition()));
+            Timber.d("Click Button"+ foodChecker_event.getBarcode());
+            eventAdapterOnClickHandler.onClick(foodChecker_events.get(getAdapterPosition()));
 
         }
     }

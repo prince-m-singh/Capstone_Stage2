@@ -10,7 +10,7 @@ import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
  *
  */
 
-public class FC_ProductBarcode {
+public class FoodCheckerProductBarcode {
 
     @SerializedName("status_verbose")
     @Expose
@@ -72,7 +72,7 @@ public class FC_ProductBarcode {
 
     @Override
     public String toString() {
-        return "FC_ProductBarcode{" +
+        return "FoodCheckerProductBarcode{" +
                 "status_verbose='" + status_verbose + '\'' +
                 ", FCProduct=" + FCProduct +
                 ", status=" + status +

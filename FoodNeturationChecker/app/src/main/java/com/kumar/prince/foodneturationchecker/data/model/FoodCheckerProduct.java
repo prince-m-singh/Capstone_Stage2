@@ -9,7 +9,7 @@ import java.util.List;
 /**
  *  Created by prince on 25/8/17.
  * */
-public class FC_Product implements Serializable{
+public class FoodCheckerProduct implements Serializable{
 
     private long mId;
     private boolean mParsed;
@@ -47,10 +47,10 @@ public class FC_Product implements Serializable{
      * No args constructor for use in serialization
      *
      */
-    public FC_Product() {
+    public FoodCheckerProduct() {
     }
 
-    public FC_Product(long mId, boolean mParsed, boolean mBookmarked) {
+    public FoodCheckerProduct(long mId, boolean mParsed, boolean mBookmarked) {
         this.mId = mId;
         this.mParsed = mParsed;
         this.mBookmarked = mBookmarked;
@@ -143,9 +143,9 @@ public class FC_Product implements Serializable{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof FC_Product)) return false;
+        if (!(o instanceof FoodCheckerProduct)) return false;
 
-        FC_Product that = (FC_Product) o;
+        FoodCheckerProduct that = (FoodCheckerProduct) o;
 
         if (getmId() != that.getmId()) return false;
         if (ismParsed() != that.ismParsed()) return false;
@@ -162,7 +162,7 @@ public class FC_Product implements Serializable{
 
     @Override
     public String toString() {
-        return "FC_Product{" +
+        return "FoodCheckerProduct{" +
                 "mId=" + mId +
                 ", mParsed=" + mParsed +
                 ", mBookmarked=" + mBookmarked +

@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
@@ -18,19 +17,19 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.kumar.prince.fabfoodlibrary.FabFoodIntermediateLib;
 import com.kumar.prince.foodneturationchecker.Adapter.ViewPagerAdapter;
 import com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity;
-import com.kumar.prince.foodneturationchecker.Error.FC_ProductNotExistException;
-import com.kumar.prince.foodneturationchecker.Error.FC_ServerUnreachableException;
+import com.kumar.prince.foodneturationchecker.Error.FoodCheckerProductnotexistexception;
+import com.kumar.prince.foodneturationchecker.Error.FoodCheckServerUnreachableException;
 import com.kumar.prince.foodneturationchecker.Fragment.FragmentA;
 import com.kumar.prince.foodneturationchecker.Fragment.FragmentB;
 import com.kumar.prince.foodneturationchecker.R;
-import com.kumar.prince.foodneturationchecker.communication.FC_OpenFoodFactsAPIClient;
-import com.kumar.prince.foodneturationchecker.communication.FC_ProductBarcode;
+import com.kumar.prince.foodneturationchecker.communication.FoodCheckerOpenFoodFactsAPIClient;
+import com.kumar.prince.foodneturationchecker.communication.FoodCheckerProductBarcode;
 import com.kumar.prince.foodneturationchecker.communication.NetworkConnectivity;
-import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_EventSourceInterface;
-import com.kumar.prince.foodneturationchecker.data.callbackinterface.FC_ProductSourceInterface;
-import com.kumar.prince.foodneturationchecker.data.local.FC_EventDataSource;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+import com.kumar.prince.foodneturationchecker.data.callbackinterface.FoodCheckerEventSourceInterface;
+import com.kumar.prince.foodneturationchecker.data.callbackinterface.FoodCheckerProductSourceInterface;
+import com.kumar.prince.foodneturationchecker.data.local.EventDataSource;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerEvent;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,12 +41,12 @@ import static com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity
 import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_NO_NETWORK;
 import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_OK;
 
-public class MainEventActivity extends AppCompatActivity implements FC_ProductSourceInterface,FC_ProductSourceInterface.GetProductCallback {
+public class MainEventActivity extends AppCompatActivity implements FoodCheckerProductSourceInterface,FoodCheckerProductSourceInterface.GetProductCallback {
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
     FabFoodIntermediateLib fabFoodIntermediateLib;
-    FC_Event fc_event;
+    FoodCheckerEvent foodChecker_event;
 
     private int[] tabIcons = {
             R.drawable.ic_history_black_24dp,
@@ -127,40 +126,40 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
 
     @Override
     public void getProduct(@NonNull final String barcode, @NonNull final GetProductCallback getProductCallback) {
-        FC_OpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FC_OpenFoodFactsAPIClient(FC_OpenFoodFactsAPIClient.ENDPOINT_BARCODE);
-        Call<FC_ProductBarcode> call = FCOpenFoodFactsAPIClient.getProduct(barcode);
+        FoodCheckerOpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FoodCheckerOpenFoodFactsAPIClient(FoodCheckerOpenFoodFactsAPIClient.ENDPOINT_BARCODE);
+        Call<FoodCheckerProductBarcode> call = FCOpenFoodFactsAPIClient.getProduct(barcode);
 
-        call.enqueue(new Callback<FC_ProductBarcode>() {
+        call.enqueue(new Callback<FoodCheckerProductBarcode>() {
             @Override
-            public void onResponse(Call<FC_ProductBarcode> call, Response<FC_ProductBarcode> response) {
+            public void onResponse(Call<FoodCheckerProductBarcode> call, Response<FoodCheckerProductBarcode> response) {
 
                 if (!response.isSuccessful() || response.body() == null) {
-                    FC_ServerUnreachableException e = new FC_ServerUnreachableException();
+                    FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                     Timber.w(e);
                     getProductCallback.onError(e,barcode);
                     return;
                 }
-                FC_ProductBarcode fc_productBarcode = response.body();
-                Timber.d(response.message()+" "+fc_productBarcode.toString());
-                if (fc_productBarcode.getStatus() != 1) {
-                    FC_ProductNotExistException e = new FC_ProductNotExistException();
+                FoodCheckerProductBarcode foodChecker_productBarcode = response.body();
+                Timber.d(response.message()+" "+ foodChecker_productBarcode.toString());
+                if (foodChecker_productBarcode.getStatus() != 1) {
+                    FoodCheckerProductnotexistexception e = new FoodCheckerProductnotexistexception();
                     Timber.w(e);
                     getProductCallback.onError(e,barcode);
                     return;
                 }
-                FC_Product fc_product=fc_productBarcode.getFCProduct();
-                Timber.w(response.message()+" "+fc_product.toString());
-                fc_event=new FC_Event(barcode,"Found");
-                //addEvenInDb(fc_event);
-                getProductCallback.onProductLoaded(fc_product);
+                FoodCheckerProduct foodChecker_product = foodChecker_productBarcode.getFCProduct();
+                Timber.w(response.message()+" "+ foodChecker_product.toString());
+                foodChecker_event =new FoodCheckerEvent(barcode,"Found");
+                //addEvenInDb(foodChecker_event);
+                getProductCallback.onProductLoaded(foodChecker_product);
 
             }
 
             @Override
-            public void onFailure(Call<FC_ProductBarcode> call, Throwable t) {
-                FC_ServerUnreachableException e = new FC_ServerUnreachableException();
+            public void onFailure(Call<FoodCheckerProductBarcode> call, Throwable t) {
+                FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                 Timber.d(e.getMessage());
-                fc_event=new FC_Event(barcode,"NotFound");
+                foodChecker_event =new FoodCheckerEvent(barcode,"NotFound");
                 getProductCallback.onError(e,barcode);
 
 
@@ -176,11 +175,11 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
     }
 
     /**
-     * @param fc_event
+     * @param foodChecker_event
      */
-    private void addEvenInDb(FC_Event fc_event){
-        FC_EventDataSource fc_eventDataSource=FC_EventDataSource.getInstance(getContentResolver());
-        fc_eventDataSource.saveEvent(fc_event, new FC_EventSourceInterface.Local.SaveEventCallback() {
+    private void addEvenInDb(FoodCheckerEvent foodChecker_event){
+        EventDataSource foodChecker_eventDataSource = EventDataSource.getInstance(getContentResolver());
+        foodChecker_eventDataSource.saveEvent(foodChecker_event, new FoodCheckerEventSourceInterface.Local.SaveEventCallback() {
             @Override
             public void onEventSaved() {
                 Timber.d("DataSaved");
@@ -211,13 +210,13 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
     }
 
     /**
-     * @param fc_Product
+     * @param foodChecker_Product
      */
     @Override
-    public void onProductLoaded(FC_Product fc_Product) {
-        Timber.d(fc_Product.toString());
-        FC_Event fc_event=new FC_Event(fc_Product.getmBarcode(),STATUS_OK);
-        addEvenInDb(fc_event);
+    public void onProductLoaded(FoodCheckerProduct foodChecker_Product) {
+        Timber.d(foodChecker_Product.toString());
+        FoodCheckerEvent foodChecker_event =new FoodCheckerEvent(foodChecker_Product.getmBarcode(),STATUS_OK);
+        addEvenInDb(foodChecker_event);
 
     }
 
@@ -228,8 +227,8 @@ public class MainEventActivity extends AppCompatActivity implements FC_ProductSo
     @Override
     public void onError(Throwable throwable,String barcode) {
         Timber.e(throwable.getMessage());
-        FC_Event fc_event=new FC_Event(barcode,throwable.getMessage());
-        addEvenInDb(fc_event);
+        FoodCheckerEvent foodChecker_event =new FoodCheckerEvent(barcode,throwable.getMessage());
+        addEvenInDb(foodChecker_event);
 
     }
 }

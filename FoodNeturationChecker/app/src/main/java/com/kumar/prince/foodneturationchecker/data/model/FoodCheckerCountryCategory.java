@@ -6,7 +6,7 @@ package com.kumar.prince.foodneturationchecker.data.model;
  *  Created by prince on 26/8/17.
  * */
 
-public class FC_CountryCategory {
+public class FoodCheckerCountryCategory {
 
     private long mId;
     private String mCategoryKey;
@@ -17,7 +17,7 @@ public class FC_CountryCategory {
      * No args constructor for use in serialization
      *
      */
-    public FC_CountryCategory() {
+    public FoodCheckerCountryCategory() {
     }
 
     /**
@@ -26,7 +26,7 @@ public class FC_CountryCategory {
      * @param sumOfProducts
      * @param countryKey
      */
-    public FC_CountryCategory(String categoryKey, String countryKey, int sumOfProducts) {
+    public FoodCheckerCountryCategory(String categoryKey, String countryKey, int sumOfProducts) {
         this.mCategoryKey = categoryKey;
         this.mCountryKey = countryKey;
         this.mSumOfProducts = sumOfProducts;
@@ -39,7 +39,7 @@ public class FC_CountryCategory {
      * @param sumOfProducts
      * @param countryKey
      */
-    public FC_CountryCategory(long id, String categoryKey, String countryKey, int sumOfProducts) {
+    public FoodCheckerCountryCategory(long id, String categoryKey, String countryKey, int sumOfProducts) {
         this.mId = id;
         this.mCategoryKey = categoryKey;
         this.mCountryKey = countryKey;
@@ -73,7 +73,7 @@ public class FC_CountryCategory {
         this.mId = id;
     }
 
-    public FC_CountryCategory withId(long id) {
+    public FoodCheckerCountryCategory withId(long id) {
         this.mId = id;
         return this;
     }
@@ -96,7 +96,7 @@ public class FC_CountryCategory {
         this.mCategoryKey = categoryKey;
     }
 
-    public FC_CountryCategory withCategoryKey(String categoryKey) {
+    public FoodCheckerCountryCategory withCategoryKey(String categoryKey) {
         this.mCategoryKey = categoryKey;
         return this;
     }
@@ -119,7 +119,7 @@ public class FC_CountryCategory {
         this.mCountryKey = countryKey;
     }
 
-    public FC_CountryCategory withCountryKey(String countryKey) {
+    public FoodCheckerCountryCategory withCountryKey(String countryKey) {
         this.mCountryKey = countryKey;
         return this;
     }
@@ -142,7 +142,7 @@ public class FC_CountryCategory {
         this.mSumOfProducts = sumOfProducts;
     }
 
-    public FC_CountryCategory withSumOfProducts(int sumOfProducts) {
+    public FoodCheckerCountryCategory withSumOfProducts(int sumOfProducts) {
         this.mSumOfProducts = sumOfProducts;
         return this;
     }
@@ -150,9 +150,9 @@ public class FC_CountryCategory {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof FC_CountryCategory)) return false;
+        if (!(o instanceof FoodCheckerCountryCategory)) return false;
 
-        FC_CountryCategory that = (FC_CountryCategory) o;
+        FoodCheckerCountryCategory that = (FoodCheckerCountryCategory) o;
 
         if (mId != that.mId) return false;
         if (mSumOfProducts != that.mSumOfProducts) return false;
@@ -171,7 +171,7 @@ public class FC_CountryCategory {
 
     @Override
     public String toString() {
-        return "FC_CountryCategory{" +
+        return "FoodCheckerCountryCategory{" +
                 "mId=" + mId +
                 ", mCategoryKey='" + mCategoryKey + '\'' +
                 ", mCountryKey='" + mCountryKey + '\'' +

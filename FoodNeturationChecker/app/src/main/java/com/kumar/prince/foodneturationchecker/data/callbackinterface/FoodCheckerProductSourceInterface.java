@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Main entry point for accessing product data.
  */
-public interface FC_ProductSourceInterface {
+public interface FoodCheckerProductSourceInterface {
 
     interface GetProductCallback {
 

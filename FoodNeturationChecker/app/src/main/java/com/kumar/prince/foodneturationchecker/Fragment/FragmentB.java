@@ -2,7 +2,6 @@ package com.kumar.prince.foodneturationchecker.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,16 +17,11 @@ import android.widget.ListView;
 
 import com.kumar.prince.fabfoodlibrary.FabFoodEntity;
 import com.kumar.prince.fabfoodlibrary.FabFoodIntermediateLib;
-import com.kumar.prince.foodneturationchecker.Adapter.CustomAdapter;
-import com.kumar.prince.foodneturationchecker.Adapter.EventRecylerViewAdapter;
-import com.kumar.prince.foodneturationchecker.Adapter.FC_FavouriteFoodAdapter;
+import com.kumar.prince.foodneturationchecker.Adapter.FoodCheckerFavouriteFoodAdapter;
 import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.activity.FoodDetailsActivity;
-import com.kumar.prince.foodneturationchecker.data.local.FC_EventContract;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Event;
-import com.kumar.prince.foodneturationchecker.data.model.FC_Product;
+import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
@@ -37,13 +31,13 @@ import timber.log.Timber;
  */
 
 public class FragmentB extends Fragment implements
-        FC_FavouriteFoodAdapter.FavouriteFoodOnClickHandler,
+        FoodCheckerFavouriteFoodAdapter.FavouriteFoodOnClickHandler,
         LoaderManager.LoaderCallbacks<List<FabFoodEntity>>{
 
 
     ListView list;
     private RecyclerView recyclerView;
-    FC_FavouriteFoodAdapter fc_favouriteFoodAdapter;
+    FoodCheckerFavouriteFoodAdapter fc_favouriteFoodAdapter;
     FabFoodIntermediateLib fabFoodIntermediateLib;
     private List<FabFoodEntity> fabFoodEntityList;
     private static final int TASK_LOADER_ID=1;
@@ -56,7 +50,7 @@ public class FragmentB extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fabFoodIntermediateLib=new FabFoodIntermediateLib(getActivity());
-        fc_favouriteFoodAdapter = new FC_FavouriteFoodAdapter(this);
+        fc_favouriteFoodAdapter = new FoodCheckerFavouriteFoodAdapter(this);
         getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
     }
 
@@ -96,24 +90,24 @@ public class FragmentB extends Fragment implements
 
     }
 
-    private void foodDetailsActivity(FC_Product fc_product){
+    private void foodDetailsActivity(FoodCheckerProduct foodChecker_product){
         Intent i = new Intent(getActivity(), FoodDetailsActivity.class);
-        i.putExtra("sampleObject", fc_product);
+        i.putExtra("sampleObject", foodChecker_product);
         startActivity(i);
     }
 
-    private FC_Product convertData(FabFoodEntity fabFoodEntity){
-        FC_Product fc_product=new FC_Product();
-        fc_product.setmBarcode(fabFoodEntity.getMBarcode());
-        fc_product.setmBrands(fabFoodEntity.getMBrands());
-        fc_product.setmGenericName(fabFoodEntity.getMGenericName());
-        fc_product.setmImageFrontSmallUrl(fabFoodEntity.getMImageFrontSmallUrl());
-        fc_product.setmParsableCategories(fabFoodEntity.getMParsableCategories());
-        fc_product.setmProductName(fabFoodEntity.getMProductName());
-        fc_product.setmQuantity(fabFoodEntity.getMQuantity());
-        fc_product.setmImageFrontUrl(fabFoodEntity.getMImageFrontUrl());
-        fc_product.setmNutritionGrades(fabFoodEntity.getMNutritionGrades());
-        return fc_product;
+    private FoodCheckerProduct convertData(FabFoodEntity fabFoodEntity){
+        FoodCheckerProduct foodChecker_product =new FoodCheckerProduct();
+        foodChecker_product.setmBarcode(fabFoodEntity.getMBarcode());
+        foodChecker_product.setmBrands(fabFoodEntity.getMBrands());
+        foodChecker_product.setmGenericName(fabFoodEntity.getMGenericName());
+        foodChecker_product.setmImageFrontSmallUrl(fabFoodEntity.getMImageFrontSmallUrl());
+        foodChecker_product.setmParsableCategories(fabFoodEntity.getMParsableCategories());
+        foodChecker_product.setmProductName(fabFoodEntity.getMProductName());
+        foodChecker_product.setmQuantity(fabFoodEntity.getMQuantity());
+        foodChecker_product.setmImageFrontUrl(fabFoodEntity.getMImageFrontUrl());
+        foodChecker_product.setmNutritionGrades(fabFoodEntity.getMNutritionGrades());
+        return foodChecker_product;
     }
 
     @SuppressLint("StaticFieldLeak")

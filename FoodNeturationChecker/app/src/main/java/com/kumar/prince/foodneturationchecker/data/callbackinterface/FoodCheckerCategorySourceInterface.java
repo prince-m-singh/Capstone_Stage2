@@ -8,7 +8,7 @@ import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerCategory;
 /**
  * Main entry point for accessing category data.
  */
-public interface FC_CategorySourceInterface {
+public interface FoodCheckerCategorySourceInterface {
 
     interface GetCategoryCallback {
 
