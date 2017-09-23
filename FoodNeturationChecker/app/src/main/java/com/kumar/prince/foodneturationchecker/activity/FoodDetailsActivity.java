@@ -145,10 +145,6 @@ public class FoodDetailsActivity extends AppCompatActivity implements AllMVPInte
         tv_brand_label.setText(getResources().getText(R.string.brand_label));
         tv_brand_value.setText(foodChecker_product.getmBrands());
         title_lebel.setText(getResources().getText(R.string.title_message));
-       /* tv_categories_title_label.setText(getResources().getText(R.string.categories_label));
-        tv_categories_value_title_label.setText(foodChecker_product.getmParsableCategories().get(0));
-        tv_grade_title_label.setText(getResources().getText(R.string.grade_label));
-        tv_grade_title_value.setText(foodChecker_product.getmNutritionGrades().toUpperCase());*/
 
     }
 

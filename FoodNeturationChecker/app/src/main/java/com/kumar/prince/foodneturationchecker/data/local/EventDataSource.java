@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-
 import com.kumar.prince.foodneturationchecker.data.FoodCheckerEventValues;
 import com.kumar.prince.foodneturationchecker.data.callbackinterface.FoodCheckerEventSourceInterface;
 import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerEvent;
@@ -39,7 +38,7 @@ public class EventDataSource implements FoodCheckerEventSourceInterface.Local {
     }
 
     private void checkExistEvent(@NonNull String barcode, @NonNull CheckExistEventCallback checkExistEventCallback) {
-       Timber.d( "checkExistEvent");
+        Timber.d("checkExistEvent");
 
         Cursor cursor = mContentResolver.query(
                 FoodCheckerEventContract.EventEntry.buildEventUri(),
@@ -48,7 +47,7 @@ public class EventDataSource implements FoodCheckerEventSourceInterface.Local {
                 new String[]{barcode},
                 null);
 
-        if (cursor != null){
+        if (cursor != null) {
             if (cursor.moveToLast()) {
                 long _id = cursor.getLong(cursor.getColumnIndex(FoodCheckerEventContract.EventEntry._ID));
                 checkExistEventCallback.onEventExisted(_id);
@@ -62,7 +61,7 @@ public class EventDataSource implements FoodCheckerEventSourceInterface.Local {
     }
 
     private void addEvent(@NonNull FoodCheckerEvent FoodCheckerEvent, @NonNull AddEventCallback addEventCallback) {
-       Timber.d( "addEvent");
+        Timber.d("addEvent");
 
         checkNotNull(FoodCheckerEvent);
 
@@ -78,7 +77,7 @@ public class EventDataSource implements FoodCheckerEventSourceInterface.Local {
     }
 
     private void updateEvent(@NonNull FoodCheckerEvent FoodCheckerEvent, @NonNull UpdateEventCallback updateEventCallback) {
-       Timber.d( "updateEvent");
+        Timber.d("updateEvent");
 
         checkNotNull(FoodCheckerEvent);
 
@@ -90,7 +89,7 @@ public class EventDataSource implements FoodCheckerEventSourceInterface.Local {
         int rows = mContentResolver.update(FoodCheckerEventContract.EventEntry.buildEventUri(), values, selection, selectionArgs);
 
         if (rows != 0) {
-            mContentResolver.notifyChange(FoodCheckerEventContract.EventEntry.buildEventUri(),null);
+            mContentResolver.notifyChange(FoodCheckerEventContract.EventEntry.buildEventUri(), null);
             updateEventCallback.onEventUpdated();
         } else {
             updateEventCallback.onError();
@@ -99,7 +98,7 @@ public class EventDataSource implements FoodCheckerEventSourceInterface.Local {
 
     @Override
     public void saveEvent(@NonNull final FoodCheckerEvent FoodCheckerEvent, @NonNull final SaveEventCallback saveEventCallback) {
-       Timber.d( "saveEvent");
+        Timber.d("saveEvent");
 
         checkNotNull(FoodCheckerEvent);
 
@@ -113,13 +112,13 @@ public class EventDataSource implements FoodCheckerEventSourceInterface.Local {
                 updateEvent(FoodCheckerEvent, new UpdateEventCallback() {
                     @Override
                     public void onEventUpdated() {
-                       Timber.d( "onEventExisted - onEventUpdated");
+                        Timber.d("onEventExisted - onEventUpdated");
                         saveEventCallback.onEventSaved();
                     }
 
                     @Override
                     public void onError() {
-                       Timber.d( "onEventExisted - onError");
+                        Timber.d("onEventExisted - onError");
                         saveEventCallback.onError();
                     }
                 });
@@ -130,13 +129,13 @@ public class EventDataSource implements FoodCheckerEventSourceInterface.Local {
                 addEvent(FoodCheckerEvent, new AddEventCallback() {
                     @Override
                     public void onEventAdded() {
-                       Timber.d( "onEventNotExisted - onEventAdded");
+                        Timber.d("onEventNotExisted - onEventAdded");
                         saveEventCallback.onEventSaved();
                     }
 
                     @Override
                     public void onError() {
-                       Timber.d( "onEventNotExisted - onError");
+                        Timber.d("onEventNotExisted - onError");
                         saveEventCallback.onError();
                     }
                 });

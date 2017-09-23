@@ -131,22 +131,6 @@ public class BarcodeActivity extends AppCompatActivity implements FoodCheckerPro
                 fabFoodEntity.setMParsableCategories(foodChecker_product.getmParsableCategories());
                 fabFoodIntermediateLib.insertData(fabFoodEntity);
                 Timber.d(response.message() + " " + foodChecker_product.toString());
-               /* *//*Get ProductS*//*
-                getProducts( foodChecker_product.getmParsableCategories().get(0),foodChecker_product.getmNutritionGrades(), new GetProductsCallback() {
-                    @Override
-                    public void onProductsLoaded(List<FoodCheckerProduct> FCProducts) {
-                        Timber.d(FCProducts.toString());
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
-                });
-               */
-                String found = getResources().getResourceName(R.string.found);
-                foodChecker_event = new FoodCheckerEvent(barcode, "Found");
-                addEvenInDb(foodChecker_event);
                 getProductCallback.onProductLoaded(foodChecker_product);
 
             }

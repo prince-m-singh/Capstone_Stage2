@@ -29,7 +29,7 @@
     <string name="empty_widget_list_data" />
     <string name="expanded_content">Food Image</string>
     <string name="icon_content">Event Image</string>
-    <string name="fab">Fab</string>
+    <string name="fab">Bar Code Scan</string>
     <string name="not_found">Not Found</string>
     <string name="found">Found</string>
     <string name="add_in_fab">Item Added Into Favroite</string>
@@ -38,5 +38,7 @@
     <string name="permission_title">Permission necessary</string>
     <string name="permission_message">CAMERA is Necessary for BarCode</string>
     <string name="event_not_Saved">Event Not Saved</string>
+    <string name="event">EVENT</string>
+    <string name="fab_tab">FAB</string>
     <item name="add_in_fab" type="id">Food Added In Favorite</item>
 </resources>

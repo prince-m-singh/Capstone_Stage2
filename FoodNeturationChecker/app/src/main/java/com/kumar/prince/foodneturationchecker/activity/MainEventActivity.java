@@ -72,7 +72,7 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
         });
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),getApplicationContext());
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
