@@ -7,7 +7,6 @@ import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
 
 /**
  * Created by prince on 29/8/17.
- *
  */
 
 public class FoodCheckerProductBarcode {
@@ -26,45 +25,35 @@ public class FoodCheckerProductBarcode {
     private String code;
 
     /**
-     * 
-     * @return
-     *     The status_verbose
+     * @return The status_verbose
      */
     public String getStatus_verbose() {
         return status_verbose;
     }
 
     /**
-     *
-     * @return
-     *     The FCProduct
+     * @return The FCProduct
      */
     public FoodCheckerProduct getFCProduct() {
         return FCProduct;
     }
 
     /**
-     *
-     * @return
-     *     The products
+     * @return The products
      */
     public FoodCheckerProduct getProducts() {
         return FCProduct;
     }
 
     /**
-     * 
-     * @return
-     *     The status
+     * @return The status
      */
     public Integer getStatus() {
         return status;
     }
 
     /**
-     * 
-     * @return
-     *     The code
+     * @return The code
      */
     public String getCode() {
         return code;

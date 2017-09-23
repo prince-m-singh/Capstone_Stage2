@@ -25,8 +25,8 @@ import timber.log.Timber;
 
 public class FoodCheckerFavouriteFoodAdapter extends RecyclerView.Adapter<FoodCheckerFavouriteFoodAdapter.FavouriteFoodViewHolder> implements Serializable {
 
-    List<FabFoodEntity> favouriteFoodData;
     final private FoodCheckerFavouriteFoodAdapter.FavouriteFoodOnClickHandler favouriteFoodOnClickHandler;
+    List<FabFoodEntity> favouriteFoodData;
     Context context;
 
     public FoodCheckerFavouriteFoodAdapter(FoodCheckerFavouriteFoodAdapter.FavouriteFoodOnClickHandler favouriteFoodOnClickHandler) {
@@ -51,15 +51,15 @@ public class FoodCheckerFavouriteFoodAdapter extends RecyclerView.Adapter<FoodCh
             value = context.getResources().getString(R.string.product_name_lebel) + fabFoodEntity.getMGenericName().substring(0, 30);
             holder.textView.setText(value);
         } else {
-            value=context.getResources().getString(R.string.product_name_lebel) + fabFoodEntity.getMGenericName().substring(0, 30);
+            value = context.getResources().getString(R.string.product_name_lebel) + fabFoodEntity.getMGenericName().substring(0, 30);
             holder.textView.setText(value);
         }
-            value=context.getResources().getString(R.string.barcode_name_label) + fabFoodEntity.getMBarcode();
-            holder.textView1.setText(value);
-            value=context.getResources().getString(R.string.grade_label) + fabFoodEntity.getMNutritionGrades().toUpperCase();
-            holder.textView2.setText(value);
-            Picasso.with(context).load(fabFoodEntity.getMImageFrontSmallUrl()).into(holder.imageView);
-            holder.fabFoodEntity = fabFoodEntity;
+        value = context.getResources().getString(R.string.barcode_name_label) + fabFoodEntity.getMBarcode();
+        holder.textView1.setText(value);
+        value = context.getResources().getString(R.string.grade_label) + fabFoodEntity.getMNutritionGrades().toUpperCase();
+        holder.textView2.setText(value);
+        Picasso.with(context).load(fabFoodEntity.getMImageFrontSmallUrl()).into(holder.imageView);
+        holder.fabFoodEntity = fabFoodEntity;
 
     }
 
@@ -73,6 +73,14 @@ public class FoodCheckerFavouriteFoodAdapter extends RecyclerView.Adapter<FoodCh
     public void setFavouriteFoodData(List<FabFoodEntity> favouriteFoodData) {
         this.favouriteFoodData = favouriteFoodData;
         notifyDataSetChanged();
+    }
+
+    private String longToDate(Long data) {
+        Date date = new Date(data * 1000);
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mmZ");
+        String dateText = df2.format(date);
+        Timber.d(dateText);
+        return dateText;
     }
 
     public interface FavouriteFoodOnClickHandler {
@@ -103,13 +111,5 @@ public class FoodCheckerFavouriteFoodAdapter extends RecyclerView.Adapter<FoodCh
             favouriteFoodOnClickHandler.onClick(favouriteFoodData.get(getAdapterPosition()));
 
         }
-    }
-
-    private String longToDate(Long data) {
-        Date date = new Date(data * 1000);
-        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mmZ");
-        String dateText = df2.format(date);
-        Timber.d(dateText);
-        return dateText;
     }
 }

@@ -1,14 +1,7 @@
 package com.kumar.prince.foodneturationchecker.Widget;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Binder;
-import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -16,9 +9,7 @@ import android.widget.RemoteViewsService;
 import com.kumar.prince.fabfoodlibrary.FabFoodEntity;
 import com.kumar.prince.fabfoodlibrary.FabFoodIntermediateLib;
 import com.kumar.prince.foodneturationchecker.R;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
@@ -38,7 +29,7 @@ public class ListViewWidgetService extends RemoteViewsService {
 
             @Override
             public void onCreate() {
-              }
+            }
 
             @Override
             public void onDataSetChanged() {

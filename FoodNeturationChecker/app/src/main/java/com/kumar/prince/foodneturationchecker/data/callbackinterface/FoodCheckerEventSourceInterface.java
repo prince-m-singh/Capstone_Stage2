@@ -10,7 +10,12 @@ import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerEvent;
  */
 public interface FoodCheckerEventSourceInterface {
 
+    void saveScan(@NonNull String barcode, @NonNull SaveScanCallback saveScanCallback);
+
+
     interface Local {
+
+        void saveEvent(@NonNull FoodCheckerEvent FCEvent, @NonNull SaveEventCallback saveEventCallback);
 
         interface SaveEventCallback {
 
@@ -19,11 +24,7 @@ public interface FoodCheckerEventSourceInterface {
             void onError();
 
         }
-
-        void saveEvent(@NonNull FoodCheckerEvent FCEvent, @NonNull SaveEventCallback saveEventCallback);
     }
-
-
 
     interface SaveScanCallback {
 
@@ -34,7 +35,5 @@ public interface FoodCheckerEventSourceInterface {
         void onError(Throwable throwable);
 
     }
-
-    void saveScan(@NonNull String barcode, @NonNull SaveScanCallback saveScanCallback);
 
 }

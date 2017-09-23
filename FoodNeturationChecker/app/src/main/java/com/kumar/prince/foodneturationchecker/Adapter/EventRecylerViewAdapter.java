@@ -27,10 +27,10 @@ import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_S
  * Created by prince on 9/9/17.
  */
 
-public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerViewAdapter.EventViewHolder>implements Serializable{
+public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerViewAdapter.EventViewHolder> implements Serializable {
 
-    List<FoodCheckerEvent> foodChecker_events;
     final private EventAdapterOnClickHandler eventAdapterOnClickHandler;
+    List<FoodCheckerEvent> foodChecker_events;
     Context context;
 
     public EventRecylerViewAdapter(EventAdapterOnClickHandler eventAdapterOnClickHandler) {
@@ -39,53 +39,63 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context=parent.getContext();
-        View view =LayoutInflater.from(context).inflate(R.layout.card_view,parent,false);
+        context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.card_view, parent, false);
 
-        return new EventViewHolder(view) ;
+        return new EventViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
         FoodCheckerEvent foodChecker_event = foodChecker_events.get(position);
-        String value="";
+        String value = "";
 
-      //  holder.imageView.setImageDrawable(android.R.drawable.common_google_signin_btn_icon_dark);
-        value="BarCode:-"+ foodChecker_event.getBarcode();
+        //  holder.imageView.setImageDrawable(android.R.drawable.common_google_signin_btn_icon_dark);
+        value = "BarCode:-" + foodChecker_event.getBarcode();
         holder.textView.setText(value);
-        value="Status:-"+ foodChecker_event.getStatus();
+        value = "Status:-" + foodChecker_event.getStatus();
         holder.textView1.setText(value);
-       value="Date:-  "+longToDate(foodChecker_event.getTimestamp());
+        value = "Date:-  " + longToDate(foodChecker_event.getTimestamp());
         holder.textView2.setText(value);
-        if (foodChecker_event.getStatus().equals(STATUS_NOT_IN_OFF_DATABASE)){
+        if (foodChecker_event.getStatus().equals(STATUS_NOT_IN_OFF_DATABASE)) {
             holder.imageView.setImageResource(R.drawable.ic_cloud_off_black_24dp);
             holder.textView1.setTextColor(Color.parseColor("#FF0000"));
-        }else if (foodChecker_event.getStatus().equals(STATUS_SERVER_UNREACHABLE)){
+        } else if (foodChecker_event.getStatus().equals(STATUS_SERVER_UNREACHABLE)) {
             holder.imageView.setImageResource(R.drawable.ic_network_problem_orange_24dp);
             holder.textView1.setTextColor(Color.parseColor("#FB8C00"));
-        } else if (foodChecker_event.getStatus().equals(STATUS_OK)){
+        } else if (foodChecker_event.getStatus().equals(STATUS_OK)) {
             holder.textView1.setTextColor(Color.parseColor("#4CAF50"));
             holder.imageView.setImageResource(R.drawable.ic_food_found_green_24dp);
-        }holder.foodChecker_event = foodChecker_event;
+        }
+        holder.foodChecker_event = foodChecker_event;
 
     }
 
     @Override
     public int getItemCount() {
-        if (foodChecker_events ==null)
+        if (foodChecker_events == null)
             return 0;
         return foodChecker_events.size();
     }
 
-    public void setEventData(List<FoodCheckerEvent> foodChecker_events){
+    public void setEventData(List<FoodCheckerEvent> foodChecker_events) {
         this.foodChecker_events = foodChecker_events;
         notifyDataSetChanged();
     }
-    public interface  EventAdapterOnClickHandler{
-        void onClick( FoodCheckerEvent foodChecker_event);
+
+    private String longToDate(Long data) {
+        Date date = new Date(data * 1000);
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mmZ");
+        String dateText = df2.format(date);
+        Timber.d(dateText);
+        return dateText;
     }
 
-    public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public interface EventAdapterOnClickHandler {
+        void onClick(FoodCheckerEvent foodChecker_event);
+    }
+
+    public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final ImageView imageView;
         public final TextView textView;
         public final TextView textView1;
@@ -94,27 +104,19 @@ public class EventRecylerViewAdapter extends RecyclerView.Adapter<EventRecylerVi
 
         public EventViewHolder(View itemView) {
             super(itemView);
-            imageView=(ImageView) itemView.findViewById(R.id.iconId);
-            textView=(TextView) itemView.findViewById(R.id.tvVersionName);
-            textView1=(TextView) itemView.findViewById(R.id.tvVersionName2);
-            textView2=(TextView) itemView.findViewById(R.id.tvVersionName3);
+            imageView = (ImageView) itemView.findViewById(R.id.iconId);
+            textView = (TextView) itemView.findViewById(R.id.tvVersionName);
+            textView1 = (TextView) itemView.findViewById(R.id.tvVersionName2);
+            textView2 = (TextView) itemView.findViewById(R.id.tvVersionName3);
 
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            Timber.d("Click Button"+ foodChecker_event.getBarcode());
+            Timber.d("Click Button" + foodChecker_event.getBarcode());
             eventAdapterOnClickHandler.onClick(foodChecker_events.get(getAdapterPosition()));
 
         }
-    }
-
-    private String longToDate(Long data){
-        Date date=new Date(data*1000);
-        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mmZ");
-        String dateText = df2.format(date);
-        Timber.d(dateText);
-        return dateText;
     }
 }

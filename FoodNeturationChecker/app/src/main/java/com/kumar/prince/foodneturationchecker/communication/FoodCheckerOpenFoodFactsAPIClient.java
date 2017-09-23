@@ -21,8 +21,8 @@ import retrofit2.http.Query;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- *  Created by prince on 29/8/17.
- * */
+ * Created by prince on 29/8/17.
+ */
 
 public class FoodCheckerOpenFoodFactsAPIClient {
 
@@ -31,6 +31,13 @@ public class FoodCheckerOpenFoodFactsAPIClient {
     public static final String ENDPOINT_SEARCH = "https://world.openfoodfacts.org/cgi/";
 
     private final OpenFoodFactsApi mOpenFoodFactsAPI;
+    ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+            .tlsVersions(TlsVersion.TLS_1_2)
+            .cipherSuites(
+                    CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+                    CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+                    CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256)
+            .build();
 
     public FoodCheckerOpenFoodFactsAPIClient(@NonNull String endpoint) {
         checkNotNull(endpoint);
@@ -42,14 +49,6 @@ public class FoodCheckerOpenFoodFactsAPIClient {
                 .build()
                 .create(OpenFoodFactsApi.class);
     }
-
-    ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-            .tlsVersions(TlsVersion.TLS_1_2)
-            .cipherSuites(
-                    CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-                    CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-                    CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256)
-            .build();
 
     private OkHttpClient getOkHttpClient() {
         try {
@@ -79,7 +78,6 @@ public class FoodCheckerOpenFoodFactsAPIClient {
     public Call<FoodCheckerSearch> getCountryCategory(@NonNull final String categoryKey, @NonNull final String countryKey) {
         return this.mOpenFoodFactsAPI.getCountryCategory(categoryKey, countryKey);
     }
-
 
 
     interface OpenFoodFactsApi {

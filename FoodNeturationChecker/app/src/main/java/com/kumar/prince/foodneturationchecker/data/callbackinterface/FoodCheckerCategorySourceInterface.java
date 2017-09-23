@@ -10,6 +10,8 @@ import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerCategory;
  */
 public interface FoodCheckerCategorySourceInterface {
 
+    void getCategory(@NonNull String categoryKey, @NonNull GetCategoryCallback getCategoryCallback);
+
     interface GetCategoryCallback {
 
         void onCategoryLoaded(FoodCheckerCategory FCCategory);
@@ -17,7 +19,5 @@ public interface FoodCheckerCategorySourceInterface {
         void onError(Throwable throwable);
 
     }
-
-    void getCategory(@NonNull String categoryKey, @NonNull GetCategoryCallback getCategoryCallback);
 
 }

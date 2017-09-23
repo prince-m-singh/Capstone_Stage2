@@ -1,7 +1,7 @@
 package com.kumar.prince.foodneturationchecker.MVP.model;
 
-import com.kumar.prince.foodneturationchecker.Error.FoodCheckerProductnotexistexception;
 import com.kumar.prince.foodneturationchecker.Error.FoodCheckServerUnreachableException;
+import com.kumar.prince.foodneturationchecker.Error.FoodCheckerProductnotexistexception;
 import com.kumar.prince.foodneturationchecker.communication.FoodCheckerOpenFoodFactsAPIClient;
 import com.kumar.prince.foodneturationchecker.communication.FoodCheckerProductBarcode;
 import com.kumar.prince.foodneturationchecker.communication.FoodCheckerSearch;
@@ -23,9 +23,9 @@ public class AllProductRequest {
         this.iAllProductResponce = iAllProductResponce;
     }
 
-    public void getAllProducts(String categoryKey, String nutritionGradeValue){
+    public void getAllProducts(String categoryKey, String nutritionGradeValue) {
         FoodCheckerOpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FoodCheckerOpenFoodFactsAPIClient(FoodCheckerOpenFoodFactsAPIClient.ENDPOINT_SEARCH);
-        Call<FoodCheckerSearch> call = FCOpenFoodFactsAPIClient.getProducts(categoryKey,nutritionGradeValue);
+        Call<FoodCheckerSearch> call = FCOpenFoodFactsAPIClient.getProducts(categoryKey, nutritionGradeValue);
 
         call.enqueue(new Callback<FoodCheckerSearch>() {
             @Override
@@ -48,7 +48,7 @@ public class AllProductRequest {
     }
 
 
-    public void getProductDetailsBarCode(String barcode){
+    public void getProductDetailsBarCode(String barcode) {
         FoodCheckerOpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FoodCheckerOpenFoodFactsAPIClient(FoodCheckerOpenFoodFactsAPIClient.ENDPOINT_BARCODE);
         Call<FoodCheckerProductBarcode> call = FCOpenFoodFactsAPIClient.getProduct(barcode);
 
@@ -63,14 +63,14 @@ public class AllProductRequest {
                     return;
                 }
                 FoodCheckerProductBarcode foodChecker_productBarcode = response.body();
-                Timber.d(response.message()+" "+ foodChecker_productBarcode.toString());
+                Timber.d(response.message() + " " + foodChecker_productBarcode.toString());
                 if (foodChecker_productBarcode.getStatus() != 1) {
                     FoodCheckerProductnotexistexception e = new FoodCheckerProductnotexistexception();
                     Timber.w(e);
                 }
                 FoodCheckerProduct foodChecker_product = foodChecker_productBarcode.getFCProduct();
                 iAllProductResponce.getProductDetails(foodChecker_product);
-                Timber.w(response.message()+" "+ foodChecker_product.toString());
+                Timber.w(response.message() + " " + foodChecker_product.toString());
             }
 
             @Override
@@ -88,12 +88,13 @@ public class AllProductRequest {
 
     }
 
-    public interface IAllProductResponce{
+    public interface IAllProductResponce {
         void getResponce(FoodCheckerSearch foodChecker_search);
+
         void getError(FoodCheckServerUnreachableException e);
+
         void getProductDetails(FoodCheckerProduct foodChecker_product);
     }
-
 
 
 }

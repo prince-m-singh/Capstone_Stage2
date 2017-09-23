@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * Created by prince on 30/8/17.
- *
  */
 public class FoodCheckerSearch {
 
@@ -30,45 +29,35 @@ public class FoodCheckerSearch {
     private Integer skip;
 
     /**
-     * 
-     * @return
-     *     The page_size
+     * @return The page_size
      */
     public String getPage_size() {
         return page_size;
     }
 
     /**
-     * 
-     * @return
-     *     The FCProducts
+     * @return The FCProducts
      */
     public List<FoodCheckerProduct> getFCProducts() {
         return FCProducts;
     }
 
     /**
-     * 
-     * @return
-     *     The page
+     * @return The page
      */
     public String getPage() {
         return page;
     }
 
     /**
-     * 
-     * @return
-     *     The count
+     * @return The count
      */
     public Integer getCount() {
         return count;
     }
 
     /**
-     * 
-     * @return
-     *     The skip
+     * @return The skip
      */
     public Integer getSkip() {
         return skip;

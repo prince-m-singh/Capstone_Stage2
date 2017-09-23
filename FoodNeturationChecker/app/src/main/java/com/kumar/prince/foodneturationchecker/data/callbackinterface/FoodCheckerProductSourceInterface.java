@@ -11,11 +11,15 @@ import java.util.List;
  */
 public interface FoodCheckerProductSourceInterface {
 
+    void getProduct(@NonNull String barcode, @NonNull GetProductCallback getProductCallback);
+
+    void getProducts(@NonNull String categoryKey, @NonNull String nutritionGradeValue, @NonNull GetProductsCallback getProductsCallback);
+
     interface GetProductCallback {
 
         void onProductLoaded(FoodCheckerProduct FCProduct);
 
-        void onError(Throwable throwable,String barCode);
+        void onError(Throwable throwable, String barCode);
 
     }
 
@@ -31,9 +35,5 @@ public interface FoodCheckerProductSourceInterface {
         void save();
 
     }
-
-    void getProduct(@NonNull String barcode, @NonNull GetProductCallback getProductCallback);
-
-    void getProducts(@NonNull String categoryKey, @NonNull String nutritionGradeValue, @NonNull GetProductsCallback getProductsCallback);
 
 }

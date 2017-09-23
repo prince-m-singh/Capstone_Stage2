@@ -10,6 +10,8 @@ import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerCountryCateg
  */
 public interface FoodCheckerCountrySourceInterface {
 
+    void getCountryCategory(@NonNull String categoryKey, @NonNull String countryKey, @NonNull GetCountryCategoryCallback getCountryCategoryCallback);
+
     interface GetCountryCategoryCallback {
 
         void onCountryCategoryLoaded(FoodCheckerCountryCategory FCCountryCategory);
@@ -17,7 +19,5 @@ public interface FoodCheckerCountrySourceInterface {
         void onError(Throwable throwable);
 
     }
-
-    void getCountryCategory(@NonNull String categoryKey, @NonNull String countryKey, @NonNull GetCountryCategoryCallback getCountryCategoryCallback);
 
 }

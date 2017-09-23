@@ -38,14 +38,12 @@ import java.io.IOException;
 
 public class ScanBarcodeActivity extends AppCompatActivity {
 
+    public final static String AUTOFOCUS_ENABLE = "AUTOFOCUS_ENABLE";
+    public final static String GETRESULT = "barcode";
     SurfaceView surfaceView;
     Context contextScanBarcode;
-
     Toolbar toolbar;
     ActionBar actionBar;
-
-    public final static String AUTOFOCUS_ENABLE="AUTOFOCUS_ENABLE";
-    public final static String GETRESULT="barcode";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,19 +51,19 @@ public class ScanBarcodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scanbarcode);
         contextScanBarcode = getApplicationContext();
         /*Note : Getting from User whether to use AutoFocus in Camera*/
-        boolean blnAutoFocusEnable = this.getIntent().getBooleanExtra(AUTOFOCUS_ENABLE,false);
+        boolean blnAutoFocusEnable = this.getIntent().getBooleanExtra(AUTOFOCUS_ENABLE, false);
         /*Note : UI Function for this class*/
         setUIScanBarcode();
         /*Note : call Barcode Detector function*/
         createCameraSource(blnAutoFocusEnable);
     }
 
-    private void setUIScanBarcode(){
+    private void setUIScanBarcode() {
 
         /*Note : Setting custom toolbar*/
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar!=null){
-           // setSupportActionBar(toolbar);
+        if (toolbar != null) {
+            // setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
@@ -118,7 +116,7 @@ public class ScanBarcodeActivity extends AppCompatActivity {
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -148,10 +146,10 @@ public class ScanBarcodeActivity extends AppCompatActivity {
                              in that taking first bacode value.
                          Setting the result through Intent putExtra.    */
                 final SparseArray<Barcode> sparseArray = detections.getDetectedItems();
-                if(sparseArray.size()>0){
+                if (sparseArray.size() > 0) {
                     Intent intent = new Intent();
-                    intent.putExtra(GETRESULT,sparseArray.valueAt(0));
-                    setResult(CommonStatusCodes.SUCCESS,intent);
+                    intent.putExtra(GETRESULT, sparseArray.valueAt(0));
+                    setResult(CommonStatusCodes.SUCCESS, intent);
                     finish();
                 }
             }
@@ -159,11 +157,9 @@ public class ScanBarcodeActivity extends AppCompatActivity {
     }
 
     /*NOte : Permission for Camera*/
-    private Boolean getPermissionCarmera(){
-        if (ContextCompat.checkSelfPermission(contextScanBarcode, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-        {
-            if(ActivityCompat.shouldShowRequestPermissionRationale((Activity) this, Manifest.permission.CAMERA))
-            {
+    private Boolean getPermissionCarmera() {
+        if (ContextCompat.checkSelfPermission(contextScanBarcode, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) this, Manifest.permission.CAMERA)) {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(contextScanBarcode);
                 alertBuilder.setCancelable(true);
                 alertBuilder.setTitle(getResources().getString(R.string.permission_title));
@@ -191,7 +187,7 @@ public class ScanBarcodeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         /*Note : If Back button pressed*/
-        if(itemId == android.R.id.home){
+        if (itemId == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

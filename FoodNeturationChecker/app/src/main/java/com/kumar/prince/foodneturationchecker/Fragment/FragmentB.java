@@ -32,15 +32,15 @@ import timber.log.Timber;
 
 public class FragmentB extends Fragment implements
         FoodCheckerFavouriteFoodAdapter.FavouriteFoodOnClickHandler,
-        LoaderManager.LoaderCallbacks<List<FabFoodEntity>>{
+        LoaderManager.LoaderCallbacks<List<FabFoodEntity>> {
 
 
+    private static final int TASK_LOADER_ID = 1;
     ListView list;
-    private RecyclerView recyclerView;
     FoodCheckerFavouriteFoodAdapter fc_favouriteFoodAdapter;
     FabFoodIntermediateLib fabFoodIntermediateLib;
+    private RecyclerView recyclerView;
     private List<FabFoodEntity> fabFoodEntityList;
-    private static final int TASK_LOADER_ID=1;
 
 
     public FragmentB() {
@@ -49,15 +49,15 @@ public class FragmentB extends Fragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fabFoodIntermediateLib=new FabFoodIntermediateLib(getActivity());
+        fabFoodIntermediateLib = new FabFoodIntermediateLib(getActivity());
         fc_favouriteFoodAdapter = new FoodCheckerFavouriteFoodAdapter(this);
-        getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+        getLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+        getLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
     }
 
     @Override
@@ -65,20 +65,18 @@ public class FragmentB extends Fragment implements
         View view = inflater.inflate(R.layout.fragment, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        Timber.d( "The application stopped after this");
+        Timber.d("The application stopped after this");
         LinearLayoutManager llm = new LinearLayoutManager(this.getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         /*list.setLayoutManager(llm);
         list.setAdapter( adapter );*/
         // ListView
         recyclerView.setLayoutManager(llm);
-        Timber.d( "Set Layout");
-        Timber.d( "Adapter instance");
+        Timber.d("Set Layout");
+        Timber.d("Adapter instance");
         recyclerView.setAdapter(fc_favouriteFoodAdapter);
 //        fabFoodEntityList=fabFoodIntermediateLib.getAllData();
-        Timber.d( "Adapter");
-
-
+        Timber.d("Adapter");
 
 
         return view;
@@ -90,14 +88,14 @@ public class FragmentB extends Fragment implements
 
     }
 
-    private void foodDetailsActivity(FoodCheckerProduct foodChecker_product){
+    private void foodDetailsActivity(FoodCheckerProduct foodChecker_product) {
         Intent i = new Intent(getActivity(), FoodDetailsActivity.class);
         i.putExtra("sampleObject", foodChecker_product);
         startActivity(i);
     }
 
-    private FoodCheckerProduct convertData(FabFoodEntity fabFoodEntity){
-        FoodCheckerProduct foodChecker_product =new FoodCheckerProduct();
+    private FoodCheckerProduct convertData(FabFoodEntity fabFoodEntity) {
+        FoodCheckerProduct foodChecker_product = new FoodCheckerProduct();
         foodChecker_product.setmBarcode(fabFoodEntity.getMBarcode());
         foodChecker_product.setmBrands(fabFoodEntity.getMBrands());
         foodChecker_product.setmGenericName(fabFoodEntity.getMGenericName());
@@ -114,13 +112,13 @@ public class FragmentB extends Fragment implements
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         return new AsyncTaskLoader<List<FabFoodEntity>>(this.getActivity()) {
-            List<FabFoodEntity> fabFoodEntityList=null;
+            List<FabFoodEntity> fabFoodEntityList = null;
 
             @Override
             protected void onStartLoading() {
-                if (fabFoodEntityList!=null){
+                if (fabFoodEntityList != null) {
                     deliverResult(fabFoodEntityList);
-                }else {
+                } else {
                     forceLoad();
                 }
                 //   super.onStartLoading();
@@ -131,10 +129,10 @@ public class FragmentB extends Fragment implements
                 fabFoodIntermediateLib.dbInitialize();
 
                 try {
-                    List<FabFoodEntity> fabFoodEntityList1=fabFoodIntermediateLib.getAllData();
+                    List<FabFoodEntity> fabFoodEntityList1 = fabFoodIntermediateLib.getAllData();
                     return fabFoodEntityList1;
 
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                     return null;
 
@@ -144,7 +142,7 @@ public class FragmentB extends Fragment implements
 
             @Override
             public void deliverResult(List<FabFoodEntity> data) {
-                fabFoodEntityList=data;
+                fabFoodEntityList = data;
                 super.deliverResult(data);
             }
         };
@@ -154,7 +152,7 @@ public class FragmentB extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<List<FabFoodEntity>> loader, List<FabFoodEntity> data) {
-        fabFoodEntityList=data;
+        fabFoodEntityList = data;
         fc_favouriteFoodAdapter.setFavouriteFoodData(fabFoodEntityList);
 
     }
@@ -163,8 +161,9 @@ public class FragmentB extends Fragment implements
     public void onLoaderReset(Loader loader) {
 
     }
-    public void restartLoader(){
-        getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+
+    public void restartLoader() {
+        getLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
     }
 
 }

@@ -18,14 +18,8 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends ArrayAdapter {
 
-    private ArrayList dataSet;
     Context mContext;
-
-    // View lookup cache
-    private static class ViewHolder {
-        TextView txtName;
-
-    }
+    private ArrayList dataSet;
 
     public CustomAdapter(ArrayList data, Context context) {
         super(context, R.layout.row_item, data);
@@ -59,5 +53,11 @@ public class CustomAdapter extends ArrayAdapter {
         viewHolder.txtName.setText(getItem(position));
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    // View lookup cache
+    private static class ViewHolder {
+        TextView txtName;
+
     }
 }

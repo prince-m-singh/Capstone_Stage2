@@ -17,8 +17,8 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.kumar.prince.fabfoodlibrary.FabFoodIntermediateLib;
 import com.kumar.prince.foodneturationchecker.Adapter.ViewPagerAdapter;
 import com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity;
-import com.kumar.prince.foodneturationchecker.Error.FoodCheckerProductnotexistexception;
 import com.kumar.prince.foodneturationchecker.Error.FoodCheckServerUnreachableException;
+import com.kumar.prince.foodneturationchecker.Error.FoodCheckerProductnotexistexception;
 import com.kumar.prince.foodneturationchecker.Fragment.FragmentA;
 import com.kumar.prince.foodneturationchecker.Fragment.FragmentB;
 import com.kumar.prince.foodneturationchecker.R;
@@ -41,7 +41,7 @@ import static com.kumar.prince.foodneturationchecker.Barcode.ScanBarcodeActivity
 import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_NO_NETWORK;
 import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_OK;
 
-public class MainEventActivity extends AppCompatActivity implements FoodCheckerProductSourceInterface,FoodCheckerProductSourceInterface.GetProductCallback {
+public class MainEventActivity extends AppCompatActivity implements FoodCheckerProductSourceInterface, FoodCheckerProductSourceInterface.GetProductCallback {
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
@@ -61,7 +61,7 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
         setContentView(R.layout.activity_main_event);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fabFoodIntermediateLib=new FabFoodIntermediateLib(this);
+        fabFoodIntermediateLib = new FabFoodIntermediateLib(this);
         fabFoodIntermediateLib.dbInitialize();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +78,7 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
     }
+
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
@@ -91,35 +92,35 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
 
     }
 
-    private void scanBarcode(){
-        NetworkConnectivity networkConnectivity=new NetworkConnectivity();
-        if (networkConnectivity.isConnected(this)){
+    private void scanBarcode() {
+        NetworkConnectivity networkConnectivity = new NetworkConnectivity();
+        if (networkConnectivity.isConnected(this)) {
             int barCodeRequestCode = 1000;
             Intent intent = new Intent(this, ScanBarcodeActivity.class);
-            intent.putExtra(AUTOFOCUS_ENABLE,true);
-            startActivityForResult(intent,barCodeRequestCode);
-        }else {
-            displayMessage(getCurrentFocus(),STATUS_NO_NETWORK);
+            intent.putExtra(AUTOFOCUS_ENABLE, true);
+            startActivityForResult(intent, barCodeRequestCode);
+        } else {
+            displayMessage(getCurrentFocus(), STATUS_NO_NETWORK);
         }
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String message="";
-        if(requestCode==1000){
-            if(resultCode == CommonStatusCodes.SUCCESS){
-                if(data!=null){
+        String message = "";
+        if (requestCode == 1000) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
                     Barcode barcode = data.getParcelableExtra(GETRESULT);
                     Timber.d(barcode.displayValue);
                     //message="20199876"/*barcode.displayValue*/;
-                    message=barcode.displayValue;
-                    getProduct(message,this);
+                    message = barcode.displayValue;
+                    getProduct(message, this);
                 }
             }
         }
 
-        displayMessage(viewPager.findFocus(),message);
+        displayMessage(viewPager.findFocus(), message);
 
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -137,20 +138,20 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
                 if (!response.isSuccessful() || response.body() == null) {
                     FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                     Timber.w(e);
-                    getProductCallback.onError(e,barcode);
+                    getProductCallback.onError(e, barcode);
                     return;
                 }
                 FoodCheckerProductBarcode foodChecker_productBarcode = response.body();
-                Timber.d(response.message()+" "+ foodChecker_productBarcode.toString());
+                Timber.d(response.message() + " " + foodChecker_productBarcode.toString());
                 if (foodChecker_productBarcode.getStatus() != 1) {
                     FoodCheckerProductnotexistexception e = new FoodCheckerProductnotexistexception();
                     Timber.w(e);
-                    getProductCallback.onError(e,barcode);
+                    getProductCallback.onError(e, barcode);
                     return;
                 }
                 FoodCheckerProduct foodChecker_product = foodChecker_productBarcode.getFCProduct();
-                Timber.w(response.message()+" "+ foodChecker_product.toString());
-                foodChecker_event =new FoodCheckerEvent(barcode,"Found");
+                Timber.w(response.message() + " " + foodChecker_product.toString());
+                foodChecker_event = new FoodCheckerEvent(barcode, "Found");
                 //addEvenInDb(foodChecker_event);
                 getProductCallback.onProductLoaded(foodChecker_product);
 
@@ -160,15 +161,14 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
             public void onFailure(Call<FoodCheckerProductBarcode> call, Throwable t) {
                 FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                 Timber.d(e.getMessage());
-                String value=getResources().getString(R.string.not_found);
-                foodChecker_event =new FoodCheckerEvent(barcode,value);
-                getProductCallback.onError(e,barcode);
+                String value = getResources().getString(R.string.not_found);
+                foodChecker_event = new FoodCheckerEvent(barcode, value);
+                getProductCallback.onError(e, barcode);
 
 
             }
         });
     }
-
 
 
     @Override
@@ -179,34 +179,34 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
     /**
      * @param foodChecker_event
      */
-    private void addEvenInDb(FoodCheckerEvent foodChecker_event){
+    private void addEvenInDb(FoodCheckerEvent foodChecker_event) {
         EventDataSource foodChecker_eventDataSource = EventDataSource.getInstance(getContentResolver());
         foodChecker_eventDataSource.saveEvent(foodChecker_event, new FoodCheckerEventSourceInterface.Local.SaveEventCallback() {
             @Override
             public void onEventSaved() {
                 Timber.d("DataSaved");
-                displayMessage(getCurrentFocus(),getResources().getString(R.string.event_Saved));
+                displayMessage(getCurrentFocus(), getResources().getString(R.string.event_Saved));
 
             }
 
             @Override
             public void onError() {
                 Timber.d("Error");
-                displayMessage(getCurrentFocus(),getResources().getString(R.string.event_not_Saved));
+                displayMessage(getCurrentFocus(), getResources().getString(R.string.event_not_Saved));
             }
         });
 
     }
 
 
-    private void displayMessage(View view,String message){
+    private void displayMessage(View view, String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
         Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.getCurrentItem());
         if (viewPager.getCurrentItem() == 0 && page != null) {
-            ((FragmentA)page).restartLoader();
-        }else if (viewPager.getCurrentItem() == 1 && page != null){
-            ((FragmentB)page).restartLoader();
+            ((FragmentA) page).restartLoader();
+        } else if (viewPager.getCurrentItem() == 1 && page != null) {
+            ((FragmentB) page).restartLoader();
         }
 
     }
@@ -217,7 +217,7 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
     @Override
     public void onProductLoaded(FoodCheckerProduct foodChecker_Product) {
         Timber.d(foodChecker_Product.toString());
-        FoodCheckerEvent foodChecker_event =new FoodCheckerEvent(foodChecker_Product.getmBarcode(),STATUS_OK);
+        FoodCheckerEvent foodChecker_event = new FoodCheckerEvent(foodChecker_Product.getmBarcode(), STATUS_OK);
         addEvenInDb(foodChecker_event);
 
     }
@@ -227,9 +227,9 @@ public class MainEventActivity extends AppCompatActivity implements FoodCheckerP
      * @param barcode
      */
     @Override
-    public void onError(Throwable throwable,String barcode) {
+    public void onError(Throwable throwable, String barcode) {
         Timber.e(throwable.getMessage());
-        FoodCheckerEvent foodChecker_event =new FoodCheckerEvent(barcode,throwable.getMessage());
+        FoodCheckerEvent foodChecker_event = new FoodCheckerEvent(barcode, throwable.getMessage());
         addEvenInDb(foodChecker_event);
 
     }

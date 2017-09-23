@@ -11,18 +11,18 @@ import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
  */
 
 public class AllProductsPresenter implements AllMVPInterface.IAllProductsPresenter
-        ,AllProductRequest.IAllProductResponce {
+        , AllProductRequest.IAllProductResponce {
     AllMVPInterface.IAllProductsView viewProducts;
     AllProductRequest allProductRequest;
 
     public AllProductsPresenter(AllMVPInterface.IAllProductsView viewProducts) {
-        this.viewProducts=viewProducts;
-        allProductRequest=new AllProductRequest(this);
+        this.viewProducts = viewProducts;
+        allProductRequest = new AllProductRequest(this);
     }
 
     @Override
     public void requestGetAllProducts(String category, String level) {
-        allProductRequest.getAllProducts(category,level);
+        allProductRequest.getAllProducts(category, level);
 
     }
 

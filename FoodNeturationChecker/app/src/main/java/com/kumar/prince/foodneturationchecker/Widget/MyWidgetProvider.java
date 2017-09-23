@@ -24,10 +24,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_item_list);
-           Intent intent = new Intent(context, MainEventActivity.class);
+            Intent intent = new Intent(context, MainEventActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             views.setOnClickPendingIntent(R.id.widget, pendingIntent);
-    setRemoteAdapter(context, views);
+            setRemoteAdapter(context, views);
             Intent clickIntentTemplate = new Intent(context, MainEventActivity.class);
             PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
                     .addNextIntentWithParentStack(clickIntentTemplate)

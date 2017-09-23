@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'food'
             keyPassword 'princekumar'
-            storeFile file('$rootdir/foodneturation.jks')
+            storeFile file("$rootDir/foodneturation.jks")
             storePassword 'princekumar'
         }
     }
@@ -25,8 +25,8 @@ android {
             versionNameSuffix '-D'
         }
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }

@@ -18,8 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kumar.prince.foodneturationchecker.Adapter.EventRecylerViewAdapter;
-import com.kumar.prince.foodneturationchecker.Error.FoodCheckerProductnotexistexception;
 import com.kumar.prince.foodneturationchecker.Error.FoodCheckServerUnreachableException;
+import com.kumar.prince.foodneturationchecker.Error.FoodCheckerProductnotexistexception;
 import com.kumar.prince.foodneturationchecker.R;
 import com.kumar.prince.foodneturationchecker.activity.FoodDetailsActivity;
 import com.kumar.prince.foodneturationchecker.communication.FoodCheckerOpenFoodFactsAPIClient;
@@ -47,17 +47,18 @@ import static com.kumar.prince.foodneturationchecker.utils.ErrorMessage.STATUS_S
  * Created by prince on 14/9/17.
  */
 
-public class FragmentA extends Fragment  implements
+public class FragmentA extends Fragment implements
         EventRecylerViewAdapter.EventAdapterOnClickHandler,
-    LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final int TASK_LOADER_ID = 0;
+    RecyclerView.LayoutManager mLayoutManager;
+    EventRecylerViewAdapter eventRecylerViewAdapter;
     private FoodCheckerEvent foodChecker_event;
     private RecyclerView recyclerView;
     private CardView cardView;
     private List<FoodCheckerEvent> foodChecker_eventList;
-    RecyclerView.LayoutManager mLayoutManager;
-    EventRecylerViewAdapter eventRecylerViewAdapter;
-    private static final int TASK_LOADER_ID=0;
+
     //private static final String image="R.dra"
     public FragmentA() {
     }
@@ -66,9 +67,9 @@ public class FragmentA extends Fragment  implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         eventRecylerViewAdapter = new EventRecylerViewAdapter(this);
-        this.getActivity().getSupportLoaderManager().initLoader(TASK_LOADER_ID,null,this);
+        this.getActivity().getSupportLoaderManager().initLoader(TASK_LOADER_ID, null, this);
 
-        getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+        getLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
     }
 
     @Override
@@ -76,17 +77,17 @@ public class FragmentA extends Fragment  implements
         View view = inflater.inflate(R.layout.fragment, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        Timber.d( "The application stopped after this");
+        Timber.d("The application stopped after this");
         LinearLayoutManager llm = new LinearLayoutManager(this.getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         /*list.setLayoutManager(llm);
         list.setAdapter( adapter );*/
         // ListView
         recyclerView.setLayoutManager(llm);
-        Timber.d( "Set Layout");
-        Timber.d( "Adapter instance");
+        Timber.d("Set Layout");
+        Timber.d("Adapter instance");
         recyclerView.setAdapter(eventRecylerViewAdapter);
-        Timber.d( "Adapter");
+        Timber.d("Adapter");
 
 
         return view;
@@ -94,25 +95,25 @@ public class FragmentA extends Fragment  implements
 
     @Override
     public void onResume() {
-        getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+        getLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
         super.onResume();
 
-       // getLoaderManager().getLoader(TASK_LOADER_ID).forceLoad();
+        // getLoaderManager().getLoader(TASK_LOADER_ID).forceLoad();
     }
 
     @Override
     public void onClick(FoodCheckerEvent foodChecker_event) {
-        Snackbar.make(this.getView(), foodChecker_event.getBarcode()+":- "+ foodChecker_event.getStatus(), Snackbar.LENGTH_LONG)
+        Snackbar.make(this.getView(), foodChecker_event.getBarcode() + ":- " + foodChecker_event.getStatus(), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-       Timber.d(foodChecker_event.getBarcode().toString());
+        Timber.d(foodChecker_event.getBarcode().toString());
 //       addEvenInDb(foodChecker_event);
-       if (dataFoundStatus(foodChecker_event)){
-           getAllDataOfBarCode(foodChecker_event.getBarcode());
-       }else {
-           Snackbar.make(this.getView(), foodChecker_event.getBarcode()+":- "+ foodChecker_event.getStatus(), Snackbar.LENGTH_LONG)
-                   .setAction("Action", null).show();
-       }
-  //      getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+        if (dataFoundStatus(foodChecker_event)) {
+            getAllDataOfBarCode(foodChecker_event.getBarcode());
+        } else {
+            Snackbar.make(this.getView(), foodChecker_event.getBarcode() + ":- " + foodChecker_event.getStatus(), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+        //      getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
 
 
     }
@@ -121,27 +122,27 @@ public class FragmentA extends Fragment  implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new AsyncTaskLoader<Cursor>(this.getActivity()) {
-            Cursor eventData=null;
+            Cursor eventData = null;
 
             @Override
             protected void onStartLoading() {
-                if (eventData!=null){
+                if (eventData != null) {
                     deliverResult(eventData);
-                }else {
+                } else {
                     forceLoad();
                 }
-             //   super.onStartLoading();
+                //   super.onStartLoading();
             }
 
             @Override
             public Cursor loadInBackground() {
                 try {
-                    Cursor cursor=this.getContext().getContentResolver().query(FoodCheckerEventContract.EventEntry.buildEventUri(), FoodCheckerEventContract.EventEntry.EVENT_COLUMNS,
-                            null,null, FoodCheckerEventContract.EventEntry.COLUMN_NAME_TIMESTAMP+" DESC");
+                    Cursor cursor = this.getContext().getContentResolver().query(FoodCheckerEventContract.EventEntry.buildEventUri(), FoodCheckerEventContract.EventEntry.EVENT_COLUMNS,
+                            null, null, FoodCheckerEventContract.EventEntry.COLUMN_NAME_TIMESTAMP + " DESC");
                     //cursor.setNotificationUri(this.getContext().getContentResolver(), FoodCheckerEventContract.EventEntry.buildEventUri());
                     return cursor;
 
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                     return null;
 
@@ -151,7 +152,7 @@ public class FragmentA extends Fragment  implements
 
             @Override
             public void deliverResult(Cursor data) {
-                eventData=data;
+                eventData = data;
                 super.deliverResult(data);
             }
         };
@@ -161,7 +162,7 @@ public class FragmentA extends Fragment  implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        foodChecker_eventList =getDataTestEvent(data);
+        foodChecker_eventList = getDataTestEvent(data);
     }
 
     @Override
@@ -169,46 +170,47 @@ public class FragmentA extends Fragment  implements
 
     }
 
-    private List<FoodCheckerEvent> getDataTestEvent(Cursor cursor){
-        Timber.d("Data in DB "+cursor.getCount() + " "+cursor.getColumnNames().length);
-        List <FoodCheckerEvent> list=new ArrayList<>();
-        for (int i=0;i<cursor.getColumnNames().length;i++)
+    private List<FoodCheckerEvent> getDataTestEvent(Cursor cursor) {
+        Timber.d("Data in DB " + cursor.getCount() + " " + cursor.getColumnNames().length);
+        List<FoodCheckerEvent> list = new ArrayList<>();
+        for (int i = 0; i < cursor.getColumnNames().length; i++)
             Timber.d(cursor.getColumnNames()[i]);
-        if (cursor==null){
+        if (cursor == null) {
             return null;
         }
-        int totalData=cursor.getCount();
-        int colCount=cursor.getColumnCount();
+        int totalData = cursor.getCount();
+        int colCount = cursor.getColumnCount();
 
-        int indexmTimestamp=cursor.getColumnIndex("timestamp");
-        int indexmBarcode=cursor.getColumnIndex("barcode");
-        int indexmStatus=cursor.getColumnIndex("status");
-        if (cursor.moveToFirst()){
+        int indexmTimestamp = cursor.getColumnIndex("timestamp");
+        int indexmBarcode = cursor.getColumnIndex("barcode");
+        int indexmStatus = cursor.getColumnIndex("status");
+        if (cursor.moveToFirst()) {
             do {
-                FoodCheckerEvent foodChecker_event =new FoodCheckerEvent(cursor.getLong(indexmTimestamp),
-                        cursor.getString(indexmBarcode),cursor.getString(indexmStatus));
+                FoodCheckerEvent foodChecker_event = new FoodCheckerEvent(cursor.getLong(indexmTimestamp),
+                        cursor.getString(indexmBarcode), cursor.getString(indexmStatus));
                 Timber.d(foodChecker_event.toString());
                 list.add(foodChecker_event);
                 longToDate(foodChecker_event.getTimestamp());
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
 
         }
         eventRecylerViewAdapter.setEventData(list);
         return list;
     }
-    private void longToDate(Long data){
-        Date date=new Date(data*1000);
+
+    private void longToDate(Long data) {
+        Date date = new Date(data * 1000);
         SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mmZ");
         String dateText = df2.format(date);
         Timber.d(dateText);
     }
 
-    public void restartLoader(){
-        getLoaderManager().restartLoader(TASK_LOADER_ID,null,this);
+    public void restartLoader() {
+        getLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
     }
 
 
-    private void getAllDataOfBarCode(final String barcode){
+    private void getAllDataOfBarCode(final String barcode) {
         FoodCheckerOpenFoodFactsAPIClient FCOpenFoodFactsAPIClient = new FoodCheckerOpenFoodFactsAPIClient(FoodCheckerOpenFoodFactsAPIClient.ENDPOINT_BARCODE);
         Call<FoodCheckerProductBarcode> call = FCOpenFoodFactsAPIClient.getProduct(barcode);
 
@@ -219,11 +221,11 @@ public class FragmentA extends Fragment  implements
                 if (!response.isSuccessful() || response.body() == null) {
                     FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                     Timber.w(e);
-                   // getProductCallback.onError(e,barcode);
+                    // getProductCallback.onError(e,barcode);
                     return;
                 }
                 FoodCheckerProductBarcode foodChecker_productBarcode = response.body();
-                Timber.d(response.message()+" "+ foodChecker_productBarcode.toString());
+                Timber.d(response.message() + " " + foodChecker_productBarcode.toString());
                 if (foodChecker_productBarcode.getStatus() != 1) {
                     FoodCheckerProductnotexistexception e = new FoodCheckerProductnotexistexception();
                     Timber.w(e);
@@ -231,13 +233,13 @@ public class FragmentA extends Fragment  implements
                     return;
                 }
                 FoodCheckerProduct foodChecker_product = foodChecker_productBarcode.getFCProduct();
-                Timber.w(response.message()+" "+ foodChecker_product.toString());
-                foodChecker_event=new FoodCheckerEvent(barcode,STATUS_OK);
+                Timber.w(response.message() + " " + foodChecker_product.toString());
+                foodChecker_event = new FoodCheckerEvent(barcode, STATUS_OK);
                 addEvenInDb(foodChecker_event);
                 newActivityStart(foodChecker_product);
 
                 //addEvenInDb(foodChecker_event);
-               // getProductCallback.onProductLoaded(foodChecker_product);*/
+                // getProductCallback.onProductLoaded(foodChecker_product);*/
 
             }
 
@@ -245,7 +247,7 @@ public class FragmentA extends Fragment  implements
             public void onFailure(Call<FoodCheckerProductBarcode> call, Throwable t) {
                 FoodCheckServerUnreachableException e = new FoodCheckServerUnreachableException();
                 Timber.d(e.getMessage());
-                foodChecker_event=new FoodCheckerEvent(barcode,STATUS_SERVER_UNREACHABLE);
+                foodChecker_event = new FoodCheckerEvent(barcode, STATUS_SERVER_UNREACHABLE);
                 addEvenInDb(foodChecker_event);
                 //getProductCallback.onError(e,barcode);*/
 
@@ -256,7 +258,7 @@ public class FragmentA extends Fragment  implements
 
     }
 
-    private boolean dataFoundStatus(FoodCheckerEvent foodChecker_event){
+    private boolean dataFoundStatus(FoodCheckerEvent foodChecker_event) {
         if (foodChecker_event.getStatus().equals(STATUS_OK))
             return true;
         else if (foodChecker_event.getStatus().equals(STATUS_SERVER_UNREACHABLE))
@@ -264,37 +266,36 @@ public class FragmentA extends Fragment  implements
         return false;
     }
 
-    private void newActivityStart(FoodCheckerProduct foodChecker_product){
+    private void newActivityStart(FoodCheckerProduct foodChecker_product) {
         Intent i = new Intent(getActivity(), FoodDetailsActivity.class);
         i.putExtra("sampleObject", foodChecker_product);
         startActivity(i);
     }
 
-    private void addEvenInDb(FoodCheckerEvent foodChecker_event){
+    private void addEvenInDb(FoodCheckerEvent foodChecker_event) {
         EventDataSource foodChecker_eventDataSource = EventDataSource.getInstance(getActivity().getContentResolver());
         foodChecker_eventDataSource.saveEvent(foodChecker_event, new FoodCheckerEventSourceInterface.Local.SaveEventCallback() {
             @Override
             public void onEventSaved() {
                 Timber.d("DataSaved");
-                displayMessage(getActivity().getCurrentFocus(),getResources().getString(R.string.event_Saved));
+                displayMessage(getActivity().getCurrentFocus(), getResources().getString(R.string.event_Saved));
 
             }
 
             @Override
             public void onError() {
                 Timber.d("Error");
-                displayMessage(getActivity().getCurrentFocus(),getResources().getString(R.string.event_not_Saved));
+                displayMessage(getActivity().getCurrentFocus(), getResources().getString(R.string.event_not_Saved));
             }
         });
 
     }
 
-    private void displayMessage(View view,String message){
+    private void displayMessage(View view, String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
         restartLoader();
     }
-
 
 
 }

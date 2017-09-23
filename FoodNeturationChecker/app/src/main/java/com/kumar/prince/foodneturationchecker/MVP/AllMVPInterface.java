@@ -7,27 +7,31 @@ import com.kumar.prince.foodneturationchecker.data.model.FoodCheckerProduct;
  * Created by prince on 13/9/17.
  */
 
-public  interface AllMVPInterface {
+public interface AllMVPInterface {
 
-    interface IFoodCheckerView{
+    interface IFoodCheckerView {
         void onError();
+
         void onResult();
 
     }
 
-    interface IAllProductsView{
+    interface IAllProductsView {
         void getListOfProducts(String category, FoodCheckerSearch foodChecker_search);
+
         void getProductDetails(FoodCheckerProduct foodChecker_product);
+
         void getError();
     }
 
-    interface IFoodCheckerPresenter{
+    interface IFoodCheckerPresenter {
         void resultGetProducts(String category, String level);
 
     }
 
-    interface IAllProductsPresenter{
+    interface IAllProductsPresenter {
         void requestGetAllProducts(String category, String level);
+
         void requestGetProductDetails(String barCode);
     }
 }
